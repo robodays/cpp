@@ -1,0 +1,3 @@
+/home/vladimir/cppgit/Skillbox/module_15/15.2. Middle_floors/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/vladimir/cppgit/Skillbox/module_15/15.2. Middle_floors/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/vladimir/cppgit/Skillbox/module_15/15.2. Middle_floors/cmake-build-debug/CMakeFiles/15_2__Middle_floors.dir

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/15_3_Self_isolation_level.dir/main.cpp.o  -o 15_3_Self_isolation_level 
