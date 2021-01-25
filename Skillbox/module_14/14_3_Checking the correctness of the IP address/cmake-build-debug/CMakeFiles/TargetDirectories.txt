@@ -1,0 +1,3 @@
+/home/vladimir/cppgit/Skillbox/module_14/14_3_Checking the correctness of the IP address/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/vladimir/cppgit/Skillbox/module_14/14_3_Checking the correctness of the IP address/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/vladimir/cppgit/Skillbox/module_14/14_3_Checking the correctness of the IP address/cmake-build-debug/CMakeFiles/14_3_Checking_the_correctness_of_the_IP_address.dir

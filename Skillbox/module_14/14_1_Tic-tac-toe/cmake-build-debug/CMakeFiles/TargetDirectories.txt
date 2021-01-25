@@ -1,0 +1,3 @@
+/home/vladimir/cppgit/Skillbox/module_14/14_1_Tic-tac-toe/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/vladimir/cppgit/Skillbox/module_14/14_1_Tic-tac-toe/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/vladimir/cppgit/Skillbox/module_14/14_1_Tic-tac-toe/cmake-build-debug/CMakeFiles/14_1_Tic_tac_toe.dir

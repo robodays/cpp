@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.17)
+project(14_3_Checking_the_correctness_of_the_IP_address)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(14_3_Checking_the_correctness_of_the_IP_address main.cpp)
