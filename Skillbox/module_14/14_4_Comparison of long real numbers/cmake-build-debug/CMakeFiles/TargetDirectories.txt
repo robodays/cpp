@@ -1,3 +1,3 @@
-/home/vladimir/cppgit/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/vladimir/cppgit/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/vladimir/cppgit/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/14_4_Comparison_of_long_real_numbers.dir
+D:/github/cpp/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/14_4_Comparison_of_long_real_numbers.dir
+D:/github/cpp/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/github/cpp/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/rebuild_cache.dir

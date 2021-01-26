@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/vladimir/cppgit/Skillbox/module_14/14_4_Comparison of long real numbers/main.cpp" "/home/vladimir/cppgit/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/14_4_Comparison_of_long_real_numbers.dir/main.cpp.o"
+  "D:/github/cpp/Skillbox/module_14/14_4_Comparison of long real numbers/main.cpp" "D:/github/cpp/Skillbox/module_14/14_4_Comparison of long real numbers/cmake-build-debug/CMakeFiles/14_4_Comparison_of_long_real_numbers.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

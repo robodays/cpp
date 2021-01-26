@@ -1,7 +1,63 @@
 #include <iostream>
 
+bool CheckRealNum (std::string number){ // copy and update homework12.7.3
+    bool numberGood = false;
+    bool pointNo = true;
+    for (int i = 0; i < number.length() && !numberGood; i++) {
+        if (number[i] >= '0' && number[i] <='9') {
+            numberGood = true;
+        }
+    }
+
+    if (numberGood && (number[0] == '-' ||  number[0] == '.' || (number[0] >= '0' && number[0] <='9'))) {
+        if (number[0] == '.') {
+            for (int i = 1; i < number.length(); i++) {
+                if (number[i] < '0' || number[i] > '9' ) {
+                    return false;
+                }
+            }
+        } else {
+            for (int i = 1; i < number.length(); i++) {
+                if ((number[i] >= '0' && number[i] <= '9') || number[i] == '.') {
+                    if (number[i] == '.') {
+                        if (pointNo) {
+                            pointNo = false;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+    } else {
+        return false;
+    }
+    return true;
+}
+
+std::string Input(std::string str, const std::string& countStr) {
+    do {
+        std::cout << "Enter real number " << countStr << ": " << std::endl;
+        std::cin >> str;
+        if (!CheckRealNum(str)) {
+            std::cout << "Non-real number! Try again!" << std::endl;
+        }
+    } while (!CheckRealNum(str));
+    return str;
+}
+
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::string realNumber1;
+    std::string realNumber2;
+    realNumber1 = Input(realNumber1, "one");
+    realNumber2 = Input(realNumber2, "two");
+    float fNum1 = std::stof(realNumber1);
+    float fNum2 = std::stof(realNumber2);
+    std::cout << (fNum1 < fNum2?"Less":fNum1 > fNum2?"More":"Equal")<< std::endl;
+
     return 0;
 }
 
