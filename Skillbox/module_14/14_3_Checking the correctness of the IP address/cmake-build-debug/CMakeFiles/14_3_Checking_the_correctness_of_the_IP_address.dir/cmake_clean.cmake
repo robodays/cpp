@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "14_3_Checking_the_correctness_of_the_IP_address"
+  "14_3_Checking_the_correctness_of_the_IP_address.exe"
+  "14_3_Checking_the_correctness_of_the_IP_address.exe.manifest"
   "14_3_Checking_the_correctness_of_the_IP_address.pdb"
-  "CMakeFiles/14_3_Checking_the_correctness_of_the_IP_address.dir/main.cpp.o"
+  "CMakeFiles/14_3_Checking_the_correctness_of_the_IP_address.dir/main.cpp.obj"
+  "lib14_3_Checking_the_correctness_of_the_IP_address.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

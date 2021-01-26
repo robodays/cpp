@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/vladimir/cppgit/Skillbox/module_14/14_3_Checking the correctness of the IP address/main.cpp" "/home/vladimir/cppgit/Skillbox/module_14/14_3_Checking the correctness of the IP address/cmake-build-debug/CMakeFiles/14_3_Checking_the_correctness_of_the_IP_address.dir/main.cpp.o"
+  "D:/github/cpp/Skillbox/module_14/14_3_Checking the correctness of the IP address/main.cpp" "D:/github/cpp/Skillbox/module_14/14_3_Checking the correctness of the IP address/cmake-build-debug/CMakeFiles/14_3_Checking_the_correctness_of_the_IP_address.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

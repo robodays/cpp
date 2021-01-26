@@ -1,7 +1,48 @@
 #include <iostream>
+// unsigned char из-за того, что при превышении char > 127 он переходит на -127
+// в место перевода char в int и обратно, было решено расширить до unsigned char
+unsigned char CheckChar(unsigned char charStr, int shift, char char1, char char2) {
+    if (charStr >= char1 && charStr <= char2) {
+        charStr += shift;
+        if (charStr < char1) {
+            charStr += 26;
+        } else if (charStr > char2) {
+            charStr -= 26;
+        }
+    }
+    return charStr;
+
+}
+std::string EncryptCaesar(std::string str, int shift) {
+    for (int i = 0; i < str.length(); ++i) {
+        // Вроде хотелось, повторяющее действие вынести в отдельную функцию, но как-то не очень красиво получилось.
+        // Может, подскажете, как мне это надо было правильно организовать, или так вполне приемлемо?
+        str[i] = CheckChar(str[i], shift, 'a', 'z');
+        str[i] = CheckChar(str[i], shift, 'A', 'Z');
+    }
+    return str;
+}
+
+std::string DecryptCaesar(std::string str, int shift) {
+    return EncryptCaesar(str, -shift);
+}
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::string text;
+    std::cout << "Enter text:";
+    std::getline(std::cin,text);
+
+    int shift;
+    std::cout << "Enter shift:";
+    std::cin >> shift;
+
+    if (shift > 26 || shift < -26) {
+        shift %= 26;
+    }
+
+    std::string encrypt = EncryptCaesar(text, shift);
+    std::cout << "EncryptCaesar: " << encrypt << std::endl << std::endl;
+    std::cout << "DecryptCaesar: " << DecryptCaesar(encrypt, shift) << std::endl;
     return 0;
 }
 
@@ -27,10 +68,7 @@ The quick brown fox jumps over the lazy dog
 
 Пример 2:
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
- aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
- Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
- occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 25
 

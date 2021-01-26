@@ -1,7 +1,55 @@
 #include <iostream>
 
+bool CheckCorrect(std::string str, const std::string& symbolList) {
+    for (int i = 0; i < str.length(); ++i) { // CLion предлагает цикл поменять на for (char i : str) это правильней было бы?
+        if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') ||
+                (str[i] >= '0' && str[i] <= '9') || (symbolList.find(str[i]) != -1))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool CheckPoints(std::string str) {
+    if (str.find('.') == 0 || str.rfind('.') == str.length() - 1){
+        return false;
+    }
+    if (str.length() > 2) {
+        for (int i = 1; i < str.length() - 1; ++i) {
+            if (str[i] == '.' && str[i] == str[i + 1]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool CheckLength(std::string& str, int min, int max) {
+    return  str.length() >= min && str.length() <= max;
+}
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    std::cout << "Enter email: " << std::endl;
+    std::string email;
+    std::cin >> email;
+
+    bool correct = true;
+    std::string str1, str2;
+    int posDog = email.find('@');
+    if (posDog != -1) {
+        str1 = email.substr(0, posDog);
+        str2 = email.substr(posDog + 1, email.length()-1);
+        if (!(CheckLength(str1, 1, 64) && CheckLength(str2, 1, 63) &&
+                CheckCorrect(str1, "!#$%&'*+-/=?^_`{|}~.") && CheckCorrect(str2, "-.") &&
+                CheckPoints(str1) && CheckPoints(str2))) {
+            correct = false;
+        }
+    } else {
+        correct = false;
+    }
+
+    std::cout << (correct?"Yes":"No") << std::endl;
     return 0;
 }
 /*

@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "14_Caesar_s_Cipher"
+  "14_Caesar_s_Cipher.exe"
+  "14_Caesar_s_Cipher.exe.manifest"
   "14_Caesar_s_Cipher.pdb"
-  "CMakeFiles/14_Caesar_s_Cipher.dir/main.cpp.o"
+  "CMakeFiles/14_Caesar_s_Cipher.dir/main.cpp.obj"
+  "lib14_Caesar_s_Cipher.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

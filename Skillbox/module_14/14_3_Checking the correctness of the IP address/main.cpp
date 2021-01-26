@@ -1,7 +1,44 @@
 #include <iostream>
 
+bool checkOctet(std::string str) {
+    if (str.length() > 0 && str.length() <= 3) {
+        if (str.length() > 1 && str[0] == '0') {
+            return false;
+        }
+        for (char ch : str) {
+            if (ch <'0' || ch > '9') {
+                return false;
+            }
+        }
+        int num = std::stoi(str);
+        if (num >= 0 && num <= 255) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    std::cout << "Enter IP-address:" << std::endl;
+    std::string ipAddress;
+    std::cin >> ipAddress;
+
+    bool correct = true;
+    int count = 0;
+    while (correct && count < 5){
+        std::string octet = ipAddress.substr(0, ipAddress.find('.'));
+        count++;
+        correct = checkOctet(octet);
+        if (ipAddress.find('.') == -1) break;
+        ipAddress = ipAddress.substr(ipAddress.find('.') + 1, ipAddress.length());
+    }
+    if (count != 4) {
+        correct = false;
+    }
+
+    std::cout << (correct?"Yes":"No") << std::endl;
+
     return 0;
 }
 
