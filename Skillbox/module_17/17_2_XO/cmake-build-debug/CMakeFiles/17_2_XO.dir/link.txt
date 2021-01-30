@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/17_2_XO.dir/main.cpp.o  -o 17_2_XO 

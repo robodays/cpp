@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_2_Sum_two_numbers/main.cpp
+iostream
+-
+vector
+-
+

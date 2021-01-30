@@ -1,0 +1,3 @@
+D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_1_Sum_max_possible/cmake-build-debug/CMakeFiles/18_1_Sum_max_possible.dir
+D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_1_Sum_max_possible/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_1_Sum_max_possible/cmake-build-debug/CMakeFiles/rebuild_cache.dir
