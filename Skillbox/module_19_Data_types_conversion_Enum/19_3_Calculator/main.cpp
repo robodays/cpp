@@ -2,9 +2,11 @@
 
 int main() {
     std::cout << "Calculator." << std::endl;
-    std::cout << "Enter an expression of two numbers:" << std::endl;
-    std::cout << "format (<num1><action><num2>)" << std::endl;
-
+    std::cout << "Enter an expression of two numbers: " << std::endl;
+    std::cout << "input format (<num1><action><num2>) <num1> and <num2> type double" << std::endl;
+    std::string inputStr;
+    std::cin >> inputStr;
+    std::string firstTerm = inputStr.find('*')
 
     return 0;
 }

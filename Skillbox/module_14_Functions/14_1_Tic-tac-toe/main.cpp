@@ -39,6 +39,36 @@ bool CheckInput(std::string str) {
     return false;
 }
 
+bool CheckCountXO(std::string str1, std::string str2, std::string str3, char won) {
+    int countX = 0;
+    int countO = 0;
+    for (char i : str1) {
+        if (i == 'X') {
+            countX++;
+        } else if (i == 'O') {
+            countO++;
+        }
+    }
+    for (char i : str2) {
+        if (i == 'X') {
+            countX++;
+        } else if (i == 'O') {
+            countO++;
+        }
+    }
+    for (char i : str3) {
+        if (i == 'X') {
+            countX++;
+        } else if (i == 'O') {
+            countO++;
+        }
+    }
+    if (((countX == countO) && won == 'O') || (countX  == countO + 1) && won == 'X') {
+        return true;
+    }
+    return false;
+}
+
 int main() {
     bool noCorrect = true;
     std::string line1, line2, line3;
@@ -58,41 +88,43 @@ int main() {
     } while (noCorrect);
 
     char won = 0;
-    int x = 0;
-    int o = 0;
+    int xWon = 0;
+    int oWon = 0;
 
     for (int i = 0; i < 3; ++i) {
         if (Row(line1[i], line2[i], line3[i]) != '0') {
             won = Row(line1[i], line2[i], line3[i]);
-            won=='X'?x++:o++;
+            won=='X'?xWon++:oWon++;
         }
     }
     if (Column(line1) != '0') {
         won = Column(line1);
-        won =='X'?x++:o++;
+        won =='X'?xWon++:oWon++;
     }
     if (Column(line2) != '0') {
         won = Column(line2);
-        won =='X'?x++:o++;
+        won =='X'?xWon++:oWon++;
     }
     if (Column(line3) != '0') {
         won = Column(line3);
-        won =='X'?x++:o++;
+        won =='X'?xWon++:oWon++;
     }
     if (Diagonal1(line1, line2, line3) != '0') {
         won = Diagonal1(line1, line2, line3);
-        won =='X'?x++:o++;
+        won =='X'?xWon++:oWon++;
     }
     if (Diagonal2(line1, line2, line3) != '0') {
         won = Diagonal2(line1, line2, line3);
-        won =='X'?x++:o++;
+        won =='X'?xWon++:oWon++;
     }
-    std::cout << "X = " << x << std::endl;
-    std::cout << "O = " << o << std::endl;
-    if ((x >= 1 && o >= 1)||(x > 2)||(o > 2)) {
+    if ((xWon >= 1 && oWon >= 1)||(xWon > 2)||(oWon > 2)) {
         std::cout << "Incorrect!!!"<< std::endl;
-    } else if ((((x == 1)||(x == 2)) && (o == 0)) || ((x == 0) && ((o == 1)||(o == 2)))) {
-        std::cout << (won == 'X'? "Petya won" : "Vanya won") <<  std::endl;
+    } else if ((((xWon == 1)||(xWon == 2)) && (oWon == 0)) || ((xWon == 0) && ((oWon == 1)||(oWon == 2)))) {
+        if (CheckCountXO(line1, line2, line3, xWon > 0? 'X': 'O')) {
+            std::cout << (won == 'X' ? "Petya won" : "Vanya won") << std::endl;
+        } else {
+            std::cout << "Incorrect!!!"<< std::endl;
+        }
     } else {
         std::cout << "Nobody!!!"<< std::endl;
     }
