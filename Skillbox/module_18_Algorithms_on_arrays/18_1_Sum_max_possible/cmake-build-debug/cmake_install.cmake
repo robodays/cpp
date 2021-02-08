@@ -1,4 +1,4 @@
-# Install script for directory: D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_1_Sum_max_possible
+# Install script for directory: D:/github/cpp/Skillbox/module_18_Algorithms_on_arrays/18_1_Sum_max_possible
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_1_Sum_max_possible/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/github/cpp/Skillbox/module_18_Algorithms_on_arrays/18_1_Sum_max_possible/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

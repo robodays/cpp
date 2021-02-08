@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_1_Sum_max_possible/main.cpp" "D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_1_Sum_max_possible/cmake-build-debug/CMakeFiles/18_1_Sum_max_possible.dir/main.cpp.obj"
+  "D:/github/cpp/Skillbox/module_18_Algorithms_on_arrays/18_1_Sum_max_possible/main.cpp" "D:/github/cpp/Skillbox/module_18_Algorithms_on_arrays/18_1_Sum_max_possible/cmake-build-debug/CMakeFiles/18_1_Sum_max_possible.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

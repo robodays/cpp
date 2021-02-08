@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_4_Sort_by_module/main.cpp" "D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_4_Sort_by_module/cmake-build-debug/CMakeFiles/18_4_Sort_by_module.dir/main.cpp.obj"
+  "D:/github/cpp/Skillbox/module_18_Algorithms_on_arrays/18_4_Sort_by_module/main.cpp" "D:/github/cpp/Skillbox/module_18_Algorithms_on_arrays/18_4_Sort_by_module/cmake-build-debug/CMakeFiles/18_4_Sort_by_module.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -1,7 +1,33 @@
 #include <iostream>
 #include <vector>
-
+// I looked at the website https://e-maxx.ru/algo/maximum_average_segment
 int main() {
+    std::vector<int> vec = {-2,1,-3,4,-1,2,1,-5,4};
+    int resSum = vec[0];
+    int resBegin = 0;
+    int resEnd = 0;
+    int sum = 0;
+    int position = -1;
+    for (int i = 0; i < vec.size() - 1; ++i) {
+        sum += vec[i];
+        if (sum > resSum) {
+            resSum = sum;
+            resBegin = position + 1;
+            resEnd = i;
+        }
+        if (sum < 0) {
+            sum = 0;
+            position = i;
+        }
+    }
+
+    std::cout << "Max Sum = " << resSum << std::endl;
+    std::cout << "Range id " << resBegin << " - " << resEnd << std::endl;
+    return 0;
+}
+
+/*
+ *
     std::vector<int> vec = {-2,1,-3,4,-1,2,1,-5,4};
     int maxSum = 0;
     int idBegin;
@@ -16,12 +42,7 @@ int main() {
                 idEnd = j;
             }
         }
-    }
-
-    std::cout << "Max Sum = " << maxSum << std::endl;
-    std::cout << "Range id " << idBegin << " - " << idEnd << std::endl;
-    return 0;
-}
+    }*/
 
 /*
 Задача 1

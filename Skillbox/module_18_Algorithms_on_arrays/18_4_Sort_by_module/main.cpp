@@ -3,16 +3,21 @@
 
 int Abs(int num);
 void SortABS(std::vector<int> &vec);
+void SortABS2(std::vector<int> &vec);
 void Output(std::vector<int> &vec);
+bool Compare(std::vector<int> &vec, int iMinus , int iPlus);
 
 int main() {
-    std::vector<int> vec = {-100,-50, -5, 1, 10, 15};
+    std::vector<int> vec = {-100,-50, -5, -1, 10, 15};
+//    std::vector<int> vec = {-100,-50, -5, -1}; // for test
+//    std::vector<int> vec = {1, 10, 15 , 200}; // for test
     std::cout << "Sort array: ";
     Output(vec);
 
-    SortABS(vec);
+    //SortABS(vec); // old function
     std::cout << "Sort array by module: ";
-    Output(vec);
+    SortABS2(vec); // new function
+    //Output(vec); // for old function
     return 0;
 }
 
@@ -33,12 +38,39 @@ void SortABS(std::vector<int> &vec) {
     }
 }
 
+void SortABS2(std::vector<int> &vec) {
+    int i = 0;
+    while (vec[i] < 0) {
+        i++;
+    }
+    if (i == vec.size()) i--; //if all digits are less than zero
+    std::cout << vec[i] << " ";
+    int iMinus = i - 1;
+    int iPlus = i + 1;
+    while (iMinus >= -1 && iPlus <= vec.size()) {
+        if ((Compare(vec, iMinus, iPlus) || iPlus > vec.size() - 1) && iMinus >= 0) {
+            std::cout << vec[iMinus] << " ";
+            iMinus--;
+        } else if ((!Compare(vec, iMinus, iPlus) || iMinus < 0) && iPlus <= vec.size() - 1){
+            std::cout << vec[iPlus] << " ";
+            iPlus++;
+        } else break;
+    }
+}
+
+bool Compare(std::vector<int> &vec, int iMinus , int iPlus) {
+    return Abs(vec[iMinus]) < vec [iPlus];
+}
+
+
 void Output(std::vector<int> &vec) {
     for (int i = 0; i < vec.size(); i++) {
         std::cout << vec[i] << (i != vec.size() - 1 ? ", " : "");
     }
     std::cout << std::endl;
 }
+
+
 
 /*Задача 4
 
