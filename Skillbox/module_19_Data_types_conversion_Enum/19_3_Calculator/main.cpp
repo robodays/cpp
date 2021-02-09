@@ -1,14 +1,46 @@
 #include <iostream>
+char checkSign(std::string inputStr);
+double FuncResult(double first, double second, char sing);
 
 int main() {
     std::cout << "Calculator." << std::endl;
     std::cout << "Enter an expression of two numbers: " << std::endl;
-    std::cout << "input format (<num1><action><num2>) <num1> and <num2> type double" << std::endl;
+    std::cout << "input format: <num1><action><num2>, where <num1> and <num2> type double, and <action> +, -, /, *" << std::endl;
     std::string inputStr;
     std::cin >> inputStr;
-    std::string firstTerm = inputStr.find('*')
+
+    char sing =  checkSign(inputStr);
+    int findPosSing = inputStr.find(sing,1);
+
+    double first = std::stod(inputStr.substr(0,findPosSing));
+    double second = std::stod(inputStr.substr(findPosSing + 1,inputStr.length()));
+    double result = FuncResult (first, second, sing);
+
+    std::cout << "Result " << first << " " << sing << " " << second << " = " <<  result << std::endl;
 
     return 0;
+}
+
+char checkSign(std::string inputStr) {
+    char sing[4] = { '*', '/', '+', '-'};
+    for (char ch : sing) {
+        int pos = inputStr.find(ch,1);
+        if (pos > 0) {
+            return ch;
+        }
+    }
+    return '0';
+}
+
+double FuncResult(double first, double second, char sing) {
+    if (sing == '+') return first + second;
+    else if (sing == '-') return first - second;
+    else if (sing == '*') return first * second;
+    else if (second != 0) return first / second;
+    else {
+        std::cerr << "Error! Can't be divided by zero";
+        return 0;
+    }
 }
 /*Калькулятор
 

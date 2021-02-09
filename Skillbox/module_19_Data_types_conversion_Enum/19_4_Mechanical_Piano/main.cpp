@@ -1,8 +1,54 @@
 #include <iostream>
+#include <bitset>
+#include <vector>
+
+enum notes {
+    DO = 1,
+    RE = 2,
+    MI = 4,
+    FA = 8,
+    SOL = 16,
+    LA = 32,
+    SI = 64
+};
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    std::vector<int> vecCombinations;
+    std::cout << "Enter 12 note combinations (use digits from 1 to 7)" << std::endl;
+
+    for (int i = 0; i < 12; ++i) {
+        std::cout << "Enter " << i + 1 <<" for 12:" << std::endl;
+        std::string combinationNotes;
+        std::cin >> combinationNotes;
+
+        int notesBit = 0;
+        int noteInt;
+        for (char noteChar : combinationNotes) {
+            if (noteChar > '0' && noteChar <= '7') {
+                noteInt = std::stoi(std::string(1, noteChar));
+                notesBit |= 1 << (noteInt - 1);
+            }
+        }
+        vecCombinations.push_back(notesBit);
+        std::cout << std::bitset<7>(notesBit) << std::endl;
+    }
+    std::cout << "Output: " << std::endl;
+    for (int i= 0; i < 12; ++i) {
+        std::string listNotes;
+        if (vecCombinations[i] & DO) listNotes += "DO ";
+        if (vecCombinations[i] & RE) listNotes += "RE ";
+        if (vecCombinations[i] & MI) listNotes += "MI ";
+        if (vecCombinations[i] & FA) listNotes += "FA ";
+        if (vecCombinations[i] & SOL) listNotes += "SOL ";
+        if (vecCombinations[i] & LA) listNotes += "LA ";
+        if (vecCombinations[i] & SI) listNotes += "SI ";
+        if (!listNotes.empty()) {
+            std::cout << listNotes << std::endl;
+        }
+    }
+}
+void addNote(char ch){
+
 }
 /*Механическое пианино
 

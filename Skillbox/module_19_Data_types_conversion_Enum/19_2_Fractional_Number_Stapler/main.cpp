@@ -1,8 +1,7 @@
 #include <iostream>
 
-double TwoIntToDouble(int integer, int fraction) {
-    return std::stod(std::to_string(integer) + "." + std::to_string(fraction));
-}
+double TwoIntToDouble(int integer, int fraction);
+int Input(const std::string& nameValue);
 
 int main() {
     std::cout << "Fractional Number Stapler!" << std::endl;
@@ -10,17 +9,25 @@ int main() {
     int fraction;
     double fractionalNumber;
 
-    std::cout << "Enter the integer part of the number: " << std::endl;
-    std::cin >> integer;
-
-    std::cout << "Enter the fractional part of the number: " << std::endl;
-    std::cin >> fraction;
-
+    integer = Input ("integer");
+    fraction = Input ("fraction");
     fractionalNumber = TwoIntToDouble(integer, abs(fraction));
     std::cout << "Fractional number " << fractionalNumber;
 
     return 0;
 }
+
+double TwoIntToDouble(int integer, int fraction) {
+    return std::stod(std::to_string(integer) + "." + std::to_string(fraction));
+}
+
+int Input(const std::string& nameValue) {
+    int value;
+    std::cout << "Enter the " << nameValue << " part of the number: " << std::endl;
+    std::cin >> value;
+    return value;
+}
+
 /*Сшиватель дробных чисел
 
 Что нужно сделать
