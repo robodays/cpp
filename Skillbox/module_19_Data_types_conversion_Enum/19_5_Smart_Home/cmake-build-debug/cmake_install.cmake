@@ -1,4 +1,4 @@
-# Install script for directory: D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_5_Smart_Home
+# Install script for directory: E:/GitHub/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_5_Smart_Home
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_5_Smart_Home/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "E:/GitHub/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_5_Smart_Home/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

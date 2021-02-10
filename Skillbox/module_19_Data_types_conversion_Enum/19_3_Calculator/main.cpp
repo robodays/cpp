@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sstream>
+
 char checkSign(std::string inputStr);
 double FuncResult(double first, double second, char sing);
 
@@ -9,11 +11,19 @@ int main() {
     std::string inputStr;
     std::cin >> inputStr;
 
-    char sing =  checkSign(inputStr);
-    int findPosSing = inputStr.find(sing,1);
+    double first;
+    std::string second;
+    double sing;
+    std::stringstream stream(inputStr);
 
-    double first = std::stod(inputStr.substr(0,findPosSing));
-    double second = std::stod(inputStr.substr(findPosSing + 1,inputStr.length()));
+    stream >> first >> sing >> second;
+    //std::cout << "Result " <<  first << " " << second << " " << std::endl;
+
+   // char sing =  checkSign(inputStr);
+    //int findPosSing = inputStr.find(sing,1);
+
+//    double first = std::stod(inputStr.substr(0,findPosSing));
+//    double second = std::stod(inputStr.substr(findPosSing + 1,inputStr.length()));
     double result = FuncResult (first, second, sing);
 
     std::cout << "Result " << first << " " << sing << " " << second << " = " <<  result << std::endl;

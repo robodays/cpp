@@ -1,28 +1,29 @@
 #include <iostream>
 
-double TwoIntToDouble(int integer, int fraction);
-int Input(const std::string& nameValue);
+double TwoIntToDouble(std::string integer, std::string fraction);
+std::string Input(const std::string& nameValue);
 
 int main() {
     std::cout << "Fractional Number Stapler!" << std::endl;
-    int integer;
-    int fraction;
+    std::string integer;
+    std::string fraction;
     double fractionalNumber;
 
     integer = Input ("integer");
     fraction = Input ("fraction");
-    fractionalNumber = TwoIntToDouble(integer, abs(fraction));
+    fractionalNumber = TwoIntToDouble(integer, fraction);
     std::cout << "Fractional number " << fractionalNumber;
 
     return 0;
 }
 
-double TwoIntToDouble(int integer, int fraction) {
-    return std::stod(std::to_string(integer) + "." + std::to_string(fraction));
+double TwoIntToDouble(std::string integer, std::string fraction) {
+    return std::stod(integer + "." + fraction);
 }
 
-int Input(const std::string& nameValue) {
-    int value;
+
+std::string Input(const std::string& nameValue) {
+    std::string value;
     std::cout << "Enter the " << nameValue << " part of the number: " << std::endl;
     std::cin >> value;
     return value;
