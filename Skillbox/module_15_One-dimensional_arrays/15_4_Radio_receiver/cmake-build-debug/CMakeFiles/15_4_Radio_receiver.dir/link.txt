@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/15_4_Radio_receiver.dir/main.cpp.o  -o 15_4_Radio_receiver 

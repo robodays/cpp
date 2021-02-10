@@ -1,0 +1,3 @@
+D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_1_Speedometer/cmake-build-debug/CMakeFiles/19_1_Speedometer.dir
+D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_1_Speedometer/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_1_Speedometer/cmake-build-debug/CMakeFiles/rebuild_cache.dir

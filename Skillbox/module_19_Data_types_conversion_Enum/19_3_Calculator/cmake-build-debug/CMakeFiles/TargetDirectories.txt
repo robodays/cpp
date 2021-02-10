@@ -1,0 +1,3 @@
+D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_3_Calculator/cmake-build-debug/CMakeFiles/19_3_Calculator.dir
+D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_3_Calculator/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_3_Calculator/cmake-build-debug/CMakeFiles/rebuild_cache.dir

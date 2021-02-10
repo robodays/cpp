@@ -1,0 +1,3 @@
+/home/vladimir/cppgit/Skillbox/module_17/17_4_Equality_of_matrices/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/vladimir/cppgit/Skillbox/module_17/17_4_Equality_of_matrices/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/vladimir/cppgit/Skillbox/module_17/17_4_Equality_of_matrices/cmake-build-debug/CMakeFiles/17_4_Equality_of_matrices.dir

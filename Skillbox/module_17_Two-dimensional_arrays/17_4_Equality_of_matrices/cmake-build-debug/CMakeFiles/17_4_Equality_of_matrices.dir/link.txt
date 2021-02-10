@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/17_4_Equality_of_matrices.dir/main.cpp.o  -o 17_4_Equality_of_matrices 
