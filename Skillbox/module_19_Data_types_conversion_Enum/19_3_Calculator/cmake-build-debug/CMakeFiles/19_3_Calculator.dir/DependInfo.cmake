@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "E:/GitHub/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_3_Calculator/main.cpp" "E:/GitHub/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_3_Calculator/cmake-build-debug/CMakeFiles/19_3_Calculator.dir/main.cpp.obj"
+  "D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_3_Calculator/main.cpp" "D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_3_Calculator/cmake-build-debug/CMakeFiles/19_3_Calculator.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

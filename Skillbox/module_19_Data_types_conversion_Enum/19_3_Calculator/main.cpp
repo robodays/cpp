@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 
-char checkSign(std::string inputStr);
+bool checkSign(char symbol);
 double FuncResult(double first, double second, char sing);
 
 int main() {
@@ -12,34 +12,24 @@ int main() {
     std::cin >> inputStr;
 
     double first;
-    std::string second;
-    double sing;
+    double second;
+    char sing;
     std::stringstream stream(inputStr);
 
     stream >> first >> sing >> second;
-    //std::cout << "Result " <<  first << " " << second << " " << std::endl;
-
-   // char sing =  checkSign(inputStr);
-    //int findPosSing = inputStr.find(sing,1);
-
-//    double first = std::stod(inputStr.substr(0,findPosSing));
-//    double second = std::stod(inputStr.substr(findPosSing + 1,inputStr.length()));
-    double result = FuncResult (first, second, sing);
-
-    std::cout << "Result " << first << " " << sing << " " << second << " = " <<  result << std::endl;
-
+    if (checkSign(sing)) {
+        double result = FuncResult(first, second, sing);
+        std::cout << "Result " << first << " " << sing << " " << second << " = " << result << std::endl;
+    } else std::cerr << "Error! \"" << sing << "\" is not an arithmetic action!";
     return 0;
 }
 
-char checkSign(std::string inputStr) {
-    char sing[4] = { '*', '/', '+', '-'};
-    for (char ch : sing) {
-        int pos = inputStr.find(ch,1);
-        if (pos > 0) {
-            return ch;
-        }
+bool checkSign(char symbol) {
+    char sings[4] = { '*', '/', '+', '-'};
+    for (char sing : sings) {
+        if (symbol == sing) return true;
     }
-    return '0';
+    return false;
 }
 
 double FuncResult(double first, double second, char sing) {

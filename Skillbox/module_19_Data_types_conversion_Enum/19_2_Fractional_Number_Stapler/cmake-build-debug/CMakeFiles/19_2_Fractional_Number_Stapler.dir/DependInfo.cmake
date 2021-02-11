@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "E:/GitHub/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_2_Fractional_Number_Stapler/main.cpp" "E:/GitHub/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_2_Fractional_Number_Stapler/cmake-build-debug/CMakeFiles/19_2_Fractional_Number_Stapler.dir/main.cpp.obj"
+  "D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_2_Fractional_Number_Stapler/main.cpp" "D:/github/cpp/Skillbox/module_19_Data_types_conversion_Enum/19_2_Fractional_Number_Stapler/cmake-build-debug/CMakeFiles/19_2_Fractional_Number_Stapler.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
