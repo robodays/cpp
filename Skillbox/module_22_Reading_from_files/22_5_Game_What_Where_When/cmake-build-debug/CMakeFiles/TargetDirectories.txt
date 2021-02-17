@@ -1,0 +1,3 @@
+D:/github/cpp/Skillbox/module_22_Reading_from_files/22_5_Game_What_Where_When/cmake-build-debug/CMakeFiles/22_5_Game_What_Where_When.dir
+D:/github/cpp/Skillbox/module_22_Reading_from_files/22_5_Game_What_Where_When/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/github/cpp/Skillbox/module_22_Reading_from_files/22_5_Game_What_Where_When/cmake-build-debug/CMakeFiles/rebuild_cache.dir
