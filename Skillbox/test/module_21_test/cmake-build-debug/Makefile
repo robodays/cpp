@@ -142,6 +142,33 @@ module_21_test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\module_21_test.dir\build.make CMakeFiles/module_21_test.dir/build
 .PHONY : module_21_test/fast
 
+gtest.obj: gtest.cpp.obj
+
+.PHONY : gtest.obj
+
+# target to build an object file
+gtest.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\module_21_test.dir\build.make CMakeFiles/module_21_test.dir/gtest.cpp.obj
+.PHONY : gtest.cpp.obj
+
+gtest.i: gtest.cpp.i
+
+.PHONY : gtest.i
+
+# target to preprocess a source file
+gtest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\module_21_test.dir\build.make CMakeFiles/module_21_test.dir/gtest.cpp.i
+.PHONY : gtest.cpp.i
+
+gtest.s: gtest.cpp.s
+
+.PHONY : gtest.s
+
+# target to generate assembly for a file
+gtest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\module_21_test.dir\build.make CMakeFiles/module_21_test.dir/gtest.cpp.s
+.PHONY : gtest.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -178,6 +205,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... module_21_test
+	@echo ... gtest.obj
+	@echo ... gtest.i
+	@echo ... gtest.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

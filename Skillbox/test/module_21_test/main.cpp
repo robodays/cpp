@@ -3,7 +3,7 @@
 
 
 //static std::string str;
-
+//dffdf
 void funcCount(int step, int &longStep, int &countStep, int &result) {
     if (step == countStep) {
         result++;

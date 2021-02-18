@@ -80,6 +80,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/github/cpp/Skillbox/test/module_21_test/gggtest.h">
+			<Option target="module_21_test"/>
+		</Unit>
+		<Unit filename="D:/github/cpp/Skillbox/test/module_21_test/gtest.cpp">
+			<Option target="module_21_test"/>
+		</Unit>
 		<Unit filename="D:/github/cpp/Skillbox/test/module_21_test/main.cpp">
 			<Option target="module_21_test"/>
 		</Unit>

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/module_21_test.dir/gtest.cpp.obj"
   "CMakeFiles/module_21_test.dir/main.cpp.obj"
   "libmodule_21_test.dll.a"
   "module_21_test.exe"
