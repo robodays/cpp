@@ -5,19 +5,18 @@
 #include <vector>
 #include <windows.h>
 
-bool error = false; // global
-
-int CheckingSector(int& activeSector, std::vector<bool>& sector); // function checks correctness sector
-int CheckingResult (std::string& answerStr, std::string& inputAnswer, int& scoreAudience, int& scoreGamers); // function for checking and displaying the result
+int CheckingSector(int& activeSector, const std::vector<bool>& sector); // function checks correctness sector
+int CheckingResult (const std::string& answerStr, const std::string& inputAnswer, int& scoreAudience, int& scoreGamers); // function for checking and displaying the result
 int LengthFile(std::ifstream& file); // function returns the length of the data in the file
-bool OpenFile(std::ifstream& file, std::string& path); // function opens and checking file
-bool ExitErrors(); // function exit on error
-std::string Reading(std::ifstream& file, char buffer[], int& length); // function reading from the file
-std::string GetData(std::ifstream& file, int& activeSector, std::string path); // Getting data from a file
-void OutputNumberSector(std::vector<bool>& sector, int& activeSector, bool selSec = true); // function output active sector
-void OutputScore(int& scoreAudience, int& scoreGamers); // function output score
+bool OpenFile(std::ifstream& file, const std::string& path); // function opens and checking file
+bool ExitErrors(bool err); // function exit on error
+std::string Reading(std::ifstream& file, char buffer[], int length); // function reading from the file
+std::string GetData(std::ifstream& file, int activeSector, std::string path, bool& error); // Getting data from a file
+void OutputNumberSector(const std::vector<bool>& sector, int& activeSector, bool selSec = true); // function output active sector
+void OutputScore(int scoreAudience, int scoreGamers); // function output score
 
 int main() {
+    bool error = false;
     std::vector<bool> sector(14, true);
     int activeSector = 1;
     int scoreAudience = 0;
@@ -43,11 +42,12 @@ int main() {
         std::cin >> offset;
         activeSector += offset;
 
+        activeSector = CheckingSector(activeSector, sector);
         OutputNumberSector(sector,activeSector);
         OutputScore(scoreAudience,scoreGamers);
-        std::string questionStr = GetData(questionFile,activeSector,pathQuestion);
-        std::string answerStr = GetData(answerFile,activeSector,pathAnswer);
-        if (ExitErrors()) return 0;
+        std::string questionStr = GetData(questionFile, activeSector, pathQuestion, error);
+        std::string answerStr = GetData(answerFile, activeSector, pathAnswer, error);
+        if (ExitErrors(error)) return 0;
         sector[activeSector] = false;
 
         std::cout << "Question "  << activeSector << ": " << questionStr << std::endl;
@@ -69,7 +69,7 @@ int main() {
 }
 
 // function for checking and displaying the result
-int CheckingResult (std::string& answerStr, std::string& inputAnswer, int& scoreAudience, int& scoreGamers) {
+int CheckingResult (const std::string& answerStr, const std::string& inputAnswer, int& scoreAudience, int& scoreGamers) {
     std::cout << "---------------------------------" << std::endl;
     if (answerStr == inputAnswer) {
         scoreGamers++;
@@ -85,14 +85,13 @@ int CheckingResult (std::string& answerStr, std::string& inputAnswer, int& score
 }
 
 // function output score
-void OutputScore(int& scoreAudience, int& scoreGamers) {
+void OutputScore(int scoreAudience, int scoreGamers) {
     std::cout << "    Audience: " << scoreAudience << " | Gamers: " << scoreGamers << std::endl;
     std::cout << "---------------------------------" << std::endl;
 }
 
 // function output active sector
-void OutputNumberSector(std::vector<bool>& sector, int& activeSector, bool selSec) {
-    activeSector = CheckingSector(activeSector, sector);
+void OutputNumberSector(const std::vector<bool>& sector, int& activeSector, bool selSec) {
     if (selSec) std::cout << "Selected sector " << activeSector << std::endl;
     std::cout << "---------------------------------" << std::endl;
     std::cout << "  ";
@@ -110,8 +109,8 @@ void OutputNumberSector(std::vector<bool>& sector, int& activeSector, bool selSe
 }
 
 // function exit on error
-bool ExitErrors() {
-    if (error) {
+bool ExitErrors(bool err) {
+    if (err) {
         std::cout << "Exit with an error." << std::endl;
         return true;
     }
@@ -119,13 +118,14 @@ bool ExitErrors() {
 }
 
 // Getting data from a file
-std::string GetData(std::ifstream& file, int& activeSector, std::string path) {
+std::string GetData(std::ifstream& file, int activeSector, std::string path, bool& error) {
     path += (std::to_string(activeSector)+".txt");
     if (!OpenFile(file,path)) {
+        error = true;
         return "Warning! File opening error!";
     }
     int lengthBuffer = LengthFile(file);
-    char buffer[lengthBuffer+1];
+    char buffer[500];
     buffer[lengthBuffer] = '\0'; // Иногда выводились непонятные символы после вывода вопроса. Это помогло!
     // memset(bufferQuestion, ' ',lengthBuffer);
     return Reading(file, buffer, lengthBuffer);
@@ -140,17 +140,16 @@ int LengthFile(std::ifstream& file) {
 }
 
 // function reading from the file
-std::string Reading(std::ifstream& file, char buffer[], int& length) {
+std::string Reading(std::ifstream& file, char buffer[], int length) {
     file.read(buffer, length);
     file.close();
     return buffer;
 }
 
 // function opens and checking file
-bool OpenFile(std::ifstream& file, std::string& path) {
+bool OpenFile(std::ifstream& file, const std::string& path) {
     file.open(path, std::ios::binary);
     if (!file.is_open()) {
-        error = true;
         std::cerr << "Warning! File opening error! (path:" + path + ")" << std::endl;
         return false;
     }
@@ -158,12 +157,12 @@ bool OpenFile(std::ifstream& file, std::string& path) {
 }
 
 // function checks correctness sector
-int CheckingSector(int& activeSector, std::vector<bool>& sector) {
+int CheckingSector(int& activeSector, const std::vector<bool>& sector) {
     if (activeSector > 13) activeSector %= 13;
     if (activeSector == 0) activeSector++;
-    if (!sector[activeSector]) {
+    while (!sector[activeSector]) {
         activeSector++;
-        CheckingSector(activeSector, sector);
+        if (activeSector > 13) activeSector = 1;
     }
     return activeSector;
 }

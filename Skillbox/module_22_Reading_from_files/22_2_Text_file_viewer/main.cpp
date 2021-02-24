@@ -18,15 +18,15 @@ int main() {
 
     std::cout << "Length file: " << length << std::endl;
     std::cout << "Text: " << std::endl;
+    char buffer[100];
     while (!file.eof()) {
-        char buffer[100] = ""; //zeroing array
-        file.read(buffer, 100);
+        file.read(buffer, 99);
+        buffer[file.gcount()] = 0;
         std::cout << buffer;
     }
     file.close();
     return 0;
 }
-//gcount мне не понадобился
 
 
 /*

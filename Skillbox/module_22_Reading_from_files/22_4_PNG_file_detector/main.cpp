@@ -40,7 +40,7 @@ bool FileOpen(std::ifstream& file) {
 
 // checking file extension
 bool IsPNG (const std::string& str) {
-    if (str.substr(str.size()-4, str.size()) == ".png") {
+    if (str.substr(str.size()-4, 4) == ".png") {
         std::cout << "File name extension is PNG!!" << std::endl;
         return true;
     } else {

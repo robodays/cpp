@@ -6,24 +6,27 @@ int main() {
     std::ifstream file;
     //file.open("D:\\github\\cpp\\Skillbox\\module_22_Reading_from_files\\22_1_Search_words_in_file\\cmake-build-debug\\words.txt");
     file.open("words.txt");
-    std::cout << "File is open: " << (file.is_open()?"YES":"NO") << std::endl;
+    if (file.is_open()) {
+        std::cout << "File open." << std::endl;
+        std::string word;
+        int count = 0;
+        std::string findStr;
+        std::cout << "Enter word for find: " << std::endl;
+        std::cin >> findStr;
 
-    std::string word;
-    int count = 0;
-    std::string findStr;
-    std::cout << "Enter word for find: " << std::endl;
-    std::cin >> findStr;
-
-    while (!file.eof()) {
-        file >> word;
-        //std::cout << word  << " "; // output all text
-        if (findStr == word) {
-            count++;
+        while (!file.eof()) {
+            file >> word;
+            //std::cout << word  << " "; // output all text
+            if (findStr == word) {
+                count++;
+            }
         }
+        file.close();
+        std::cout << std::endl;
+        std::cout << "Count word \"" << findStr << "\": " << count << std::endl;
+    } else {
+        std::cout << "Error! File not open." << std::endl;
     }
-    file.close();
-    std::cout << std::endl;
-    std::cout << "Count word \"" << findStr << "\": " << count << std::endl;
     return 0;
 }
 /*

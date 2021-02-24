@@ -5,30 +5,31 @@
 int main() {
     std::ifstream file;
     file.open("report.txt");
-    if (file.is_open()) std::cout << "File report.txt open." << std::endl;
-    else std::cout << "File report.txt no open" << std::endl;
+    if (file.is_open()) {
+        std::cout << "File report.txt open." << std::endl;
+        std::string first_name;
+        std::string second_name;
+        int cash;
+        std::string date;
 
-    std::string first_name;
-    std::string second_name;
-    int cash;
-    std::string date;
+        int allCash = 0;
+        int max = 0;
+        std::string person;
 
-    int allCash = 0;
-    int max = 0;
-    std::string person;
-
-    while (!file.eof()) {
-        file >> first_name >> second_name >> cash >> date;
-        allCash += cash;
-        if (max < cash) {
-            max = cash;
-            person = first_name + ' ';
-            person += second_name;
+        while (!file.eof()) {
+            file >> first_name >> second_name >> cash >> date;
+            allCash += cash;
+            if (max < cash) {
+                max = cash;
+                person = first_name + " " + second_name;
+            }
         }
-    }
-    file.close();
-    std::cout << "Total amount of money paid: " << allCash << std::endl;
-    std::cout << "Person " << person <<  " with the maximum payout amount " << max << std::endl;
+        file.close();
+        std::cout << "Total amount of money paid: " << allCash << std::endl;
+        std::cout << "Person " << person <<  " with the maximum payout amount " << max << std::endl;
+
+    } else std::cout << "File report.txt no open" << std::endl;
+
     return 0;
 }
 /*
