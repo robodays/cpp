@@ -1,0 +1,3 @@
+D:/github/cpp/Skillbox/module_23_Writing_to_files/23_3_Simulation_game_Fishing/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/github/cpp/Skillbox/module_23_Writing_to_files/23_3_Simulation_game_Fishing/cmake-build-debug/CMakeFiles/23_3_Simulation_game_Fishing.dir
+D:/github/cpp/Skillbox/module_23_Writing_to_files/23_3_Simulation_game_Fishing/cmake-build-debug/CMakeFiles/rebuild_cache.dir
