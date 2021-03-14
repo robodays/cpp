@@ -1,0 +1,168 @@
+int func(){
+int* p = new int[1000];
+return p;
+}
+
+int main() {
+int* pArr;
+
+pArr= func();
+
+// clear
+delet[] pArr;
+
+int arr[10];
+
+}
+==============================
+int main() {
+int arr[10];
+*(arr+1) = 1; // первый элемент массива
+
+int* p = (arr+5); указатель на 6 элемент массива
+
+}
+
+==============================
+int8_t		1b
+int16_t		2b
+int32_t		4b
+int64_t		8b
+=============================
+struct Student {
+	age,
+	group,
+	name
+}
+
+
+void S_print (const Student &x) {
+	std::cout << x.age << x.group << x.name;
+}
+
+int main() {
+	Student vasya = {17, 345, "Vasya Pupkin"};
+	std::cout << vasya.age << vasya.group << vasya.name;
+	Student *p = nullptr;
+	p = &vasya;
+	std::cout << (*p).age << (*p).group << (*p).name;
+	std::cout << p->age << p->group << p->name;
+	S_print(vasya);
+
+	Student *p_s = new Student;
+	p_s->age = 17;
+	p_s->group = 345;
+	p_s->name = "Vasya Pupkin";
+	S_print(*p_s);
+ 
+	Student *p_s2 = new Student[20];
+	for (int i = 0; i < 20; i++) {
+		p_s2[i].age = 17+i;
+		p_s2[i].group = 345;
+		p_s2[i].name = "Vasya Pupkin";
+	}
+	for (int i = 0; i < 20; i++) {
+		S_print(*p_s2[i]);
+ 	}
+
+}
+
+======================================
+????????????????????????
+s2=stddup(s);
+free(s2);
+
+======================================
+
+передача массива по указателю
+
+void func(int *p_arr, int p_size){
+for (int i...
+	p_arr[i]++;
+}
+
+вызов  func(arr,5);
+
+====================================
+
+
+A[i][j] === *(A+i+4+j)
+
+A[i][j] === A[i * width + j]
+
+====================================
+ООП 4 лекция 1:13:00 двухмерные массивы!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+====================================
+
+5 лекция 1:05:00!!!!!!!!!!!!!!!!!!!!!
+и
+6 лекция 1:05:00!!!!!!!!!!!!!!!!!!!!!
+и
+7 лекция 0:05:00!!!!!!!!!!!!!!!!!!!!!
+struct *tNode {
+	std::string data;
+	tNode *p_next; 
+}
+
+
+
+=============================
+
+6 лекция 0:40:00!!!!!!!!!!!!!!!!!!!!!
+template<typename T>
+
+T funk(T x){
+	return (x < 0)?-x:x;
+}
+
+==========================================
+
+
+6 лекция 0:46:00!!!!!!!!!!!!!!!!!!!!!
+func<int32_t>(x); вызов функции
+
+=============================
+
+6 лекция 0:57:00!!!!!!!!!!!!!!!!!!!!!
+template<int number>
+void funk(){
+	statik int x = 0;
+	std::cout << x++ << number;
+}
+
+======================
+7 лекция конец
+vector
+set
+map
+
+=========================
+8 лекция 4:50
+DOxygen
+
+===========================
+FIXME
+===========================
+Стражи включения
+Макросы
+8 лекция 1:03:00
+#ifdef (если определено, то...) #ifndef(если не определено, то)
+код1
+#else
+код2
+#endif
+
+
+#ifndef MODULE1
+...
+#define MODULE1 //запустится один раз
+...
+#endif
+
+или
+#pragma once !!!
+
+https://habr.com/ru/post/546946/
+==========================================
+Классы
+9 лекция 26:00 38:00
