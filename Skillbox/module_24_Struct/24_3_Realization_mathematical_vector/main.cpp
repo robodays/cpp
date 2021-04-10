@@ -9,15 +9,19 @@ struct Vector {
 };
 
 std::string InputCommand(std::string listCommands[], int size);
-Vector InputVector();
-
+Vector InputVector(Vector& vector, const std::string&);
+float InputFloat();
+void printResult(Vector vector, const std::string& command);
 // Adding two vectors — add.
-Vector add();
+Vector Add();
 // subtracting two vectors — subtract.
-Vector subtract();
-
-
-void printResult(Vector vector);
+Vector Subtract();
+// Multiplying a vector by a scalar - scale.
+Vector Scale();
+// Finding the length of a vector — length.
+Vector Length();
+// Нормализация вектора — команда normalize.
+Vector Normalize();
 
 int main() {
     int countCommands = 5;
@@ -26,20 +30,22 @@ int main() {
     std::cout << "Realization mathematical vector." << std::endl;
     std::string command;
     command = InputCommand(listCommands, countCommands);
-    if (command == "add") vector = add();
-    if (command == "subtract") vector = subtract();
-    if (command == "scale") vector = scale();
-    if (command == "length") vector = length();
-    else vector = normalize();
+    if (command == "add") vector = Add();
+    else if (command == "subtract") vector = Subtract();
+    else if (command == "scale") vector = Scale();
+    else if (command == "length") vector = Length();
+    else vector = Normalize();
 
-    printResult(vector);
-
-
+    printResult(vector, command);
     return 0;
 }
 
-void printResult(Vector vector) {
-/////----------------------
+void printResult(Vector vector, const std::string& command) {
+    if (command == "length") {
+        std::cout << "Length vector equal " << vector.length << std::endl;
+    } else {
+        std::cout << "New vector equal {" << vector.x << "," << vector.y << "}" << std::endl;
+    }
 }
 
 std::string InputCommand(std::string listCommands[], int size) {
@@ -50,17 +56,15 @@ std::string InputCommand(std::string listCommands[], int size) {
         for (int i = 0; i < size; i++) {
             if (listCommands[i] == input) {
                 return input;
-            } else {
-                std::cout << "That input is invalid.  Please try again." << std::endl;
             }
         }
+        std::cout << "That input is invalid.  Please try again." << std::endl;
     }
 }
 
-Vector InputVector() {
-    Vector vector;
+Vector InputVector(Vector& vector, const std::string& addedStr= "") {
     while (true) {
-        std::cout << "Enter vector separated by a space (X Y): " << std::endl;
+        std::cout << "Enter vector " << addedStr << "separated by a space (X Y): " << std::endl;
         std::cin >> vector.x >> vector.y;
         if (std::cin.fail()) { // if the previous extraction failed,
             std::cin.clear(); // then we return cin to the 'normal' mode of operation
@@ -71,38 +75,73 @@ Vector InputVector() {
     }
 }
 
+float InputFloat() {
+    float num;
+    while (true) {
+        std::cout << "Enter number (0 - 100): " << std::endl;
+        std::cin >> num;
+        if (std::cin.fail()) { // if the previous extraction failed,
+            std::cin.clear(); // then we return cin to the 'normal' mode of operation
+            std::cin.ignore(32767,'\n'); // and delete the values of the previous input from the input buffer
+        } else {
+            if (num >=0 && num <= 100) {
+                return num;
+            }
+        }
+        std::cout << "Enter again!" << std::endl;
+    }
+}
+
 // Adding two vectors — add.
-Vector add() {
+Vector Add() {
     std::cout << "Adding two vectors." << std::endl;
     Vector vec1,vec2;
-    vec1 = InputVector();
-    vec2 = InputVector();
+    vec1 = InputVector(vec1, "No.1 ");
+    vec2 = InputVector(vec2, "No.2 ");
     vec1.x += vec2.x;
     vec1.y += vec2.y;
     return vec1;
 }
 
 // subtracting two vectors — subtract.
-Vector subtract() {
+Vector Subtract() {
     std::cout << "Subtracting two vectors." << std::endl;
     Vector vec1,vec2;
-    vec1 = InputVector();
-    vec2 = InputVector();
+    vec1 = InputVector(vec1, "No.1 ");
+    vec2 = InputVector(vec2, "No.2 ");
     vec1.x -= vec2.x;
     vec1.y -= vec2.y;
     return vec1;
 }
-// Умножение вектора на скаляр — команда scale.
-void scale() {
-/////----------------------
+// Multiplying a vector by a scalar - scale.
+Vector Scale() {
+    std::cout << "Multiplying a vector by a scalar." << std::endl;
+    Vector vec;
+    vec = InputVector(vec);
+    float scalar;
+    scalar = InputFloat();
+    vec.x *= scalar;
+    vec.y *= scalar;
+    return vec;
 }
-// Нахождение длины вектора — команда length.
-void length() {
-/////----------------------
+
+// Finding the length of a vector — length.
+Vector Length() {
+    std::cout << "Finding the length of a vector." << std::endl;
+    Vector vec;
+    vec = InputVector(vec);
+    vec.length = sqrtf(powf(vec.x,2) + powf(vec.y,2));
+    return vec;
 }
 // Нормализация вектора — команда normalize.
-void normalize() {
-/////----------------------
+Vector Normalize() {
+    std::cout << "Finding the length of a vector." << std::endl;
+    Vector vec;
+    vec = InputVector(vec);
+    vec.length = sqrtf(powf(vec.x,2) + powf(vec.y,2));
+    vec.x /= vec.length;
+    vec.y /= vec.length;
+    return vec;
 }
 
 /*
