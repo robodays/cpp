@@ -1,10 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-//#include <cstdlib>
+#include <cstdlib>
+#include <ctime>
 
-struct Personages {
+struct Personage {
     std::string name;
+    int id;
     int level;
     int armor;
     int damage;
@@ -16,28 +18,63 @@ struct Personages {
 //+ Для определения команды персонажа можно завести специальный флаг внутри структуры данных персонажа.
 //Для отображения координат персонажей можете использовать структуру вектора из другой задачи, но заменить типы координат.
 };
-const int X = 40;
-const int Y = 40;
 
-void CreateHero(Personages& hero);
-void GeneratePositionPersonage(int positionXY[], int xMax = X, int yMax = Y);
 
-void PrintGameField(std::vector<std::vector<char>> field);
-void CreateGameField(std::vector<std::vector<char>> field, int xMax = X, int yMax = Y);
-
+void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax, int yMax);
+void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positionXY[], int xMax, int yMax);
+void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xMax, int yMax);
+void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
+void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
+void PrintPersonages(std::vector<Personage>& allPersonages);
+void MovingOnField(int positionXYTmp[]);
+void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
+                    int walking, int xMax, int yMax);
 
 int main() {
+    int sizeFieldX = 10;
+    int sizeFieldY = 10;
+    int quantityEnemies = 5;
+    std::srand(std::time(nullptr));
     std::cout << "Turn-based role-playing game." << std::endl;
     std::vector<std::vector<char>> field(40,std::vector<char> (40,'.'));
-    CreateGameField(field);
-    PrintGameField(field);
-    Personages hero;
-    CreateHero(hero);
+    CreateGameField(field, sizeFieldX, sizeFieldY);
+
+    // Create Hero
+    std::vector<Personage> allPersonages(quantityEnemies + 1);
+    allPersonages[0].id = 0;
+    CreateHero(field, allPersonages[0], sizeFieldX, sizeFieldY);
+
+    // Create Enemies
+    for (int i = 1; i < quantityEnemies+1; ++i) {
+        allPersonages[i].id = i;
+        CreateEnemy(field, allPersonages[i], sizeFieldX, sizeFieldY);
+    }
+
+    PrintGameField(field, sizeFieldX, sizeFieldY);
+    PrintPersonages(allPersonages);
+
+    int walking = 0;
+    while(CheckingEndgame()) {
+        int positionXYTmp[2] = {allPersonages[walking].positionXY[0],allPersonages[walking].positionXY[1]};
+        if (allPersonages[walking].isHero) {
+            MovingOnField(positionXYTmp);
+        } else {
+            GenerateMovingForEnemy();
+        }
+        CheckingMoving(field, allPersonages, positionXYTmp, walking, sizeFieldX, sizeFieldY);
+
+
+        walking++;
+        if (walking > allPersonages.size()) {
+            walking = 0;
+        }
+    }
     return 0;
 }
 
-void CreateHero(Personages& hero) {
-//Игрок конструирует своего персонажа самостоятельно. Задаёт все его параметры, включая имя.
+
+void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax, int yMax) {
+// +Игрок конструирует своего персонажа самостоятельно. Задаёт все его параметры, включая имя.
     hero.isHero = true;
     std::cout << "Enter name hero: " << std::endl;
     std::cin >> hero.name;
@@ -47,54 +84,128 @@ void CreateHero(Personages& hero) {
     std::cin >> hero.armor;
     std::cout << "Enter damage hero: " << std::endl;
     std::cin >> hero.damage;
-    //GeneratePositionPersonage(hero.positionXY);
+    GeneratePositionPersonage(field, hero.positionXY, xMax, yMax);
+    field[hero.positionXY[0]][hero.positionXY[1]] = 'P';
+    std::cout << hero.name << " creat!" << std::endl;
+
 }
 
-void CreateEnemy() {
-//Вначале игры создаются 5 случайных врагов в случайных клетках карты. Имена врагам задаются в формате “Enemy #N”,
-// где N — это порядковый номер врага. Уровень жизней врагам задаётся случайно, от 50 до 150. Уровень брони варьируется
-// от 0 до 50. Урон тоже выбирается случайно от 15 до 30 единиц.
+void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xMax, int yMax) {
+//+ Вначале игры создаются 5 случайных врагов в случайных клетках карты. Имена врагам задаются в формате “Enemy #N”,
+//+ где N — это порядковый номер врага. Уровень жизней врагам задаётся случайно, от 50 до 150. Уровень брони варьируется
+//+ от 0 до 50. Урон тоже выбирается случайно от 15 до 30 единиц.
+    enemy.isHero = false;
+    enemy.name = "Enemy #" + std::to_string(enemy.id);
+    enemy.level = std::rand() % 101 + 50;
+    enemy.armor = std::rand() % 51;
+    enemy.damage = std::rand() % 16 + 15;
+    GeneratePositionPersonage(field, enemy.positionXY, xMax, yMax);
+    field[enemy.positionXY[0]][enemy.positionXY[1]] = 'E';
+    std::cout << enemy.name << " creat!" << std::endl;
 }
 
-void CreateGameField(std::vector<std::vector<char>> field, int xMax, int yMax) {
-// Игра происходит на карте размером 40 на 40 клеток.
-    for (int i = 0; i < 40; i++) {
-        for (int j = 0; j < 40; ++j) {
+void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
+// +Игра происходит на карте размером 40 на 40 клеток.
+    for (int i = 0; i < xMax; i++) {
+        for (int j = 0; j < yMax; ++j) {
             field[i][j] = '.';
         }
     }
 }
 
-void PrintGameField(std::vector<std::vector<char>> field) {
-// Игра происходит на карте размером 40 на 40 клеток.
-    for (int i = 0; i < 40; i++) {
-        for (int j = 0; j < 40; ++j) {
+void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
+// -Игра происходит на карте размером 40 на 40 клеток.
+    for (int i = 0; i < yMax+2; i++) {
+        std::cout << "-";
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < xMax; i++) {
+        std::cout << "|";
+        for (int j = 0; j < yMax; ++j) {
             std::cout << field[i][j];
         }
-        std::cout << std::endl;
+        std::cout << "|" << std::endl;
+    }
+    for (int i = 0; i < yMax+2; i++) {
+        std::cout << "-";
+    }
+    std::cout << std::endl;
+}
+
+void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positionXY[], int xMax, int yMax) {
+    //+Все персонажи появляются в случайных местах карты.
+    while (true) {
+        int generateXY = std::rand() % (xMax * yMax);
+        int x = generateXY / xMax;
+        int y = generateXY % yMax;
+        if (field[x][y] == '.') {
+            positionXY[0] = x;
+            positionXY[1] = y;
+            break;
+        }
     }
 }
 
-void GeneratePositionPersonage(int positionXY[], int xMax, int yMax) {
-    //Все персонажи появляются в случайных местах карты.
+void PrintPersonages(std::vector<Personage>& allPersonages) {
+//+ После каждого хода игрока карта показывается вновь со всеми врагами на ней. Игрок помечается буквой P. Враги буквой E.
+//+ Пустые места — точкой.
+
+    for (int i = 0; i < allPersonages.size(); ++i) {
+        std::cout << "   name: " << allPersonages[i].name;
+        std::cout << "   level: " << allPersonages[i].level;
+        std::cout << "   armor: " << allPersonages[i].armor;
+        std::cout << "   damage: " << allPersonages[i].damage << std::endl;
+    }
 
 
 }
 
-void PrintPersonages() {
-// После каждого хода игрока карта показывается вновь со всеми врагами на ней. Игрок помечается буквой P. Враги буквой E.
-// Пустые места — точкой.
-}
-
-void MovingOnField() {
+void MovingOnField(int positionXYTmp[]) {
 // По клеткам перемещаются враги и персонаж игрока.
 //Игрок осуществляет ход с помощью команд: left, right, top, bottom. В зависимости от команды и выбирается направление
 // перемещения персонажа: влево, вправо, вверх, вниз.
+    std::cout << "Enter command for moving (left, right, top, bottom): " << std::endl;
+    std::string command;
+    std::cin >> command;
+    while (command != "left" &&  command != "right" && command != "top" && command != "bottom") {
+        std::cout << "Please enter again command for moving (left, right, top, bottom): " << std::endl;
+        std::cin >> command;
+    }
+    if (command != "left") {
+        positionXYTmp[1]--;
+    } else if (command != "right") {
+        positionXYTmp[1]++;
+    } else if (command != "top") {
+        positionXYTmp[0]--;
+    } else {
+        positionXYTmp[0]++;
+    }
+
 }
 
-void CheckingMoving() {
+void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
+                    int walking, int xMax, int yMax) {
 // За пределы карты (40 на 40 клеток) ходить нельзя никому. Если кто-то выбрал направление за гранью дозволенного, ход
 // пропускается.
+    if (positionXYTmp[0] < 0) positionXYTmp[0]++;
+    else if (positionXYTmp[0] > xMax) positionXYTmp[0]--;
+    else if (positionXYTmp[1] < 0) positionXYTmp[1]++;
+    else if (positionXYTmp[1] > yMax) positionXYTmp[1]--;
+    else if (field[positionXYTmp[0]][positionXYTmp[1]] != '.') {
+        for (int i = 0; i < allPersonages.size(); ++i) {
+            if (i == walking || allPersonages[i].isHero == allPersonages[walking].isHero
+                    || allPersonages[i].positionXY[0] != positionXYTmp[0]
+                    && allPersonages[i].positionXY[1] != positionXYTmp[1]) {
+                break;
+            } else {
+                /// !!!!!!!!!!!!!!!!!!!!!!!!!атакак
+            }
+
+        }
+        //if (allPersonages[walking].isHero = true)
+    }
+
+
 }
 
 void GenerateMovingForEnemy() {
