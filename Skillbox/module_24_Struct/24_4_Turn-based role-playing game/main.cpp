@@ -27,8 +27,11 @@ void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
 void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
 void PrintPersonages(std::vector<Personage>& allPersonages);
 void MovingOnField(int positionXYTmp[]);
+void GenerateMovingForEnemy(int positionXYTmp[]);
 void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
                     int walking, int xMax, int yMax);
+void Attack(Personage& attacker, Personage& defender);
+bool CheckingEndgame(std::vector<Personage> allPersonages);
 
 int main() {
     int sizeFieldX = 10;
@@ -54,12 +57,12 @@ int main() {
     PrintPersonages(allPersonages);
 
     int walking = 0;
-    while(CheckingEndgame()) {
+    while(CheckingEndgame(allPersonages)) {
         int positionXYTmp[2] = {allPersonages[walking].positionXY[0],allPersonages[walking].positionXY[1]};
         if (allPersonages[walking].isHero) {
             MovingOnField(positionXYTmp);
         } else {
-            GenerateMovingForEnemy();
+            GenerateMovingForEnemy(positionXYTmp);
         }
         CheckingMoving(field, allPersonages, positionXYTmp, walking, sizeFieldX, sizeFieldY);
 
@@ -75,6 +78,7 @@ int main() {
 
 void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax, int yMax) {
 // +Игрок конструирует своего персонажа самостоятельно. Задаёт все его параметры, включая имя.
+    //todo : проверки ввода
     hero.isHero = true;
     std::cout << "Enter name hero: " << std::endl;
     std::cin >> hero.name;
@@ -161,9 +165,9 @@ void PrintPersonages(std::vector<Personage>& allPersonages) {
 }
 
 void MovingOnField(int positionXYTmp[]) {
-// По клеткам перемещаются враги и персонаж игрока.
-//Игрок осуществляет ход с помощью команд: left, right, top, bottom. В зависимости от команды и выбирается направление
-// перемещения персонажа: влево, вправо, вверх, вниз.
+//+ По клеткам перемещаются враги и персонаж игрока.
+//+ Игрок осуществляет ход с помощью команд: left, right, top, bottom. В зависимости от команды и выбирается направление
+//+ перемещения персонажа: влево, вправо, вверх, вниз.
     std::cout << "Enter command for moving (left, right, top, bottom): " << std::endl;
     std::string command;
     std::cin >> command;
@@ -171,11 +175,11 @@ void MovingOnField(int positionXYTmp[]) {
         std::cout << "Please enter again command for moving (left, right, top, bottom): " << std::endl;
         std::cin >> command;
     }
-    if (command != "left") {
+    if (command == "left") {
         positionXYTmp[1]--;
-    } else if (command != "right") {
+    } else if (command == "right") {
         positionXYTmp[1]++;
-    } else if (command != "top") {
+    } else if (command == "top") {
         positionXYTmp[0]--;
     } else {
         positionXYTmp[0]++;
@@ -183,46 +187,79 @@ void MovingOnField(int positionXYTmp[]) {
 
 }
 
+void GenerateMovingForEnemy(int positionXYTmp[]) {
+//+ Враги перемещаются в случайном направлении.
+    int generatingDirection = rand() % 4;
+    if (generatingDirection == 0) {
+        positionXYTmp[1]--;
+    } else if (generatingDirection == 1) {
+        positionXYTmp[1]++;
+    } else if (generatingDirection == 2) {
+        positionXYTmp[0]--;
+    } else {
+        positionXYTmp[0]++;
+    }
+}
+
 void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
                     int walking, int xMax, int yMax) {
-// За пределы карты (40 на 40 клеток) ходить нельзя никому. Если кто-то выбрал направление за гранью дозволенного, ход
-// пропускается.
-    if (positionXYTmp[0] < 0) positionXYTmp[0]++;
-    else if (positionXYTmp[0] > xMax) positionXYTmp[0]--;
-    else if (positionXYTmp[1] < 0) positionXYTmp[1]++;
-    else if (positionXYTmp[1] > yMax) positionXYTmp[1]--;
-    else if (field[positionXYTmp[0]][positionXYTmp[1]] != '.') {
+//+ За пределы карты (40 на 40 клеток) ходить нельзя никому. Если кто-то выбрал направление за гранью дозволенного, ход
+//+ пропускается.
+//+ Если персонаж (враг или игрок) перемещается в сторону, где уже находится какой-то персонаж, то он бьёт этого персонажа
+//+ с помощью своего урона. Враги при этом никогда не бьют врагов, а просто пропускают ход и остаются на своём месте.
+    if (positionXYTmp[0] < 0) {
+        positionXYTmp[0]++;
+    } else if (positionXYTmp[0] > xMax) {
+        positionXYTmp[0]--;
+    } else if (positionXYTmp[1] < 0) {
+        positionXYTmp[1]++;
+    } else if (positionXYTmp[1] > yMax) {
+        positionXYTmp[1]--;
+    } else if (field[positionXYTmp[0]][positionXYTmp[1]] != '.') {
         for (int i = 0; i < allPersonages.size(); ++i) {
-            if (i == walking || allPersonages[i].isHero == allPersonages[walking].isHero
-                    || allPersonages[i].positionXY[0] != positionXYTmp[0]
-                    && allPersonages[i].positionXY[1] != positionXYTmp[1]) {
+            if (i != walking && allPersonages[i].isHero != allPersonages[walking].isHero
+                    && allPersonages[i].positionXY[0] == positionXYTmp[0]
+                    && allPersonages[i].positionXY[1] == positionXYTmp[1]) {
+                Attack(allPersonages[walking], allPersonages[i]);
                 break;
-            } else {
-                /// !!!!!!!!!!!!!!!!!!!!!!!!!атакак
             }
-
         }
-        //if (allPersonages[walking].isHero = true)
+    } else {
+        field[allPersonages[walking].positionXY[0]][allPersonages[walking].positionXY[1]] = '.';
+        allPersonages[walking].positionXY[0] = positionXYTmp[0];
+        allPersonages[walking].positionXY[1] =  positionXYTmp[1];
     }
-
-
 }
 
-void GenerateMovingForEnemy() {
-// Враги перемещаются в случайном направлении.
+void Attack(Personage& attacker, Personage& defender) {
+//+ Формула для расчёта урона совпадает с той, что была в самом уроке. Жизни уменьшаются на оставшийся после брони урон.
+//+ При этом сама броня тоже сокращается на приведённый урон.
+    defender.armor -= attacker.damage;
+    if (defender.armor < 0 ) {
+        defender.level += defender.armor;
+        defender.armor = 0;
+    }
 }
 
-void Attack() {
-// Если персонаж (враг или игрок) перемещается в сторону, где уже находится какой-то персонаж, то он бьёт этого персонажа
-// с помощью своего урона. Враги при этом никогда не бьют врагов, а просто пропускают ход и остаются на своём месте.
-
-// Формула для расчёта урона совпадает с той, что была в самом уроке. Жизни уменьшаются на оставшийся после брони урон.
-// При этом сама броня тоже сокращается на приведённый урон.
-}
-
-void CheckingEndgame() {
-// Игра заканчивается тогда, когда либо умирают все враги, либо персонаж игрока. В первом случае на экран выводится
-// сообщение о поражении, во втором — победа.
+bool CheckingEndgame(std::vector<Personage> allPersonages) {
+//+ Игра заканчивается тогда, когда либо умирают все враги, либо персонаж игрока. В первом случае на экран выводится
+//+ сообщение о поражении, во втором — победа.
+    if (allPersonages[0].level <= 0) {
+        std::cout << "Winner Enemy!";
+        return false;
+    } else {
+        for (int i = 1; i < allPersonages.size(); ++i) {
+            if (allPersonages[i].level <= 0) {
+                allPersonages.erase(allPersonages.begin()+i);
+                break;
+            }
+        }
+        if (allPersonages.size() == 1) {
+            std::cout << "Winner Hero!";
+            return false;
+        }
+    }
+    return true;
 }
 
 void SaveGame() {
