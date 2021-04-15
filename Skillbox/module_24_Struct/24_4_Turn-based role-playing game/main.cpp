@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 struct Personage {
     std::string name;
@@ -26,18 +27,20 @@ void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xM
 void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
 void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
 void PrintPersonages(std::vector<Personage>& allPersonages);
-void MovingOnField(int positionXYTmp[]);
+bool MovingOnField(std::vector<Personage>& allPersonages, int positionXYTmp[]);
 void GenerateMovingForEnemy(int positionXYTmp[]);
 void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
                     int walking, int xMax, int yMax);
 void Attack(Personage& attacker, Personage& defender);
-bool CheckingEndgame(std::vector<Personage> allPersonages);
+bool CheckingEndgame(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages);
+void SaveGame(std::vector<Personage>& allPersonages);
+void LoadGame(std::vector<Personage>& allPersonages);
 
 int main() {
     int sizeFieldX = 10;
     int sizeFieldY = 10;
     int quantityEnemies = 5;
-    std::srand(std::time(nullptr));
+    std::srand((unsigned) std::time(nullptr));
     std::cout << "Turn-based role-playing game." << std::endl;
     std::vector<std::vector<char>> field(40,std::vector<char> (40,'.'));
     CreateGameField(field, sizeFieldX, sizeFieldY);
@@ -57,20 +60,32 @@ int main() {
     PrintPersonages(allPersonages);
 
     int walking = 0;
-    while(CheckingEndgame(allPersonages)) {
+    while(CheckingEndgame(field, allPersonages)) {
         int positionXYTmp[2] = {allPersonages[walking].positionXY[0],allPersonages[walking].positionXY[1]};
+
         if (allPersonages[walking].isHero) {
-            MovingOnField(positionXYTmp);
+            if (MovingOnField(allPersonages, positionXYTmp)) {
+                CheckingMoving(field, allPersonages, positionXYTmp, walking, sizeFieldX, sizeFieldY);
+                walking++;
+            } else {
+                CreateGameField(field, sizeFieldX, sizeFieldY);
+                for (auto & personage : allPersonages) {
+                    field[personage.positionXY[0]][personage.positionXY[1]] = personage.isHero ? 'P' : 'E';
+                }
+                std::cout << "Made Load/Save game!" << std::endl;
+            }
         } else {
             GenerateMovingForEnemy(positionXYTmp);
+            CheckingMoving(field, allPersonages, positionXYTmp, walking, sizeFieldX, sizeFieldY);
+            walking++;
         }
-        CheckingMoving(field, allPersonages, positionXYTmp, walking, sizeFieldX, sizeFieldY);
 
-
-        walking++;
-        if (walking > allPersonages.size()) {
+        if (walking >= allPersonages.size()) {
             walking = 0;
         }
+
+        PrintGameField(field, sizeFieldX, sizeFieldY);
+        PrintPersonages(allPersonages);
     }
     return 0;
 }
@@ -158,21 +173,22 @@ void PrintPersonages(std::vector<Personage>& allPersonages) {
         std::cout << "   name: " << allPersonages[i].name;
         std::cout << "   level: " << allPersonages[i].level;
         std::cout << "   armor: " << allPersonages[i].armor;
-        std::cout << "   damage: " << allPersonages[i].damage << std::endl;
+        std::cout << "   damage: " << allPersonages[i].damage;
+        std::cout << "   x: " << allPersonages[i].positionXY[0];
+        std::cout << "   y: " << allPersonages[i].positionXY[1] << std::endl;
     }
-
-
 }
 
-void MovingOnField(int positionXYTmp[]) {
+bool MovingOnField(std::vector<Personage>& allPersonages, int positionXYTmp[]) {
 //+ По клеткам перемещаются враги и персонаж игрока.
 //+ Игрок осуществляет ход с помощью команд: left, right, top, bottom. В зависимости от команды и выбирается направление
 //+ перемещения персонажа: влево, вправо, вверх, вниз.
-    std::cout << "Enter command for moving (left, right, top, bottom): " << std::endl;
+    std::cout << "Enter command for moving (left, right, top, bottom, save, load): " << std::endl;
     std::string command;
     std::cin >> command;
-    while (command != "left" &&  command != "right" && command != "top" && command != "bottom") {
-        std::cout << "Please enter again command for moving (left, right, top, bottom): " << std::endl;
+    while (command != "left" &&  command != "right" && command != "top" && command != "bottom"
+            && command != "save" && command != "load") {
+        std::cout << "Please enter again command for moving (left, right, top, bottom, save, load): " << std::endl;
         std::cin >> command;
     }
     if (command == "left") {
@@ -181,10 +197,16 @@ void MovingOnField(int positionXYTmp[]) {
         positionXYTmp[1]++;
     } else if (command == "top") {
         positionXYTmp[0]--;
-    } else {
+    } else if (command == "bottom"){
         positionXYTmp[0]++;
+    } else if (command == "save"){
+        SaveGame(allPersonages);
+        return false;
+    } else if (command == "load"){
+        LoadGame(allPersonages);
+        return false;
     }
-
+    return true;
 }
 
 void GenerateMovingForEnemy(int positionXYTmp[]) {
@@ -209,11 +231,11 @@ void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage
 //+ с помощью своего урона. Враги при этом никогда не бьют врагов, а просто пропускают ход и остаются на своём месте.
     if (positionXYTmp[0] < 0) {
         positionXYTmp[0]++;
-    } else if (positionXYTmp[0] > xMax) {
+    } else if (positionXYTmp[0] >= xMax) {
         positionXYTmp[0]--;
     } else if (positionXYTmp[1] < 0) {
         positionXYTmp[1]++;
-    } else if (positionXYTmp[1] > yMax) {
+    } else if (positionXYTmp[1] >= yMax) {
         positionXYTmp[1]--;
     } else if (field[positionXYTmp[0]][positionXYTmp[1]] != '.') {
         for (int i = 0; i < allPersonages.size(); ++i) {
@@ -225,9 +247,12 @@ void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage
             }
         }
     } else {
-        field[allPersonages[walking].positionXY[0]][allPersonages[walking].positionXY[1]] = '.';
+        int oldX = allPersonages[walking].positionXY[0];
+        int oldY = allPersonages[walking].positionXY[1];
+        field[oldX][oldY] = '.';
         allPersonages[walking].positionXY[0] = positionXYTmp[0];
         allPersonages[walking].positionXY[1] =  positionXYTmp[1];
+        field[positionXYTmp[0]][positionXYTmp[1]] = (allPersonages[walking].isHero) ? 'P' : 'E';
     }
 }
 
@@ -241,7 +266,7 @@ void Attack(Personage& attacker, Personage& defender) {
     }
 }
 
-bool CheckingEndgame(std::vector<Personage> allPersonages) {
+bool CheckingEndgame(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages) {
 //+ Игра заканчивается тогда, когда либо умирают все враги, либо персонаж игрока. В первом случае на экран выводится
 //+ сообщение о поражении, во втором — победа.
     if (allPersonages[0].level <= 0) {
@@ -250,7 +275,9 @@ bool CheckingEndgame(std::vector<Personage> allPersonages) {
     } else {
         for (int i = 1; i < allPersonages.size(); ++i) {
             if (allPersonages[i].level <= 0) {
+                field[allPersonages[i].positionXY[0]][allPersonages[i].positionXY[1]] = '.';
                 allPersonages.erase(allPersonages.begin()+i);
+                std::cout << "Enemy #" << i << " dead!";
                 break;
             }
         }
@@ -262,15 +289,45 @@ bool CheckingEndgame(std::vector<Personage> allPersonages) {
     return true;
 }
 
-void SaveGame() {
+void SaveGame(std::vector<Personage>& allPersonages) {
 // Если в начале хода игрок вводит команду save или load вместо направления перемещения, то игра либо делает сохранение
 // своего состояния в файл, либо загружает это состояние из файла соответственно.
+    std::ofstream file("save.bin", std::ios::binary);
+    int quantityAllPersonages = (int) allPersonages.size();
+    file.write((char *)&quantityAllPersonages, sizeof(quantityAllPersonages));
+    for (int i = 0; i < quantityAllPersonages; ++i) {
+        int len = allPersonages[i].name.length();
+        file.write((char *) &len, sizeof(len));
+        file.write((char *) allPersonages[i].name.c_str(), len);
+        file.write((char *) &allPersonages[i].id, sizeof(allPersonages[i].id));
+        file.write((char *) &allPersonages[i].level, sizeof(allPersonages[i].level));
+        file.write((char *) &allPersonages[i].armor, sizeof(allPersonages[i].armor));
+        file.write((char *) &allPersonages[i].damage, sizeof(allPersonages[i].damage));
+        file.write((char *) &allPersonages[i].isHero, sizeof(allPersonages[i].isHero));
+        file.write((char *) &allPersonages[i].positionXY, sizeof(allPersonages[i].positionXY[0]) * 2);
+    }
 }
 
-void LoadGame () {
+void LoadGame (std::vector<Personage>& allPersonages) {
 // Если в начале хода игрок вводит команду save или load вместо направления перемещения, то игра либо делает сохранение
 // своего состояния в файл, либо загружает это состояние из файла соответственно.
 
+    std::ifstream file("save.bin", std::ios::binary);
+    int quantityAllPersonages;
+    file.read((char *)&quantityAllPersonages, sizeof(quantityAllPersonages));
+    allPersonages.clear();
+    allPersonages.resize(quantityAllPersonages);
+    for (int i = 0; i < quantityAllPersonages; ++i) {
+        int len;
+        file.read((char *) &len, sizeof(len));
+        file.read((char *) allPersonages[i].name.c_str(), len);
+        file.read((char *) &allPersonages[i].id, sizeof(allPersonages[i].id));
+        file.read((char *) &allPersonages[i].level, sizeof(allPersonages[i].level));
+        file.read((char *) &allPersonages[i].armor, sizeof(allPersonages[i].armor));
+        file.read((char *) &allPersonages[i].damage, sizeof(allPersonages[i].damage));
+        file.read((char *) &allPersonages[i].isHero, sizeof(allPersonages[i].isHero));
+        file.read((char *) &allPersonages[i].positionXY, sizeof(allPersonages[i].positionXY[0]) * 2);
+    }
 }
 
 
