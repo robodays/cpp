@@ -13,11 +13,6 @@ struct Personage {
     int damage;
     bool isHero = false;
     int positionXY[2] = {0,0};
-
-//+ Каждый персонаж игры представлен в виде структуры с полями: имя, жизни, броня, урон.
-//+ Советы и рекомендации
-//+ Для определения команды персонажа можно завести специальный флаг внутри структуры данных персонажа.
-//Для отображения координат персонажей можете использовать структуру вектора из другой задачи, но заменить типы координат.
 };
 
 
@@ -35,6 +30,7 @@ void Attack(Personage& attacker, Personage& defender);
 bool CheckingEndgame(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages);
 void SaveGame(std::vector<Personage>& allPersonages);
 void LoadGame(std::vector<Personage>& allPersonages);
+void CheckingInputData(int& value, int min, int max);
 
 int main() {
     int sizeFieldX = 10;
@@ -90,19 +86,19 @@ int main() {
     return 0;
 }
 
-
 void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax, int yMax) {
-// +Игрок конструирует своего персонажа самостоятельно. Задаёт все его параметры, включая имя.
-    //todo : проверки ввода
     hero.isHero = true;
     std::cout << "Enter name hero: " << std::endl;
     std::cin >> hero.name;
     std::cout << "Enter level hero: " << std::endl;
     std::cin >> hero.level;
+    CheckingInputData(hero.level, 0, 200);
     std::cout << "Enter armor hero: " << std::endl;
     std::cin >> hero.armor;
+    CheckingInputData(hero.armor, 0, 100);
     std::cout << "Enter damage hero: " << std::endl;
     std::cin >> hero.damage;
+    CheckingInputData(hero.damage, 1, 50);
     GeneratePositionPersonage(field, hero.positionXY, xMax, yMax);
     field[hero.positionXY[0]][hero.positionXY[1]] = 'P';
     std::cout << hero.name << " creat!" << std::endl;
@@ -110,9 +106,6 @@ void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax
 }
 
 void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xMax, int yMax) {
-//+ Вначале игры создаются 5 случайных врагов в случайных клетках карты. Имена врагам задаются в формате “Enemy #N”,
-//+ где N — это порядковый номер врага. Уровень жизней врагам задаётся случайно, от 50 до 150. Уровень брони варьируется
-//+ от 0 до 50. Урон тоже выбирается случайно от 15 до 30 единиц.
     enemy.isHero = false;
     enemy.name = "Enemy #" + std::to_string(enemy.id);
     enemy.level = std::rand() % 101 + 50;
@@ -124,7 +117,6 @@ void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xM
 }
 
 void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
-// +Игра происходит на карте размером 40 на 40 клеток.
     for (int i = 0; i < xMax; i++) {
         for (int j = 0; j < yMax; ++j) {
             field[i][j] = '.';
@@ -133,7 +125,6 @@ void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) 
 }
 
 void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
-// -Игра происходит на карте размером 40 на 40 клеток.
     for (int i = 0; i < yMax+2; i++) {
         std::cout << "-";
     }
@@ -152,7 +143,6 @@ void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
 }
 
 void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positionXY[], int xMax, int yMax) {
-    //+Все персонажи появляются в случайных местах карты.
     while (true) {
         int generateXY = std::rand() % (xMax * yMax);
         int x = generateXY / xMax;
@@ -166,9 +156,6 @@ void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positi
 }
 
 void PrintPersonages(std::vector<Personage>& allPersonages) {
-//+ После каждого хода игрока карта показывается вновь со всеми врагами на ней. Игрок помечается буквой P. Враги буквой E.
-//+ Пустые места — точкой.
-
     for (int i = 0; i < allPersonages.size(); ++i) {
         std::cout << "   name: " << allPersonages[i].name;
         std::cout << "   level: " << allPersonages[i].level;
@@ -180,9 +167,6 @@ void PrintPersonages(std::vector<Personage>& allPersonages) {
 }
 
 bool MovingOnField(std::vector<Personage>& allPersonages, int positionXYTmp[]) {
-//+ По клеткам перемещаются враги и персонаж игрока.
-//+ Игрок осуществляет ход с помощью команд: left, right, top, bottom. В зависимости от команды и выбирается направление
-//+ перемещения персонажа: влево, вправо, вверх, вниз.
     std::cout << "Enter command for moving (left, right, top, bottom, save, load): " << std::endl;
     std::string command;
     std::cin >> command;
@@ -210,7 +194,6 @@ bool MovingOnField(std::vector<Personage>& allPersonages, int positionXYTmp[]) {
 }
 
 void GenerateMovingForEnemy(int positionXYTmp[]) {
-//+ Враги перемещаются в случайном направлении.
     int generatingDirection = rand() % 4;
     if (generatingDirection == 0) {
         positionXYTmp[1]--;
@@ -225,10 +208,6 @@ void GenerateMovingForEnemy(int positionXYTmp[]) {
 
 void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
                     int walking, int xMax, int yMax) {
-//+ За пределы карты (40 на 40 клеток) ходить нельзя никому. Если кто-то выбрал направление за гранью дозволенного, ход
-//+ пропускается.
-//+ Если персонаж (враг или игрок) перемещается в сторону, где уже находится какой-то персонаж, то он бьёт этого персонажа
-//+ с помощью своего урона. Враги при этом никогда не бьют врагов, а просто пропускают ход и остаются на своём месте.
     if (positionXYTmp[0] < 0) {
         positionXYTmp[0]++;
     } else if (positionXYTmp[0] >= xMax) {
@@ -257,32 +236,29 @@ void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage
 }
 
 void Attack(Personage& attacker, Personage& defender) {
-//+ Формула для расчёта урона совпадает с той, что была в самом уроке. Жизни уменьшаются на оставшийся после брони урон.
-//+ При этом сама броня тоже сокращается на приведённый урон.
     defender.armor -= attacker.damage;
     if (defender.armor < 0 ) {
         defender.level += defender.armor;
         defender.armor = 0;
     }
+    if (defender.level < 0) defender.level = 0;
 }
 
 bool CheckingEndgame(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages) {
-//+ Игра заканчивается тогда, когда либо умирают все враги, либо персонаж игрока. В первом случае на экран выводится
-//+ сообщение о поражении, во втором — победа.
     if (allPersonages[0].level <= 0) {
-        std::cout << "Winner Enemy!";
+        std::cout << "Winner Enemy!" << std::endl;
         return false;
     } else {
         for (int i = 1; i < allPersonages.size(); ++i) {
             if (allPersonages[i].level <= 0) {
                 field[allPersonages[i].positionXY[0]][allPersonages[i].positionXY[1]] = '.';
+                std::cout << allPersonages[i].name << " dead!" << std::endl;
                 allPersonages.erase(allPersonages.begin()+i);
-                std::cout << "Enemy #" << i << " dead!";
                 break;
             }
         }
         if (allPersonages.size() == 1) {
-            std::cout << "Winner Hero!";
+            std::cout << "Winner Hero!" << std::endl;
             return false;
         }
     }
@@ -290,8 +266,6 @@ bool CheckingEndgame(std::vector<std::vector<char>>& field, std::vector<Personag
 }
 
 void SaveGame(std::vector<Personage>& allPersonages) {
-// Если в начале хода игрок вводит команду save или load вместо направления перемещения, то игра либо делает сохранение
-// своего состояния в файл, либо загружает это состояние из файла соответственно.
     std::ofstream file("save.bin", std::ios::binary);
     int quantityAllPersonages = (int) allPersonages.size();
     file.write((char *)&quantityAllPersonages, sizeof(quantityAllPersonages));
@@ -309,9 +283,6 @@ void SaveGame(std::vector<Personage>& allPersonages) {
 }
 
 void LoadGame (std::vector<Personage>& allPersonages) {
-// Если в начале хода игрок вводит команду save или load вместо направления перемещения, то игра либо делает сохранение
-// своего состояния в файл, либо загружает это состояние из файла соответственно.
-
     std::ifstream file("save.bin", std::ios::binary);
     int quantityAllPersonages;
     file.read((char *)&quantityAllPersonages, sizeof(quantityAllPersonages));
@@ -320,6 +291,8 @@ void LoadGame (std::vector<Personage>& allPersonages) {
     for (int i = 0; i < quantityAllPersonages; ++i) {
         int len;
         file.read((char *) &len, sizeof(len));
+        allPersonages[i].name.clear();
+        allPersonages[i].name.resize(len);
         file.read((char *) allPersonages[i].name.c_str(), len);
         file.read((char *) &allPersonages[i].id, sizeof(allPersonages[i].id));
         file.read((char *) &allPersonages[i].level, sizeof(allPersonages[i].level));
@@ -327,6 +300,13 @@ void LoadGame (std::vector<Personage>& allPersonages) {
         file.read((char *) &allPersonages[i].damage, sizeof(allPersonages[i].damage));
         file.read((char *) &allPersonages[i].isHero, sizeof(allPersonages[i].isHero));
         file.read((char *) &allPersonages[i].positionXY, sizeof(allPersonages[i].positionXY[0]) * 2);
+    }
+}
+
+void CheckingInputData(int& value, int min, int max) {
+    while(value < min || value > max) {
+        std::cout << "Enter again (" << min << " - " << max << "): " << std::endl;
+        std::cin >> value;
     }
 }
 
