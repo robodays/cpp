@@ -15,20 +15,19 @@ struct Personage {
     int positionXY[2] = {0,0};
 };
 
-
 void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax, int yMax);
 void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positionXY[], int xMax, int yMax);
 void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xMax, int yMax);
-void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
+void PrintGameField(const std::vector<std::vector<char>>& field, int xMax, int yMax);
 void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax);
-void PrintPersonages(std::vector<Personage>& allPersonages);
+void PrintPersonages(const std::vector<Personage>& allPersonages);
 bool MovingOnField(std::vector<Personage>& allPersonages, int positionXYTmp[]);
 void GenerateMovingForEnemy(int positionXYTmp[]);
 void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
                     int walking, int xMax, int yMax);
-void Attack(Personage& attacker, Personage& defender);
+void Attack(const Personage& attacker, Personage& defender);
 bool CheckingEndgame(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages);
-void SaveGame(std::vector<Personage>& allPersonages);
+void SaveGame(const std::vector<Personage>& allPersonages);
 void LoadGame(std::vector<Personage>& allPersonages);
 void CheckingInputData(int& value, int min, int max);
 
@@ -86,7 +85,7 @@ int main() {
     return 0;
 }
 
-void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax, int yMax) {
+void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, const int xMax, const int yMax) {
     hero.isHero = true;
     std::cout << "Enter name hero: " << std::endl;
     std::cin >> hero.name;
@@ -105,7 +104,7 @@ void CreateHero(std::vector<std::vector<char>>& field, Personage& hero, int xMax
 
 }
 
-void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xMax, int yMax) {
+void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, const int xMax, const int yMax) {
     enemy.isHero = false;
     enemy.name = "Enemy #" + std::to_string(enemy.id);
     enemy.level = std::rand() % 101 + 50;
@@ -116,7 +115,7 @@ void CreateEnemy(std::vector<std::vector<char>>& field, Personage& enemy, int xM
     std::cout << enemy.name << " creat!" << std::endl;
 }
 
-void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
+void CreateGameField(std::vector<std::vector<char>>& field, const int xMax, const int yMax) {
     for (int i = 0; i < xMax; i++) {
         for (int j = 0; j < yMax; ++j) {
             field[i][j] = '.';
@@ -124,7 +123,7 @@ void CreateGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) 
     }
 }
 
-void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
+void PrintGameField(const std::vector<std::vector<char>>& field, const int xMax, const int yMax) {
     for (int i = 0; i < yMax+2; i++) {
         std::cout << "-";
     }
@@ -142,7 +141,7 @@ void PrintGameField(std::vector<std::vector<char>>& field, int xMax, int yMax) {
     std::cout << std::endl;
 }
 
-void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positionXY[], int xMax, int yMax) {
+void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positionXY[], const int xMax, const int yMax) {
     while (true) {
         int generateXY = std::rand() % (xMax * yMax);
         int x = generateXY / xMax;
@@ -155,7 +154,7 @@ void GeneratePositionPersonage(std::vector<std::vector<char>>& field, int positi
     }
 }
 
-void PrintPersonages(std::vector<Personage>& allPersonages) {
+void PrintPersonages(const std::vector<Personage>& allPersonages) {
     for (int i = 0; i < allPersonages.size(); ++i) {
         std::cout << "   name: " << allPersonages[i].name;
         std::cout << "   level: " << allPersonages[i].level;
@@ -207,7 +206,7 @@ void GenerateMovingForEnemy(int positionXYTmp[]) {
 }
 
 void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage>& allPersonages, int positionXYTmp[],
-                    int walking, int xMax, int yMax) {
+                    const int walking, const int xMax, const int yMax) {
     if (positionXYTmp[0] < 0) {
         positionXYTmp[0]++;
     } else if (positionXYTmp[0] >= xMax) {
@@ -235,7 +234,7 @@ void CheckingMoving(std::vector<std::vector<char>>& field, std::vector<Personage
     }
 }
 
-void Attack(Personage& attacker, Personage& defender) {
+void Attack(const Personage& attacker, Personage& defender) {
     defender.armor -= attacker.damage;
     if (defender.armor < 0 ) {
         defender.level += defender.armor;
@@ -265,7 +264,7 @@ bool CheckingEndgame(std::vector<std::vector<char>>& field, std::vector<Personag
     return true;
 }
 
-void SaveGame(std::vector<Personage>& allPersonages) {
+void SaveGame(const std::vector<Personage>& allPersonages) {
     std::ofstream file("save.bin", std::ios::binary);
     int quantityAllPersonages = (int) allPersonages.size();
     file.write((char *)&quantityAllPersonages, sizeof(quantityAllPersonages));
@@ -303,7 +302,7 @@ void LoadGame (std::vector<Personage>& allPersonages) {
     }
 }
 
-void CheckingInputData(int& value, int min, int max) {
+void CheckingInputData(int& value, const int min, const int max) {
     while(value < min || value > max) {
         std::cout << "Enter again (" << min << " - " << max << "): " << std::endl;
         std::cin >> value;

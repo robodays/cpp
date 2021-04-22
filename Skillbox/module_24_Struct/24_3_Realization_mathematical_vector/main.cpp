@@ -3,9 +3,9 @@
 #include <cmath>
 
 struct Vector {
-    float x;
-    float y;
-    float length;
+    float x = 0.;
+    float y = 0.;
+    float length = 0.;
 };
 
 std::string InputCommand(std::string listCommands[], int size);
@@ -13,11 +13,11 @@ Vector InputVector(Vector& vector, const std::string&);
 float InputFloat();
 void printResult(Vector vector, const std::string& command);
 // Adding two vectors — add.
-Vector Add();
+Vector Add(Vector& vec1, Vector& vec2);
 // subtracting two vectors — subtract.
-Vector Subtract();
+Vector Subtract(Vector& vec1, Vector& vec2);
 // Multiplying a vector by a scalar - scale.
-Vector Scale();
+Vector Scale(Vector& vec1, float scalar);
 // Finding the length of a vector — length.
 Vector Length();
 // Нормализация вектора — команда normalize.
@@ -30,11 +30,34 @@ int main() {
     std::cout << "Realization mathematical vector." << std::endl;
     std::string command;
     command = InputCommand(listCommands, countCommands);
-    if (command == "add") vector = Add();
-    else if (command == "subtract") vector = Subtract();
-    else if (command == "scale") vector = Scale();
-    else if (command == "length") vector = Length();
-    else vector = Normalize();
+    if (command == "add") {
+        std::cout << "Adding two vectors." << std::endl;
+        Vector vec1,vec2;
+        vec1 = InputVector(vec1, "No.1 ");
+        vec2 = InputVector(vec2, "No.2 ");
+        vector = Add(vec1,vec2);
+    }
+    else if (command == "subtract") {
+        std::cout << "Subtracting two vectors." << std::endl;
+        Vector vec1,vec2;
+        vec1 = InputVector(vec1, "No.1 ");
+        vec2 = InputVector(vec2, "No.2 ");
+        vector = Subtract(vec1,vec2);
+    }
+    else if (command == "scale") {
+        std::cout << "Multiplying a vector by a scalar." << std::endl;
+        Vector vec;
+        vec = InputVector(vec,"");
+        float scalar;
+        scalar = InputFloat();
+        vector = Scale(vec, scalar);
+    }
+    else if (command == "length") {
+        vector = Length();
+    }
+    else {
+        vector = Normalize();
+    }
 
     printResult(vector, command);
     return 0;
@@ -93,33 +116,20 @@ float InputFloat() {
 }
 
 // Adding two vectors — add.
-Vector Add() {
-    std::cout << "Adding two vectors." << std::endl;
-    Vector vec1,vec2;
-    vec1 = InputVector(vec1, "No.1 ");
-    vec2 = InputVector(vec2, "No.2 ");
+Vector Add(Vector& vec1, Vector& vec2) {
     vec1.x += vec2.x;
     vec1.y += vec2.y;
     return vec1;
 }
 
 // subtracting two vectors — subtract.
-Vector Subtract() {
-    std::cout << "Subtracting two vectors." << std::endl;
-    Vector vec1,vec2;
-    vec1 = InputVector(vec1, "No.1 ");
-    vec2 = InputVector(vec2, "No.2 ");
+Vector Subtract(Vector& vec1, Vector& vec2) {
     vec1.x -= vec2.x;
     vec1.y -= vec2.y;
     return vec1;
 }
 // Multiplying a vector by a scalar - scale.
-Vector Scale() {
-    std::cout << "Multiplying a vector by a scalar." << std::endl;
-    Vector vec;
-    vec = InputVector(vec);
-    float scalar;
-    scalar = InputFloat();
+Vector Scale(Vector& vec, float scalar) {
     vec.x *= scalar;
     vec.y *= scalar;
     return vec;
