@@ -8,62 +8,67 @@ struct Vector {
     float length = 0.;
 };
 
-std::string InputCommand(std::string listCommands[], int size);
-Vector InputVector(Vector& vector, const std::string&);
-float InputFloat();
-void printResult(Vector vector, const std::string& command);
+void InputCommand(std::string& input, std::string listCommands[], int size);
+void InputVector(Vector& vector, const std::string& = "");
+float InputFloat(float num);
+void printResult(const Vector& vector, const std::string& command);
 // Adding two vectors — add.
-Vector Add(Vector& vec1, Vector& vec2);
+void Add(Vector& vec1, Vector& vec2);
 // subtracting two vectors — subtract.
-Vector Subtract(Vector& vec1, Vector& vec2);
+void Subtract(Vector& vec1, Vector& vec2);
 // Multiplying a vector by a scalar - scale.
-Vector Scale(Vector& vec1, float scalar);
+void Scale(Vector& vec1, float scalar);
 // Finding the length of a vector — length.
-Vector Length();
+void Length(Vector& vec1);
 // Нормализация вектора — команда normalize.
-Vector Normalize();
+void Normalize(Vector& vec1);
 
 int main() {
     int countCommands = 5;
     std::string listCommands[5] = {"add","subtract","scale","length","normalize"};
-    Vector vector;
     std::cout << "Realization mathematical vector." << std::endl;
     std::string command;
-    command = InputCommand(listCommands, countCommands);
+    std::cout << R"(Enter command ("add","subtract","scale","length","normalize"):)" << std::endl;
+    std::cin >> command;
+    InputCommand(command, listCommands, countCommands);
+    Vector vec1;
     if (command == "add") {
         std::cout << "Adding two vectors." << std::endl;
-        Vector vec1,vec2;
-        vec1 = InputVector(vec1, "No.1 ");
-        vec2 = InputVector(vec2, "No.2 ");
-        vector = Add(vec1,vec2);
+        Vector vec2;
+        InputVector(vec1, "No.1 ");
+        InputVector(vec2, "No.2 ");
+        Add(vec1,vec2);
     }
     else if (command == "subtract") {
         std::cout << "Subtracting two vectors." << std::endl;
-        Vector vec1,vec2;
-        vec1 = InputVector(vec1, "No.1 ");
-        vec2 = InputVector(vec2, "No.2 ");
-        vector = Subtract(vec1,vec2);
+        Vector vec2;
+        InputVector(vec1, "No.1 ");
+        InputVector(vec2, "No.2 ");
+        Subtract(vec1,vec2);
     }
     else if (command == "scale") {
         std::cout << "Multiplying a vector by a scalar." << std::endl;
-        Vector vec;
-        vec = InputVector(vec,"");
-        float scalar;
-        scalar = InputFloat();
-        vector = Scale(vec, scalar);
+        InputVector(vec1);
+        float scalar = 0;
+        scalar = InputFloat(scalar);
+        Scale(vec1, scalar);
     }
     else if (command == "length") {
-        vector = Length();
+        std::cout << "Finding the length of a vector." << std::endl;
+        InputVector(vec1);
+        Length(vec1);
     }
     else {
-        vector = Normalize();
+        std::cout << "Finding the length of a vector." << std::endl;
+        InputVector(vec1);
+        Length(vec1);
+        Normalize(vec1);
     }
-
-    printResult(vector, command);
+    printResult(vec1, command);
     return 0;
 }
 
-void printResult(Vector vector, const std::string& command) {
+void printResult(const Vector& vector, const std::string& command) {
     if (command == "length") {
         std::cout << "Length vector equal " << vector.length << std::endl;
     } else {
@@ -71,21 +76,25 @@ void printResult(Vector vector, const std::string& command) {
     }
 }
 
-std::string InputCommand(std::string listCommands[], int size) {
+void InputCommand(std::string& input, std::string listCommands[], int size) {
     while(true) {
-        std::cout << R"(Enter command ("add","subtract","scale","length","normalize"):)" << std::endl;
-        std::string input;
-        std::cin >> input;
+        bool isCorrectInput = false;
         for (int i = 0; i < size; i++) {
             if (listCommands[i] == input) {
-                return input;
+                isCorrectInput = true;
+                break;
             }
         }
+        if (isCorrectInput) {
+            break;
+        }
         std::cout << "That input is invalid.  Please try again." << std::endl;
+        std::cout << R"(Enter command ("add","subtract","scale","length","normalize"):)" << std::endl;
+        std::cin >> input;
     }
 }
 
-Vector InputVector(Vector& vector, const std::string& addedStr= "") {
+void InputVector(Vector& vector, const std::string& addedStr) {
     while (true) {
         std::cout << "Enter vector " << addedStr << "separated by a space (X Y): " << std::endl;
         std::cin >> vector.x >> vector.y;
@@ -93,13 +102,12 @@ Vector InputVector(Vector& vector, const std::string& addedStr= "") {
             std::cin.clear(); // then we return cin to the 'normal' mode of operation
             std::cin.ignore(32767,'\n'); // and delete the values of the previous input from the input buffer
         } else {
-            return vector;
+            break;
         }
     }
 }
 
-float InputFloat() {
-    float num;
+float InputFloat(float num) {
     while (true) {
         std::cout << "Enter number (0 - 100): " << std::endl;
         std::cin >> num;
@@ -116,42 +124,30 @@ float InputFloat() {
 }
 
 // Adding two vectors — add.
-Vector Add(Vector& vec1, Vector& vec2) {
+void Add(Vector& vec1, Vector& vec2) {
     vec1.x += vec2.x;
     vec1.y += vec2.y;
-    return vec1;
 }
 
 // subtracting two vectors — subtract.
-Vector Subtract(Vector& vec1, Vector& vec2) {
+void Subtract(Vector& vec1, Vector& vec2) {
     vec1.x -= vec2.x;
     vec1.y -= vec2.y;
-    return vec1;
 }
 // Multiplying a vector by a scalar - scale.
-Vector Scale(Vector& vec, float scalar) {
+void Scale(Vector& vec, float scalar) {
     vec.x *= scalar;
     vec.y *= scalar;
-    return vec;
 }
 
 // Finding the length of a vector — length.
-Vector Length() {
-    std::cout << "Finding the length of a vector." << std::endl;
-    Vector vec;
-    vec = InputVector(vec);
+void Length(Vector& vec) {
     vec.length = sqrtf(powf(vec.x,2) + powf(vec.y,2));
-    return vec;
 }
 // Нормализация вектора — команда normalize.
-Vector Normalize() {
-    std::cout << "Finding the length of a vector." << std::endl;
-    Vector vec;
-    vec = InputVector(vec);
-    vec.length = sqrtf(powf(vec.x,2) + powf(vec.y,2));
+void Normalize(Vector& vec) {
     vec.x /= vec.length;
     vec.y /= vec.length;
-    return vec;
 }
 
 /*
