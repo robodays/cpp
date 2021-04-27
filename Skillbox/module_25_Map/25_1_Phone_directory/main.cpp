@@ -3,7 +3,7 @@
 #include <map>
 
 void Add(std::map<std::string, std::string>& directory);
-void FindPhone(std::map<std::string, std::string>& directory);
+void FindPhone(const std::map<std::string, std::string>& directory);
 void FindName(std::map<std::string, std::string>& directory);
 void Print(std::map<std::string, std::string>& directory);
 
@@ -65,13 +65,13 @@ void FindName(std::map<std::string, std::string>& directory) {
     }
 }
 
-void FindPhone(std::map<std::string, std::string>& directory) {
+void FindPhone(const std::map<std::string, std::string>& directory) {
     std::cout << "Find phone." << std::endl;
     std::cout << "  Enter last name: " << std::endl;
     std::string lastName;
     std::cin >> lastName;
     bool nothingFound = true;
-    for (auto record : directory) {
+    for (const auto& record : directory) {
         if (record.second == lastName) {
             std::cout << record.first << std::endl;
             nothingFound = false;

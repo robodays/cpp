@@ -3,7 +3,6 @@
 #include <string>
 
 void PrintLastName(std::map<std::string, std::string>& lastName);
-
 void AddLastName(std::map<std::string, std::string>& lastNameMap, const std::string& str, int count);
 
 int main() {
@@ -22,18 +21,21 @@ int main() {
             AddLastName(lastName, inputString, count);
             count++;
         }
-
     }
     return 0;
 }
 
-void AddLastName(std::map<std::string, std::string>& lastNameMap, const std::string& str, int count) {
+void AddLastName(std::map<std::string, std::string>& lastNameMap, const std::string& str, const int count) {
     lastNameMap.insert(std::make_pair(str + std::to_string(count), str));
 }
 
 void PrintLastName(std::map<std::string, std::string>& lastNameMap) {
-    std::cout << lastNameMap[lastNameMap.begin()] << std::endl;
-    lastNameMap.erase(lastNameMap.begin());
+    if (!lastNameMap.empty()) {
+        std::cout << lastNameMap.begin()->second << std::endl;
+        lastNameMap.erase(lastNameMap.begin());
+    } else {
+        std::cout << "The list is empty!" << std::endl;
+    }
 }
 /*
 Регистратура
