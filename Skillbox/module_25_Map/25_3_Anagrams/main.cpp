@@ -17,6 +17,23 @@ int main() {
 }
 
 bool CheckAnagrams(std::string& str1, std::string& str2) {
+    std::map<char, int> map;
+    for (char ch : str1) {
+        map[ch]++;
+    }
+    for (char ch : str2) {
+        map[ch]--;
+    }
+    for (auto it = map.begin(); it != map.end();) {
+        if (it->second == 0) {
+            it = map.erase(it);
+        } else {
+            it++;
+        };
+    }
+    return map.empty();
+
+    /*
     std::map<char, int> map1, map2;
     for (char ch : str1) {
         map1[ch]++;
@@ -25,6 +42,8 @@ bool CheckAnagrams(std::string& str1, std::string& str2) {
         map2[ch]++;
     }
     return map1 == map2;
+
+     */
 }
 /*
 Анаграммы

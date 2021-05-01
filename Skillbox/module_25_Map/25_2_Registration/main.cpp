@@ -2,12 +2,12 @@
 #include <map>
 #include <string>
 
-void PrintLastName(std::map<std::string, std::string>& lastName);
-void AddLastName(std::map<std::string, std::string>& lastNameMap, const std::string& str, int count);
+void PrintLastName(std::map<std::string, int>& lastName);
+void AddLastName(std::map<std::string, int>& lastNameMap, const std::string& str);
 
 int main() {
     std::cout << "Registration." << std::endl;
-    std::map<std::string, std::string> lastName;
+    std::map<std::string, int> lastName;
     std::cout << "Enter last name, \"next\" or \"exit\"" << std::endl;
     std::string inputString;
     int count = 0;
@@ -18,21 +18,29 @@ int main() {
         } else if (inputString == "next") {
             PrintLastName(lastName);
         } else {
-            AddLastName(lastName, inputString, count);
+            AddLastName(lastName, inputString);
             count++;
         }
     }
     return 0;
 }
 
-void AddLastName(std::map<std::string, std::string>& lastNameMap, const std::string& str, const int count) {
-    lastNameMap.insert(std::make_pair(str + std::to_string(count), str));
+void AddLastName(std::map<std::string, int>& lastNameMap, const std::string& str) {
+    if (lastNameMap.count(str) > 0) {
+        auto itf = lastNameMap.find(str);
+        lastNameMap[itf->first]++;
+    } else {
+        lastNameMap.insert(std::make_pair(str, 1));
+    }
 }
 
-void PrintLastName(std::map<std::string, std::string>& lastNameMap) {
+void PrintLastName(std::map<std::string, int>& lastNameMap) {
     if (!lastNameMap.empty()) {
-        std::cout << lastNameMap.begin()->second << std::endl;
-        lastNameMap.erase(lastNameMap.begin());
+        std::cout << lastNameMap.begin()->first << std::endl;
+        lastNameMap.begin()->second--;
+        if (lastNameMap.begin()->second == 0) {
+            lastNameMap.erase(lastNameMap.begin());
+        }
     } else {
         std::cout << "The list is empty!" << std::endl;
     }
