@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/17_6_Multiplying_matrix_by_vector.dir/main.cpp.o  -o 17_6_Multiplying_matrix_by_vector 

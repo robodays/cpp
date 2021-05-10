@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/17_7_Bubble_wrap.dir/main.cpp.o  -o 17_7_Bubble_wrap 

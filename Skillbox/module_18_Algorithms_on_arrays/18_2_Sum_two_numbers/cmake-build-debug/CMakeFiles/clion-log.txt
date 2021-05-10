@@ -1,4 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2020.3.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" "D:\github\cpp\Skillbox\module_18_Algorithms_on _arrays\18_2_Sum_two_numbers"
--- Configuring done
--- Generating done
--- Build files have been written to: D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_2_Sum_two_numbers/cmake-build-debug

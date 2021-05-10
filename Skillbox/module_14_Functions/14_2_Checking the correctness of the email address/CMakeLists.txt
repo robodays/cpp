@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 3.17)
-project(14_2_Checking_the_correctness_of_the_email_address)
-
-set(CMAKE_CXX_STANDARD 14)
-
-add_executable(14_2_Checking_the_correctness_of_the_email_address main.cpp)

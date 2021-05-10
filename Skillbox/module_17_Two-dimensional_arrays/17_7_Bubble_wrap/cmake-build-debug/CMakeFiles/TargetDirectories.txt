@@ -1,3 +1,0 @@
-/home/vladimir/cppgit/Skillbox/module_17/17_7_Bubble_wrap/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/vladimir/cppgit/Skillbox/module_17/17_7_Bubble_wrap/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/vladimir/cppgit/Skillbox/module_17/17_7_Bubble_wrap/cmake-build-debug/CMakeFiles/17_7_Bubble_wrap.dir

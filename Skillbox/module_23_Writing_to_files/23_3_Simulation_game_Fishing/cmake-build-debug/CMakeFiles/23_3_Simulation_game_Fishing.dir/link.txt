@@ -1,3 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2020.3.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\23_3_Simulation_game_Fishing.dir/objects.a
-C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ar.exe cr CMakeFiles\23_3_Simulation_game_Fishing.dir/objects.a @CMakeFiles\23_3_Simulation_game_Fishing.dir\objects1.rsp
-C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE -g   -Wl,--whole-archive CMakeFiles\23_3_Simulation_game_Fishing.dir/objects.a -Wl,--no-whole-archive  -o 23_3_Simulation_game_Fishing.exe -Wl,--out-implib,lib23_3_Simulation_game_Fishing.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\23_3_Simulation_game_Fishing.dir\linklibs.rsp

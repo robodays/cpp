@@ -1,3 +1,0 @@
-D:/github/cpp/Skillbox/module_17/17_9_Sea_battle/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/github/cpp/Skillbox/module_17/17_9_Sea_battle/cmake-build-debug/CMakeFiles/17_9_Sea_battle.dir
-D:/github/cpp/Skillbox/module_17/17_9_Sea_battle/cmake-build-debug/CMakeFiles/rebuild_cache.dir
