@@ -2,6 +2,7 @@
 !*/
 !*.cpp
 !*.hpp
+!*.h
 !*git.bin
 !*git.txt
 
