@@ -5,6 +5,10 @@
 !*.h
 !*git.bin
 !*git.txt
+!Qt/**/*.*
+!test/**/*.*
+!lessons/**/*.*
+!intensive_lesson/**/*.*
 
 
 *.xml
