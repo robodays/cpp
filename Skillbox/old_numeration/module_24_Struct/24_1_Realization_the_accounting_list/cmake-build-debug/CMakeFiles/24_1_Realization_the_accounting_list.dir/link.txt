@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2020.3.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\24_1_Realization_the_accounting_list.dir/objects.a
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ar.exe cr CMakeFiles\24_1_Realization_the_accounting_list.dir/objects.a @CMakeFiles\24_1_Realization_the_accounting_list.dir\objects1.rsp
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE -g   -Wl,--whole-archive CMakeFiles\24_1_Realization_the_accounting_list.dir/objects.a -Wl,--no-whole-archive  -o 24_1_Realization_the_accounting_list.exe -Wl,--out-implib,lib24_1_Realization_the_accounting_list.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\24_1_Realization_the_accounting_list.dir\linklibs.rsp

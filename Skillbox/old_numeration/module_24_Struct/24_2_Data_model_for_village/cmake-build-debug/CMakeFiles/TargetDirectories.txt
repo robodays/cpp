@@ -1,0 +1,3 @@
+D:/github/cpp/Skillbox/module_24_Struct/24_2_Data_model_for_village/cmake-build-debug/CMakeFiles/24_2_Data_model_for_village.dir
+D:/github/cpp/Skillbox/module_24_Struct/24_2_Data_model_for_village/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/github/cpp/Skillbox/module_24_Struct/24_2_Data_model_for_village/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,3 @@
+D:/github/cpp/Skillbox/module_24_Struct/24_1_Realization_the_accounting_list/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/github/cpp/Skillbox/module_24_Struct/24_1_Realization_the_accounting_list/cmake-build-debug/CMakeFiles/24_1_Realization_the_accounting_list.dir
+D:/github/cpp/Skillbox/module_24_Struct/24_1_Realization_the_accounting_list/cmake-build-debug/CMakeFiles/edit_cache.dir

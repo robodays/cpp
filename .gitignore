@@ -9,6 +9,7 @@
 !test/**/*.*
 !lessons/**/*.*
 !intensive_lesson/**/*.*
+!Skillbox/old_numeration/**/*.*
 
 
 *.xml
