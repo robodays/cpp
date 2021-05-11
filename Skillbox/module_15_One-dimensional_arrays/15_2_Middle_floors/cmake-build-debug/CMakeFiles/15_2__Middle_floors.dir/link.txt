@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/15_2__Middle_floors.dir/main.cpp.o  -o 15_2__Middle_floors 

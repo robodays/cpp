@@ -1,3 +1,0 @@
-D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_2_Sum_two_numbers/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_2_Sum_two_numbers/cmake-build-debug/CMakeFiles/18_2_Sum_two_numbers.dir
-D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_2_Sum_two_numbers/cmake-build-debug/CMakeFiles/edit_cache.dir

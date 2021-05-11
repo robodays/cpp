@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/17_8_Almost_Minecraft.dir/main.cpp.o  -o 17_8_Almost_Minecraft 

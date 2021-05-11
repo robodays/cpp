@@ -1,3 +1,0 @@
-D:/github/cpp/Skillbox/module_20_Pointers/20_3_Task3/cmake-build-debug/CMakeFiles/20_3_Task3.dir
-D:/github/cpp/Skillbox/module_20_Pointers/20_3_Task3/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/github/cpp/Skillbox/module_20_Pointers/20_3_Task3/cmake-build-debug/CMakeFiles/rebuild_cache.dir

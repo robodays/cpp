@@ -1,3 +1,0 @@
-D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_3_Fifth_in_ascending/cmake-build-debug/CMakeFiles/18_3_Fifth_in_ascending.dir
-D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_3_Fifth_in_ascending/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/github/cpp/Skillbox/module_18_Algorithms_on _arrays/18_3_Fifth_in_ascending/cmake-build-debug/CMakeFiles/rebuild_cache.dir
