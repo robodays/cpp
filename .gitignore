@@ -11,7 +11,7 @@
 !lessons/**/*.*
 !intensive_lesson/**/*.*
 !Skillbox/old_numeration/**/*.*
-
+!guide/**/*.*
 
 *.xml
 *.iml
