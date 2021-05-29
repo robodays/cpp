@@ -96,3 +96,65 @@ int main() {
 
     return 0;
 }
+
+// “Shift-Shift -> Preprocess current TU”.
+
+В языке Си довольно распространенной практикой является объявление глобальных констант с помощью директивы #define:
+#define PI 3.14159
+#undef PI
+
+//#define SWAP(type, a, b) type tmp = a; a = b; b = tmp;
+//SWAP(int, num1, num2)
+//SWAP(float, num1, num2)
+
+typeof в языке C или decltype в C++. С их помощью можно удобно объявлять переменную tmp того же типа, 
+что и переданные аргументы
+#define SWAP(a, b) decltype(a) tmp = a; a = b; b = tmp;
+
+Макросы также можно записывать в несколько строк, но тогда каждая строка, кроме последней, должна 
+заканчиваться символом '\':
+#define SWAP(a, b) \
+  decltype(a) tmp = a; \
+  a = b; \
+  b = tmp;
+
+Параметр макроса можно превратить в строку, добавив перед ним знак '#':
+#define PRINT_VAL(val) printf("Value of %s is %d", #val, val);
+int x = 5;
+PRINT_VAL(x)  // -> Value of x is 5
+
+А еще параметр можно приклеить к чему-то еще, чтобы получился новый идентификатор. 
+Для этого между параметром и тем, с чем мы его склеиваем, нужно поставить '##':
+#define PRINT_VAL (number) printf("%d", value_##number);
+int value_one = 10, value_two = 20;
+PRINT_VAL(one)  // -> 10
+PRINT_VAL(two)  // -> 20
+
+у макросов должна быть объявлена своя область видимости
+#define MACRO() do { \
+    doSomething(); \
+    doSomethingElse(); \
+  } while(0)
+
+В языке Си при помощи макросов можно эффективно избавляться от дублирования кода. Банальный 
+пример - объявим несколько функций сложения для работы с разными типами данных:
+#define DEF_SUM(type) type sum_##type (type a, type b) { \
+     type result = a + b; \
+     return result; \
+}
+Теперь чтобы нагенерировать таких функций для нужных нам типов, нужно просто использовать 
+пару раз этот макрос в глобальной зоне видимости:
+DEF_SUM(int)
+DEF_SUM(float)
+DEF_SUM(double)
+int main() {      
+  sum_int(1, 2);   
+  sum_float(2.4, 6,3);  
+  sum_double(1.43434, 2,546656);
+}
+
+
+
+
+
+
