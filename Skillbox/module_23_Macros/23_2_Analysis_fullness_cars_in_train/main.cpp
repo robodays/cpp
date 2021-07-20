@@ -1,16 +1,60 @@
 #include <iostream>
+#define OVERLOAD(passengers) (passengers > 20) ? 1 : 0
+#define EMPTY(passengers) (passengers == 0) ? 1 : 0
+
+
+void Overload(int passengers[]) {
+    int count = 0;
+    for (int i = 0; i < 10; ++i) {
+        count += OVERLOAD(passengers[i]);
+    }
+    std::cout << "Overload car: " << count << std::endl;
+}
+
+void Empty(int passengers[]) {
+    int count = 0;
+    for (int i = 0; i < 10; ++i) {
+        count += EMPTY(passengers[i]);
+    }
+    std::cout << "Empty car: " << count << std::endl;
+}
+
+void Sum(int passengers[]) {
+    int count = 0;
+    for (int i = 0; i < 10; ++i) {
+        count += passengers[i];
+    }
+    std::cout << "All passengers: " << count << std::endl;
+}
+
 
 int main() {
     std::cout << "Analysis fullness cars in train" << std::endl;
     std::cout << "Enter count passengers in car train: " << std::endl;
     int car[10];
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 10; ++i) {
         std::cout << "Car " << i << ": " << std::endl;
         std::cin >> car[i];
     }
 
+    //Вариант 1
+    Overload(car);
+    Empty(car);
+    Sum(car);
 
-
+    //Вариант 2
+/*  int OverloadCount = 0;
+    int EmptyCount = 0;
+    int SumCount = 0;
+    for (int i = 0; i < 10; ++i) {
+        OverloadCount += OVERLOAD(car[i]);
+        EmptyCount += EMPTY(car[i]);
+        SumCount += car[i];
+    }
+    std::cout << "Overload car: " << OverloadCount << std::endl;
+    std::cout << "Empty car: " << EmptyCount << std::endl;
+    std::cout << "All passengers: " << SumCount << std::endl;
+*/
     return 0;
 }
 /*

@@ -13,7 +13,7 @@
 #define FRIDAY_TEXT "Friday"
 #define SATURDAY_TEXT "Saturday"
 #define SUNDAY_TEXT "Sunday"
-#define CONCAT(a,b) a ## b
+#define CONCAT(a,b) a ## _ ## b
 
 int main() {
     std::cout << "Input output the days week." << std::endl;
@@ -23,19 +23,19 @@ int main() {
         std::cin >> command;
 
         if (MONDAY == command) {
-            std::cout << CONCAT(MONDAY,_TEXT) << std::endl;
+            std::cout << CONCAT(MONDAY, TEXT) << std::endl;
         } else if (TUESDAY == command) {
-            std::cout << CONCAT(TUESDAY,_TEXT) << std::endl;
+            std::cout << CONCAT(TUESDAY, TEXT) << std::endl;
         } else if (WEDNESDAY == command) {
-            std::cout << CONCAT(WEDNESDAY,_TEXT) << std::endl;
+            std::cout << CONCAT(WEDNESDAY, TEXT) << std::endl;
         } else if (THURSDAY == command) {
-            std::cout << CONCAT(THURSDAY,_TEXT) << std::endl;
+            std::cout << CONCAT(THURSDAY, TEXT) << std::endl;
         } else if (FRIDAY == command) {
-            std::cout << CONCAT(FRIDAY,_TEXT) << std::endl;
+            std::cout << CONCAT(FRIDAY, TEXT) << std::endl;
         } else if (SATURDAY == command) {
-            std::cout << CONCAT(SATURDAY,_TEXT) << std::endl;
+            std::cout << CONCAT(SATURDAY, TEXT) << std::endl;
         } else if (SUNDAY == command) {
-            std::cout << CONCAT(SUNDAY,_TEXT) << std::endl;
+            std::cout << CONCAT(SUNDAY, TEXT) << std::endl;
         } else if (0 == command) {
             break;
         } else {
