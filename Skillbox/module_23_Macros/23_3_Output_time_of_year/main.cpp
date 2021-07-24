@@ -1,18 +1,34 @@
 #include <iostream>
-#define SPRING "SPRING"
-#define SUMMER "SUMMER"
-#define AUTUMN "AUTUMN"
-#define WINTER "WINTER"
+//#define SPRING
+//#define SUMMER
+#define AUTUMN
+//#define WINTER
 
+#ifdef SPRING
 int main() {
-    std::cout << SPRING << std::endl;
-#if 0
-    std::cout << SUMMER << std::endl;
-    std::cout << AUTUMN << std::endl;
-    std::cout << WINTER << std::endl;
-#endif
+    std::cout << "SPRING" << std::endl;
     return 0;
 }
+#endif
+#ifdef SUMMER
+int main() {
+    std::cout << "SUMMER" << std::endl;
+    return 0;
+}
+#endif
+#ifdef AUTUMN
+int main() {
+    std::cout << "AUTUMN" << std::endl;
+    return 0;
+}
+#endif
+#ifdef WINTER
+int main() {
+    std::cout << "WINTER" << std::endl;
+    return 0;
+}
+#endif
+
 /*
 Задание 3. Вывод времени года
 

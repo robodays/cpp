@@ -62,6 +62,8 @@ int main() {
             std::cout << "Enter LEFT";
         } else if (command2 == RIGHT) {
             std::cout << "Enter RIGHT" << std::endl;
+//  	} else if (command2 == UP | LEFT) {
+//      	std::cout << "Enter UP and LEFT" << std::endl;
         } else if (command2 == UP_LEFT) {
             std::cout << "Enter UP_LEFT" << std::endl;
         } else if (command2 == UP_RIGHT) {
