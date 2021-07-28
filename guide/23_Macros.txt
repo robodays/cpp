@@ -101,6 +101,53 @@ int main() {
 
 // УShift-Shift -> Preprocess current TUФ.
 
+
+#include <iostream>
+
+#define CALL_FUNCTION(func) for (int i = 0; i < 10; ++i) { func(i, cars[i]); }
+
+void check_overflow(int index, int count)
+{
+    if (count > 20)
+    {
+        std::cerr << "Car overflow: #" << index << std::endl;
+    }
+}
+
+void check_suboptimal(int index, int count)
+{
+    if (count < 20)
+    {
+        std::cerr << "Car suboptimal: #" << index << std::endl;
+    }
+}
+
+int total_count = 0;
+void count_total(int index, int count)
+{
+    total_count += count;
+}
+
+int main()
+{
+    int cars[10];
+    for (int i = 0; i < 10; ++i)
+    {
+        std::cin >> cars[i];
+    }
+
+    CALL_FUNCTION(check_overflow);
+    CALL_FUNCTION(check_suboptimal);
+    CALL_FUNCTION(count_total);
+
+    std::cout << "Total:" << total_count << std::endl;
+}
+
+
+
+
+
+
 ¬ €зыке —и довольно распространенной практикой €вл€етс€ объ€вление глобальных констант с помощью директивы #define:
 #define PI 3.14159
 #undef PI

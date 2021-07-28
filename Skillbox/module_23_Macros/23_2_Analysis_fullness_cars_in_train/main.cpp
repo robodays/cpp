@@ -2,29 +2,23 @@
 #define OVERLOAD(passengers) (passengers > 20) ? 1 : 0
 #define EMPTY(passengers) (passengers == 0) ? 1 : 0
 #define ALL_CARS(action,car) action ## car
+#define CALL_FUNC(name_func) for (int i = 0; i < 10; i++) {name_func(i, cars[i]);}
 
-void OverloadCar(int cars[]) {
-    int count = 0;
-    for (int i = 0; i < 10; ++i) {
-        count += OVERLOAD(cars[i]);
+void OverloadCar(int index, int count) {
+    if (count > 20) {
+        std::cout << "Overload car : " << index << std::endl;
     }
-    std::cout << "Overload car: " << count << std::endl;
 }
 
-void EmptyCar(int cars[]) {
-    int count = 0;
-    for (int i = 0; i < 10; ++i) {
-        count += EMPTY(cars[i]);
+void EmptyCar(int index, int count) {
+    if (count == 0) {
+        std::cout << "Empty car: " << index << std::endl;
     }
-    std::cout << "Empty car: " << count << std::endl;
-}
 
-void SumAllPassengersInCar(int cars[]) {
-    int count = 0;
-    for (int i = 0; i < 10; ++i) {
-        count += cars[i];
-    }
-    std::cout << "All passengers: " << count << std::endl;
+}
+int count_passengers = 0;
+void SumAllPassengersInCar(int index, int count)  {
+    count_passengers += count;
 }
 
 void InputCar(int cars[]){
@@ -40,9 +34,10 @@ void InputCar(int cars[]){
 int main() {
     int cars[10];
     ALL_CARS(Input,Car)(cars);
-    ALL_CARS(Overload,Car)(cars);
-    ALL_CARS(Empty,Car)(cars);
-    ALL_CARS(SumAllPassengersIn,Car)(cars);
+    CALL_FUNC(ALL_CARS(Overload,Car));
+    CALL_FUNC(ALL_CARS(Empty,Car));
+    CALL_FUNC(ALL_CARS(SumAllPassengersIn,Car));
+    std::cout << "All passengers: " << count_passengers << std::endl;
     return 0;
 }
 /*
