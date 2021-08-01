@@ -21,8 +21,8 @@ int main() {
     std::tm* local3 = std::localtime(&t3); // возвращает структуру, подробная информация о локальном времени
     std::cin >> std::get_time(local3, "%H:%M"); // ввод даты с клавиатуры
     std::cout << std::asctime(local3) << std::endl;
-// так не заработало
-//    std::tm local3 = std::localtime(&t3); // возвращает структуру, подробная информация о локальном времени
+// или так
+//    std::tm local3 = *std::localtime(&t3); // возвращает структуру, подробная информация о локальном времени
 //    std::cin >> std::get_time(&local3, "%H:%M"); // ввод даты с клавиатуры
 //    std::cout << std::asctime(&local3) << std::endl;
 
@@ -31,17 +31,22 @@ int main() {
     int pause;
     std::cin >> pause;
     std::time_t t42= std::time(nullptr); // возвращает std::time_t и принимает std::time_t
-    std::tm* local41 = std::localtime(&t41); // возвращает структуру, подробная информация о локальном времени
-    std::cout << std::asctime(local41) << std::endl;
-    std::tm* local42 = std::localtime(&t42); // возвращает структуру, подробная информация о локальном времени
-    std::cout << std::asctime(local42) << std::endl;
 
-   // double t43 = difftime(t41,t42);
-   // auto tttt = (std::time_t)t43;
-   // std::tm* local43 = std::localtime(&tttt); // возвращает структуру, подробная информация о локальном времени
-    std::tm* local43 = std::localtime(&t41 + 600);
+    std::tm* local41 = std::localtime(&t41); // возвращает структуру, подробная информация о локальном времени
+    std::cout << "41 " << std::asctime(local41) << std::endl;
+    std::tm* local42 = std::localtime(&t42); // возвращает структуру, подробная информация о локальном времени
+    std::cout << "42 " << std::asctime(local42) << std::endl;
+
+    //double t43 = difftime(t41,600); // из первого элемента вычисляет второй
+    double t43 = difftime(t42, t41); // из первого элемента вычисляет второй
+    std::cout << "difftime " << (int) t43 << std::endl;
+
+    t41 +=  (std::time_t) 600;
+    std::tm* local43 = std::localtime(&t41);
     std::cout << std::asctime(local43) << std::endl;
 
+    local43->tm_sec += 30; // добавляем 10 секунд, но нельзя чтобы было больше 60 ничего не выводится
+    std::cout << "+10 sec" << std::asctime(local43) << std::endl;
 
 
     return 0;

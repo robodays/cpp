@@ -1,7 +1,45 @@
 #include <iostream>
+#include <string>
+#include <iomanip>
+#include <vector>
+
+struct Friend{
+    std::string nameFriend;
+    std::time_t dateBirthday;
+
+};
+
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::cout << "Birthday reminder." << std::endl;
+    std::vector<Friend> friends;
+    std::vector<Friend> nearestBirthday;
+    Friend oneFriend;
+    std::time_t nullTime = 0;
+
+    std::cout << "Enter name friend and \"end\"" << std::endl;
+    std::cin >> oneFriend.nameFriend;
+    while (oneFriend.nameFriend != "end") {
+        //= std::localtime(&std::time(nullptr));
+        std::cout << "Enter date birthday: " << std::endl;
+
+        std::tm* local = localtime(&nullTime);
+        std::cin >> std::get_time(local,"%Y/%m/%d");
+        std::cout << "Enter name friend and \"end\"" << std::endl;
+        friends.push_back(oneFriend);
+        std::cin >> oneFriend.nameFriend;
+    }
+    // к нулевому добавляем месяц и год
+    std::time_t nowTime = std::time(nullptr);
+    for (int i = 0; i < friends.size(); ++i) {
+        if (nowTime < friends[i].dateBirthday) {
+            if (friends.empty()) {
+                nearestBirthday.push_back(friends[i]);
+            } else if (nearestBirthday.back() > {
+
+            }
+        }
+    }
     return 0;
 }
 /*
