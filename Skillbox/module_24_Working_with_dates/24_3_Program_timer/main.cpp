@@ -1,7 +1,37 @@
 #include <iostream>
+#include <ctime>
+#include <iomanip>
+#include <windows.h>
+#include <conio.h>
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::cout << "Program timer." << std::endl;
+
+    std::time_t nowTime = time(nullptr);
+    std::tm *local = localtime(&nowTime);
+
+    std::cout << "Input time in format MM:SS" << std::endl;
+    std::cin >> std::get_time(local, "%M:%S");
+
+    int min = local->tm_min;
+    int sec = local->tm_sec;
+
+    nowTime = time(nullptr);
+    std::time_t newTime = nowTime + min * 60 + sec;
+    std::time_t dTime;
+    do {
+        nowTime = time(nullptr);
+        dTime = newTime - nowTime;
+        std::tm *local2 = localtime(&dTime);
+        for (int i = 0; i < 10; ++i) {
+            std::cout << std::endl;
+        }
+        std::cout << "Timer " << std::put_time(local2, "%M:%S") << std::endl;
+
+        Sleep(500);
+    } while (dTime > 0);
+    std::cout << "DING! DING! DING!" << std::endl;
+
     return 0;
 }
 /*

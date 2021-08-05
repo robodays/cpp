@@ -1,14 +1,27 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 #include <iomanip>
 #include <vector>
 
 struct Friend{
     std::string nameFriend;
-    std::time_t dateBirthday;
-
+    std::time_t dateBirthday = 0;
 };
 
+std::time_t DateConverterIn1970(std::time_t time) {
+    std::time_t time1970 = 0;
+
+    std::tm* localTime = localtime(&time);
+    int mon = localTime->tm_mon;
+    int day = localTime->tm_mday;
+
+    std::tm* localTime1970 = localtime(&time1970);
+    localTime1970->tm_mon = mon;
+    localTime1970->tm_mday = day;
+
+    return mktime(localTime1970);
+}
 
 int main() {
     std::cout << "Birthday reminder." << std::endl;
@@ -19,30 +32,94 @@ int main() {
 
     std::cout << "Enter name friend and \"end\"" << std::endl;
     std::cin >> oneFriend.nameFriend;
-    while (oneFriend.nameFriend != "end") {
-        //= std::localtime(&std::time(nullptr));
-        std::cout << "Enter date birthday: " << std::endl;
 
+    while (oneFriend.nameFriend != "end") {
+        std::cout << "Enter date birthday(YYYY/MM/DD): " << std::endl;
         std::tm* local = localtime(&nullTime);
         std::cin >> std::get_time(local,"%Y/%m/%d");
-        std::cout << "Enter name friend and \"end\"" << std::endl;
+        oneFriend.dateBirthday = mktime(local);
         friends.push_back(oneFriend);
+
+        std::cout << "Enter name friend and \"end\"" << std::endl;
         std::cin >> oneFriend.nameFriend;
     }
-    // к нулевому добавляем месяц и год
-    std::time_t nowTime = std::time(nullptr);
-    for (int i = 0; i < friends.size(); ++i) {
-        if (nowTime < friends[i].dateBirthday) {
-            if (friends.empty()) {
-                nearestBirthday.push_back(friends[i]);
-            } else if (nearestBirthday.back() > {
 
+    std::time_t nowTime = std::time(nullptr);
+
+    // until the end of the year
+    for (int i = 0; i < friends.size(); ++i) {
+        if (DateConverterIn1970(friends[i].dateBirthday) >= DateConverterIn1970(nowTime)) {
+            if (nearestBirthday.empty() || DateConverterIn1970(friends[i].dateBirthday)
+                                            == DateConverterIn1970(nearestBirthday.back().dateBirthday)) {
+                nearestBirthday.push_back(friends[i]);
+            } else if (DateConverterIn1970(friends[i].dateBirthday)
+                        < DateConverterIn1970(nearestBirthday.back().dateBirthday)) {
+                nearestBirthday.clear();
+                nearestBirthday.push_back(friends[i]);
             }
         }
+    }
+
+    // next year, if not found this year
+    if (nearestBirthday.empty()){
+        for (int i = 0; i < friends.size(); ++i) {
+            if (DateConverterIn1970(friends[i].dateBirthday) >= 0) {
+                if (nearestBirthday.empty() || DateConverterIn1970(friends[i].dateBirthday)
+                                                == DateConverterIn1970(nearestBirthday.back().dateBirthday)) {
+                    nearestBirthday.push_back(friends[i]);
+                } else if (DateConverterIn1970(friends[i].dateBirthday)
+                            < DateConverterIn1970(nearestBirthday.back().dateBirthday)) {
+                    nearestBirthday.clear();
+                    nearestBirthday.push_back(friends[i]);
+                }
+            }
+        }
+    }
+
+    if (!nearestBirthday.empty()) {
+        std::cout << "Nearest Birthday:" << std::endl;
+        for (int i = 0; i < nearestBirthday.size(); i++) {
+            std::cout << nearestBirthday[i].nameFriend << std::endl;
+            std::tm *local = localtime(&nearestBirthday[i].dateBirthday);
+            std::cout << "  " << local->tm_mon + 1<< "/" << local->tm_mday<< std::endl;
+        }
+    } else {
+        std::cout << "No birthdays!" << std::endl;
     }
     return 0;
 }
 /*
+name1
+2010/10/10
+name2
+2010/10/09
+name3
+2010/10/08
+name4
+2010/10/08
+
+end
+
+name1
+2010/01/10
+name2
+2010/01/09
+name3
+2010/02/08
+name4
+2010/01/08
+
+name1
+2010/01/10
+name2
+2010/01/09
+name3
+2010/02/08
+name4
+2010/01/08
+name5
+2010/10/08
+
 Задание 2. Реализация программы напоминания о днях рождения
 Что нужно сделать
 

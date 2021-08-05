@@ -48,6 +48,7 @@ int main() {
     local43->tm_sec += 30; // добавляем 10 секунд, но нельзя чтобы было больше 60 ничего не выводится
     std::cout << "+10 sec" << std::asctime(local43) << std::endl;
 
+   std::cout << mktime(localTime2) << std::endl; из tm в timt_t
 
     return 0;
 }
