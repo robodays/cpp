@@ -1,13 +1,11 @@
 #include <iostream>
 #include <ctime>
 #include <iomanip>
-#include <windows.h>
-#include <conio.h>
 
 int main() {
     std::cout << "Program timer." << std::endl;
 
-    std::time_t nowTime = time(nullptr);
+    std::time_t nowTime = 0;
     std::tm *local = localtime(&nowTime);
 
     std::cout << "Input time in format MM:SS" << std::endl;
@@ -19,16 +17,15 @@ int main() {
     nowTime = time(nullptr);
     std::time_t newTime = nowTime + min * 60 + sec;
     std::time_t dTime;
+    std::time_t oldTime = 0;
     do {
         nowTime = time(nullptr);
-        dTime = newTime - nowTime;
-        std::tm *local2 = localtime(&dTime);
-        for (int i = 0; i < 10; ++i) {
-            std::cout << std::endl;
+        if (nowTime != oldTime){
+            oldTime = nowTime;
+            dTime = newTime - nowTime;
+            local = localtime(&dTime);
+            std::cout << "Timer " << std::put_time(local, "%M:%S") << std::endl;
         }
-        std::cout << "Timer " << std::put_time(local2, "%M:%S") << std::endl;
-
-        Sleep(500);
     } while (dTime > 0);
     std::cout << "DING! DING! DING!" << std::endl;
 
