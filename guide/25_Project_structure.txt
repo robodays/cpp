@@ -1,0 +1,92 @@
+﻿//my_math.h
+#pragma once // для компиляции один раз
+#include <cmath>
+double pi()
+{
+	return atan(1.0) * 4.0;
+}
+double circumference(double radius)
+{
+	return 2 * pi() * radius;
+}
+
+//----------------------
+//main.cpp
+#include "my_math.h"
+int main()
+{
+	std::cout << circumference(4);
+}
+
+//=============================================
+
+//my_math.h
+#pragma once // для компиляции один раз
+double pi();
+double circumference(double radius);
+
+//my_math.cpp
+#include <cmath>
+#include "my_math.h"
+double pi()
+{
+	return atan(1.0) * 4.0;
+}
+double circumference(double radius)
+{
+	return 2 * pi() * radius;
+}
+
+
+//----------------------
+//main.cpp
+#include "my_math.h"
+int main()
+{
+	std::cout << circumference(4);
+}
+// и добавляем в CMAKE в add_executable main.cpp my_cmath.h my_cmath.cpp
+
+
+
+
+CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.20)    - минимальная версия CMake 
+project(module_25_test)			- название проекта
+project("Module 25 test" VERSION 1.0)	- название проекта в кавычках и с номером версии
+					мажорная основная в первой позиции
+					минорная во второй позиции
+					третья позиция - патчи фиксы
+
+set(CMAKE_CXX_STANDARD 14)		- стандарт компиляции  
+
+add_executable(module_25_test main.cpp) - название exe и добавление исполняемых файлов
+add_executable(module25test main.cpp my_cmath.h my_cmath.cpp) перечисляем все файлы
+add_executable(module25test src/main.cpp include/my_cmath.h src/my_cmath.cpp) перечисляем все файлы в директориях
+
+target_include_directories(module25test PUBLIC include) добавление директории к сборке
+// ============================
+папки проекта
+include		для заголовочных файлов
+src		все исходные приватные cpp файлы
+
+//=============================================
+// новые CMakeLists после переноса файлов
+//CMakeLists.txt
+cmake_minimum_required(VERSION 3.20)
+project("Module 25 test" VERSION 1.0)
+
+set(CMAKE_CXX_STANDARD 14)
+
+set(MY_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include) - объявляем свою переменную MY_INCLUDE_DIR, 
+							${CMAKE_SOURCE_DIR} - корневая папка проекта
+add_subdirectory(src)
+
+
+
+//src/CMakeLists.txt
+cmake_minimum_required(VERSION 3.20)
+
+add_executable(module_25_test main.cpp ${MY_INCLUDE_DIR}/my_math.h my_math.cpp)
+target_include_directories(module_25_test PUBLIC ${MY_INCLUDE_DIR})

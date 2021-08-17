@@ -1,9 +1,47 @@
 #include <iostream>
+#include "operations.h"
 
 int main() {
     std::cout << "Simulator_of_operations." << std::endl;
 
+    XYPoint scalpelBeginPoint;
+    XYPoint scalpelEndPoint;
+    std::cout << "Command \"scalpel\":" << std::endl;
+    std::cout << "Input x y begin: " << std::endl;
+    std::cin >> scalpelBeginPoint.x >> scalpelBeginPoint.y;
+    std::cout << "Input x y end: " << std::endl;
+    std::cin >> scalpelEndPoint.x >> scalpelEndPoint.y;
+    Scalpel(scalpelBeginPoint, scalpelEndPoint);
 
+    XYPoint hemostatPoint;
+    std::cout << "Command \"hemostat\":" << std::endl;
+    std::cout << "Input x y: " << std::endl;
+    std::cin >> hemostatPoint.x >> hemostatPoint.y;
+    Hemostat(hemostatPoint);
+
+    XYPoint tweezersPoint;
+    std::cout << "Command \"tweezers\":" << std::endl;
+    std::cout << "Input x y: " << std::endl;
+    std::cin >> tweezersPoint.x >> tweezersPoint.y;
+    Tweezers(tweezersPoint);
+
+
+    XYPoint sutureBeginPoint;
+    XYPoint sutureEndPoint;
+    do {
+        std::cout << "Command \"suture\":" << std::endl;
+        std::cout << "Input x y begin: " << std::endl;
+        std::cin >> sutureBeginPoint.x >> sutureBeginPoint.y;
+        std::cout << "Input x y end: " << std::endl;
+        std::cin >> sutureEndPoint.x >> sutureEndPoint.y;
+        Suture(sutureBeginPoint, sutureEndPoint);
+        if (Compare(sutureBeginPoint,scalpelBeginPoint) && Compare(sutureEndPoint,scalpelEndPoint)) {
+            break;
+        } else {
+            std::cout << "Does not match with a scalpel! " << std::endl;
+        }
+    } while (true);
+    std::cout << "Operation end!" << std::endl;
 
     return 0;
 }
