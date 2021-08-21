@@ -1,0 +1,4 @@
+"C:\Program Files\JetBrains\CLion 2020.3.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - MinGW Makefiles" E:\GitHub\cpp\Skillbox\module_25_Project_structure\25_2_Computer_simulator_project
+-- Configuring done
+-- Generating done
+-- Build files have been written to: E:/GitHub/cpp/Skillbox/module_25_Project_structure/25_2_Computer_simulator_project/cmake-build-debug

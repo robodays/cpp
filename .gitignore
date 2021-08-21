@@ -12,7 +12,7 @@
 !intensive_lesson/**/*.*
 !Skillbox/old_numeration/**/*.*
 !guide/**/*.*
-!Skillbox/module_25_Project_structure/**/CMakeLists.txt
+!Skillbox/module_25_Project_structure/**/*.txt
 
 *.xml
 *.iml

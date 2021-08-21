@@ -1,8 +1,35 @@
 #include <iostream>
+#include <string>
+
+extern int g_buffer[8];
+
+#include "cpu.h"
+#include "ram.h"
+#include "disk.h"
+#include "gpu.h"
+#include "kbd.h"
 
 int main() {
     std::cout << "Computer simulator project." << std::endl;
 
+    std::string command;
+    do {
+        std::cout << "Input command (sum/save/load/display/input/exit):" << std::endl;
+        std::cin >> command;
+        if (command == "sum") {
+            sum();
+        } else if (command == "save") {
+            save();
+        } else if (command == "load") {
+            load();
+        } else if (command == "display") {
+            display();
+        } else if (command == "input") {
+            input();
+        } else if (command != "exit"){
+            std::cout << "Invalid command!" << std::endl;
+        }
+    } while (command != "exit");
 
     return 0;
 }

@@ -1,0 +1,5 @@
+E:/GitHub/cpp/Skillbox/module_25_Project_structure/25_2_Computer_simulator_project/cmake-build-debug/CMakeFiles/edit_cache.dir
+E:/GitHub/cpp/Skillbox/module_25_Project_structure/25_2_Computer_simulator_project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+E:/GitHub/cpp/Skillbox/module_25_Project_structure/25_2_Computer_simulator_project/cmake-build-debug/src/CMakeFiles/edit_cache.dir
+E:/GitHub/cpp/Skillbox/module_25_Project_structure/25_2_Computer_simulator_project/cmake-build-debug/src/CMakeFiles/25_2_Computer_simulator_project.dir
+E:/GitHub/cpp/Skillbox/module_25_Project_structure/25_2_Computer_simulator_project/cmake-build-debug/src/CMakeFiles/rebuild_cache.dir
