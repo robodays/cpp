@@ -1,0 +1,78 @@
+#include <iostream>
+////========1
+struct robot_t {
+    int health;
+    int damage;
+    int speed;
+    void attack() {
+        std::cout << "Attack: " << damage << std::endl;
+    }
+    void take_damage() {
+        std::cout << "Damage: " << health << std::endl;
+    }
+    void move() {
+        std::cout << "Moving: " << speed << std::endl;
+    }
+};
+
+////========2
+class PlaneControl {
+    // по умолчанию приватные
+    double leftAileron = 0;
+    double rightAileron = 0;
+  public:
+    void turnLeft() {
+        leftAileron -= 30;
+        rightAileron += 30;
+    }
+    void turnRight() {
+        leftAileron += 30;
+        rightAileron -= 30;
+    }
+
+  private:
+    double elevator = 0;
+  public:
+    void setElevator(double value) {
+        if (value > 30) elevator = 30;
+        else if (value < -30) elevator = -30;
+        else elevator = value;
+    }
+    double getElevator() {
+        return elevator;
+    }
+    friend double ShowInfo(PlaneControl* planeControl);// Для функций вне класса
+
+    static double ShowInfoStatic(PlaneControl* planeControl){
+        return planeControl->elevator;
+    }
+
+};
+
+double ShowInfo(PlaneControl* planeControl){
+    return planeControl->elevator;
+}
+int main() {
+    std::cout << "Robot!" << std::endl;
+    ////========1
+    robot_t robot1 = {50, 100, 10};
+    robot1.attack();
+
+    robot_t* robot2 = new robot_t{50, 100, 10};
+    robot2->attack();
+
+    delete robot2;
+    ////========2
+    PlaneControl* planeControl = new PlaneControl();
+    planeControl->setElevator(20);
+    double ele = planeControl->getElevator();
+    std::cout << "Elevator: " <<  ele << std::endl;
+    std::cout << "Elevator: " <<  planeControl->getElevator() << std::endl;
+    std::cout << "Elevator: " <<  ShowInfo(planeControl) << std::endl;
+    std::cout << "Elevator: " <<  PlaneControl::ShowInfoStatic(planeControl) << std::endl;
+
+    delete planeControl; // удаление
+    planeControl = nullptr; // зануление
+
+    return 0;
+}
