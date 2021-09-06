@@ -1,7 +1,64 @@
 #include <iostream>
+class Window {
+    int width = 80;
+    int height = 50;
+    int leftAngleX = 0;
+    int leftAngleY = 0;
+public:
+    int getWidth() {
+        return width;
+    }
+    int getHeight() {
+        return height;
+    }
+    int getLeftAngleX() {
+        return leftAngleX;
+    }
+    int getLeftAngleY() {
+        return leftAngleY;
+    }
+    void setWidth(int _width) {
+
+    }
+    void setHeight(int _height) {
+
+    }
+    void setLeftAngleX(int _leftAngleX) {
+
+    }
+    void setLeftAngleY(int _leftAngleY) {
+
+    }
+
+
+
+};
+
 
 int main() {
     std::cout << "Control of the desktop window!" << std::endl;
+
+    std::string command;
+    do {
+        std::cout << "Enter the command (move/resize/display/close):" << std::endl;
+        std::cin >> command;
+
+        if (command == "move") {
+            std::cout << "Enter vector X and Y (separated by a space): " << std::endl;
+            int x,y;
+            std::cin >> x >> y;
+        } else if (command == "resize") {
+            std::cout << "Enter new size window width and height (separated by a space): " << std::endl;
+            int width, height;
+            std::cin >> width >> height;
+
+        } else if (command == "display") {
+
+        } else {
+            std::cout << "Incorrect command! Try entering again." << std::endl;
+        }
+
+    } while(command != "close");
     return 0;
 }
 

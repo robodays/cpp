@@ -1,14 +1,14 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include <vector>
+#include <cstdlib>
 
 class Track {
     std::string nameTrack;
     std::tm dateCreat{};
     int lengthTrackSec;
 public:
-    Track(std::string _nameTrack, std::tm _dateCreat, int _lengthTrackSec) {
+    Track(std::string _nameTrack = " ", std::tm _dateCreat = {}, int _lengthTrackSec = 0) {
         nameTrack = _nameTrack;
         dateCreat = _dateCreat;
         lengthTrackSec = _lengthTrackSec;
@@ -16,8 +16,8 @@ public:
     std::string getNameTrack() const {
         return nameTrack;
     }
-    std::string getDateCreat() const {
-        return std::asctime(&dateCreat);
+    std::tm getDateCreat() const {
+        return dateCreat;
     }
     int getLengthTrackSec() const {
         return lengthTrackSec;
@@ -42,85 +42,105 @@ public:
         isPlay = _isPlay;
     }
 
+    void play(int _countTrack) {
+        std::cout << "Command Play" << std::endl;
+        if (!getIsPlay()) {
+            do {
+                std::cout << "Trek list: " << std::endl;
+                for (int i = 0; i < _countTrack; ++i) {
+                    std::cout << track[i].getNameTrack() << std::endl;
+                }
 
-    void play(const Track& oneTrack) {
-        std::cout << "Play: " << std::endl;
-        std::cout << "  Name track:" << oneTrack.getNameTrack() << std::endl;
-        std::cout << "  Date Creat:" << oneTrack.getDateCreat() << std::endl;
-        std::cout << "  Length track in sec:" << oneTrack.getLengthTrackSec() << std::endl;
+                std::cout << "Input name track:" << std::endl;
+                std::string nameTrackInput;
+                std::cin >> nameTrackInput;
+                for (int i = 0; i < _countTrack; ++i) {
+                    if (nameTrackInput == track[i].getNameTrack()){
+                        playTrackId(i);
+                        break;
+                    }
+                }
+                if (getIdTrack() == -1) {
+                    std::cout << "Track name not found. Try entering again.";
+                }
+            } while(getIdTrack() == -1);
+        }
     }
     void pause() {
-        std::cout << "Pause: " << std::endl;
-
+        std::cout << "Command Pause" << std::endl;
+        if (getIdTrack() >= 0) {
+            if (getIsPlay()) {
+                setIsPlay(false);
+                std::cout << "  Recording is paused!" << std::endl;
+            } else {
+                setIsPlay(true);
+                std::cout << "  Recording is played!" << std::endl;
+            }
+        }
     }
-    void next() {
-        std::cout << "Next" << std::endl;
-
+    void next(int _countTrack) {
+        std::cout << "Command Next" << std::endl;
+        srand(time(0));
+        int nextId;
+        do {
+            nextId = rand() % _countTrack;
+        } while (nextId == getIdTrack());
+        playTrackId(nextId);
     }
     void stop() {
-        std::cout << "Stop!" << std::endl;
-
+        std::cout << "Command Stop" << std::endl;
+        if (getIdTrack() >= 0) {
+            setIdTrack(-1);
+            setIsPlay(false);
+            std::cout << "  Recording is stop!" << std::endl;
+        }
+    }
+    void playTrackId(int id) {
+        setIdTrack(id);
+        setIsPlay(true);
+        std::cout << "Play: " << std::endl;
+        std::cout << "  Name track:" << track[id].getNameTrack() << std::endl;
+        std::tm dateCreat = track[id].getDateCreat();
+        std::cout << "  Date Creat:" << dateCreat.tm_year << "/" << dateCreat.tm_mon << "/"
+        << dateCreat.tm_mday << std::endl;
+        std::cout << "  Length track in sec:" << track[id].getLengthTrackSec() << std::endl;
     }
 
     Player(Track _track[]) {
         for (int i = 0; i < 5; ++i) {
             track[i] = _track[i];
         }
-
-
     }
 
 };
+
+
 
 int main() {
     std::cout << "Simulations audio player." << std::endl;
     std::tm tm{};
     int countTrack = 5;
-    Track track[5] = {Track("name1",{tm.tm_year = 2000, tm.tm_mon = 1, tm.tm_mday = 15},50),
-                      Track("name2",{tm.tm_year = 2001, tm.tm_mon = 2, tm.tm_mday = 16},60),
-                      Track("name3",{tm.tm_year = 2002, tm.tm_mon = 3, tm.tm_mday = 17},70),
-                      Track("name4",{tm.tm_year = 2003, tm.tm_mon = 4, tm.tm_mday = 18},80),
-                      Track("name5",{tm.tm_year = 2004, tm.tm_mon = 5, tm.tm_mday = 19},90)};
+    Track track[5] = {Track("name1",{0, 0, 0, 15, 1, 2000},50),
+                      Track("name2",{0, 0, 0, 16, 2, 2001},60),
+                      Track("name3",{0, 0, 0, 17, 3, 2002},70),
+                      Track("name4",{0, 0, 0, 18, 4, 2003},80),
+                      Track("name5",{0, 0, 0, 19, 5, 2004},90)};
 
-    Player* player = new Player(track, nullptr);
-
+    //Player* player = new Player(track, nullptr);
+    Player player(track);
+    //player.readTrack(track);
     std::string command;
     do {
         std::cout << "Input command (play/pause/next/stop/exit):" << std::endl;
         std::cin >> command;
         if (command == "play") {
-            std::cout << "Command Play" << std::endl;
-            if (!player->getIsPlay()) {
-                do {
-                    std::cout << "Trek list: " << std::endl;
-                    for (int i = 0; i < countTrack; ++i) {
-                        std::cout << track[i].getNameTrack() << std::endl;
-                    }
-
-                    std::cout << "Input name track:" << std::endl;
-                    std::string nameTrack;
-                    std::cin >> nameTrack;
-                    for (int i = 0; i < countTrack; ++i) {
-                        if (nameTrack == track[i].getNameTrack()){
-                            player->setIdTrack(i);
-                            player->play(track[i]);
-                            break;
-                        }
-                    }
-                    if (player->getIdTrack() == -1) {
-                        std::cout << "Track name not found. Try entering again.";
-                    }
-                } while(player->getIdTrack() == -1);
-
-            } else {
-                std::cout << "Track is already playing!" << std::endl;
-            }
+            player.play(countTrack);
         } else if (command == "pause") {
-            player->pause();
+            player.pause();
         } else if (command == "next") {
-            player->next();
+            player.next(countTrack);
         } else if (command == "stop") {
-            player->stop();
+            player.stop();
         } else {
 
         }
