@@ -1,33 +1,55 @@
 #include <iostream>
 class Window {
-    int width = 80;
-    int height = 50;
-    int leftAngleX = 0;
-    int leftAngleY = 0;
+    int widthScreen = 80;
+    int heightScreen = 50;
+    int widthWindow = 0;
+    int heightWindow = 0;
+    int leftAngleByWidth = 0;
+    int leftAngleByHeight = 0;
 public:
-    int getWidth() {
-        return width;
+    int getWidthWindow() {
+        return widthWindow;
     }
-    int getHeight() {
-        return height;
+    int getHeightWindow() {
+        return heightWindow;
     }
-    int getLeftAngleX() {
-        return leftAngleX;
+    int getLeftAngleByWidth() {
+        return leftAngleByWidth;
     }
-    int getLeftAngleY() {
-        return leftAngleY;
+    int getLeftAngleByHeight() {
+        return leftAngleByHeight;
     }
-    void setWidth(int _width) {
-
+    void setWidthWindow(int _widthWindow) {
+        if (_widthWindow < 0) {
+            widthWindow = 0;
+        } else {
+            widthWindow = _widthWindow;
+        }
     }
-    void setHeight(int _height) {
-
+    void setHeightWindow(int _heightWindow) {
+        if (_heightWindow < 0) {
+            heightWindow = 0;
+        } else {
+            heightWindow = _heightWindow;
+        }
     }
-    void setLeftAngleX(int _leftAngleX) {
-
+    void setLeftAngleByWidth(int _leftAngleByWidth) {
+        if (_leftAngleByWidth < 0) {
+            leftAngleByWidth = 0;
+        } else if (_leftAngleByWidth >= widthScreen){
+            leftAngleByWidth = widthScreen;
+        } else {
+            leftAngleByWidth = _leftAngleByWidth;
+        }
     }
-    void setLeftAngleY(int _leftAngleY) {
-
+    void setLeftAngleByHeight(int _leftAngleByHeight) {
+        if (_leftAngleByHeight < 0) {
+            leftAngleByHeight = 0;
+        } else if (_leftAngleByHeight >= heightScreen){
+            leftAngleByHeight = heightScreen;
+        } else {
+            leftAngleByHeight = _leftAngleByHeight;
+        }
     }
 
 
@@ -37,7 +59,7 @@ public:
 
 int main() {
     std::cout << "Control of the desktop window!" << std::endl;
-
+    Window* window = new Window;
     std::string command;
     do {
         std::cout << "Enter the command (move/resize/display/close):" << std::endl;
@@ -47,18 +69,36 @@ int main() {
             std::cout << "Enter vector X and Y (separated by a space): " << std::endl;
             int x,y;
             std::cin >> x >> y;
+
+            window->setLeftAngleByWidth(window->getLeftAngleByWidth() + x);
+            window->setLeftAngleByHeight(window->getLeftAngleByHeight() + y);
+
+            std::cout << "Coordinates window: \n  by width:" << window->getLeftAngleByWidth()
+                    << "\n  by height: " << window->getLeftAngleByHeight() << std::endl;
+
         } else if (command == "resize") {
             std::cout << "Enter new size window width and height (separated by a space): " << std::endl;
             int width, height;
             std::cin >> width >> height;
 
-        } else if (command == "display") {
+            window->setWidthWindow(width);
+            window->setHeightWindow(height);
 
-        } else {
+            std::cout << "Size window: \n  width:" << window->getWidthWindow()
+                    << "\n  height: " << window->getHeightWindow() << std::endl;
+
+        } else if (command == "display") {
+            std::cout << "Coordinates window: \n  by width:" << window->getLeftAngleByWidth()
+                    << "\n  by height: " << window->getLeftAngleByHeight() << std::endl;
+            std::cout << "Size window: \n  width:" << window->getWidthWindow()
+                    << "\n  height: " << window->getHeightWindow() << std::endl;
+        } else if (command != "close"){
             std::cout << "Incorrect command! Try entering again." << std::endl;
         }
 
     } while(command != "close");
+    delete(window);
+    window = nullptr;
     return 0;
 }
 
