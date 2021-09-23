@@ -49,12 +49,16 @@ public:
         //delete(addressBook_tmp); // не могу очистить, т.к. также вычищается из addressBook и данные превращаются в мусор
     }
 
+    // для теста вывода адресной книги
+    /*
     int getSizeAddressBook() {
         return  addressBook.size();
     }
+
     std::vector<AddressBook*> getAddressBook() {
         return  addressBook;
     }
+    */
     int searchContact(std::string _contactName) {
         for (int i = 0; i < addressBook.size(); ++i) {
             if (addressBook[i]->getContactName() == _contactName) {
@@ -65,23 +69,10 @@ public:
         return 0;
     }
 
-    std::string inputContactName() {
-        std::string contactName;
-        std::cout << "Enter the contact name: " << std::endl;
-        std::cin >> contactName;
-        return contactName;
-    }
-
-    int64_t inputNumberPhone() {
-        int64_t numberPhone;
-        do {
-            std::cout << "Enter the contact's phone number (10 digits): " << std::endl;
-            std::cout << "+7";
-            std::cin >> numberPhone;
-        } while (numberPhone < 1000000000 || numberPhone > 9999999999);
-        return numberPhone;
-    }
 };
+
+std::string inputContactName();
+int64_t inputNumberPhone();
 
 int main() {
     std::cout << "Simulations mobile phone!" << std::endl;
@@ -98,9 +89,9 @@ int main() {
             std::string option;
             std::cin >> option;
             if (option == "1") {
-                phone->call(phone->inputNumberPhone());
+                phone->call(inputNumberPhone());
             } else if (option == "2"){
-                int numberPhone = phone->searchContact(phone->inputContactName());
+                int numberPhone = phone->searchContact(inputContactName());
                 if (numberPhone != 0) {
                     phone->call(numberPhone);
                 }
@@ -110,32 +101,50 @@ int main() {
             std::string option;
             std::cin >> option;
             if (option == "1") {
-                phone->sms(phone->inputNumberPhone());
+                phone->sms(inputNumberPhone());
             } else if (option == "2"){
-                int numberPhone = phone->searchContact(phone->inputContactName());
+                int numberPhone = phone->searchContact(inputContactName());
                 if (numberPhone != 0) {
                     phone->sms(numberPhone);
                 }
             }
         } else if (command == "add") {
-            phone->addInAddressBook(phone->inputNumberPhone(), phone->inputContactName());
-        } else if (command == "print") {
+            phone->addInAddressBook(inputNumberPhone(), inputContactName());
+        } else {
+            std::cout << "Incorrect command! Try entering again." << std::endl;
+        }
+        /* else if (command == "print") { // для теста вывода адресной книги
             //test print all contacts
             for (int i = 0; i < phone->getSizeAddressBook(); ++i) {
                 std::cout << "Name: " << phone->getAddressBook()[i]->getContactName() << " "
                           << "Phone: +7" << phone->getAddressBook()[i]->getNumberPhone() << std::endl;
             }
-        } else {
-            std::cout << "Incorrect command! Try entering again." << std::endl;
-        }
+        }*/
 
     } while(command != "exit");
-
 
     delete(phone);
     phone = nullptr;
     return 0;
 }
+
+std::string inputContactName() {
+    std::string contactName;
+    std::cout << "Enter the contact name: " << std::endl;
+    std::cin >> contactName;
+    return contactName;
+}
+
+int64_t inputNumberPhone() {
+    int64_t numberPhone;
+    do {
+        std::cout << "Enter the contact's phone number (10 digits): " << std::endl;
+        std::cout << "+7";
+        std::cin >> numberPhone;
+    } while (numberPhone < 1000000000 || numberPhone > 9999999999);
+    return numberPhone;
+}
+
 /*
 Задание 2. Реализация программы симуляции мобильного телефона
 
