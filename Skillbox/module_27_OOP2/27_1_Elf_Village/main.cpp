@@ -76,7 +76,7 @@ public:
             bigBranch[i] = new BigBranch(this, countMiddleBranch);
         }
     }
-    //for (Tree* oneTree: tree) {
+
 };
 
 int BigBranch::getCountElfOnBranch(std::string nameElf) {

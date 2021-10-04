@@ -50,7 +50,7 @@ public:
     }
 
     // для теста вывода адресной книги
-    /*
+
     int getSizeAddressBook() {
         return  addressBook.size();
     }
@@ -58,7 +58,7 @@ public:
     std::vector<AddressBook*> getAddressBook() {
         return  addressBook;
     }
-    */
+
     int searchContact(std::string _contactName) {
         for (int i = 0; i < addressBook.size(); ++i) {
             if (addressBook[i]->getContactName() == _contactName) {
@@ -110,7 +110,7 @@ int main() {
             }
         } else if (command == "add") {
             phone->addInAddressBook(inputNumberPhone(), inputContactName());
-        } else {
+        } else if (command != "exit") {
             std::cout << "Incorrect command! Try entering again." << std::endl;
         }
         /* else if (command == "print") { // для теста вывода адресной книги
@@ -123,6 +123,9 @@ int main() {
 
     } while(command != "exit");
 
+    for (int i = 0; i < phone->getSizeAddressBook(); ++i) {
+        delete phone->getAddressBook()[i];
+    }
     delete(phone);
     phone = nullptr;
     return 0;
