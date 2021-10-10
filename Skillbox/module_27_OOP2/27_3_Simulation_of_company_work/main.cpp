@@ -38,6 +38,13 @@ class Manager {
     int quantityTasks = 0;
     int individualCommand;
 
+public:
+    Manager(int inIdManager, int inQuantityWorkers) : idManager(inIdManager){
+        for (int i = 0; i < inQuantityWorkers; ++i) {
+            workers.push_back(new Worker);
+        }
+    }
+
     int getCountFreeWorkers() {
         int countFreeWorkers = 0;
         for (int i = 0; i < workers.size(); ++i) {
@@ -47,18 +54,12 @@ class Manager {
         }
         return countFreeWorkers;
     }
-public:
-    Manager(int inIdManager, int inQuantityWorkers) : idManager(inIdManager){
-        for (int i = 0; i < inQuantityWorkers; ++i) {
-            workers.push_back(new Worker);
-        }
-    }
 
-    int getIdManager() const{
+    int getIdManager() const {
         return idManager;
     }
 
-    std::vector<Worker*> getWorkers() const{
+    std::vector<Worker*> getWorkers() const {
         return workers;
     }
 
@@ -66,29 +67,24 @@ public:
         individualCommand = command + idManager;
     }
 
-    int getIndividualCommand() {
+    int getIndividualCommand() const {
         return individualCommand;
     }
-
-
 
     bool processingTasks() {
         std::srand(individualCommand);
         if (getCountFreeWorkers() != 0) {
-            quantityTasks = std::rand() % getCountFreeWorkers();
+            quantityTasks = std::rand() % getCountFreeWorkers() + 1;
             int j = 0;
             for (int i = 0; i < quantityTasks; ++i) {
                 while (!workers[j]->getFree()) {
                     j++;
-                }   /// проверить тут в следующий раз
+                }
                 workers[j]->setTypeTask(static_cast<TypeTask>(std::rand() % (MAX_ENUM - 1) + 1));
                 workers[j]->setFree(false);
-
             }
-            return true;
-        } else {
-            return false;
         }
+        return getCountFreeWorkers() != 0;
     }
 
 
@@ -97,6 +93,7 @@ public:
 class Director {
     int command = 0;
     std::vector<Manager*> managers;
+
 public:
     void addManager(int inIdManager, int inQuantityWorkers){
         managers.push_back(new Manager(inIdManager,inQuantityWorkers));
@@ -137,29 +134,27 @@ int main() {
     do {
         director->inputCommand();
         isFreeWorkers = false;
-            for (int i = 0; i < director->getManager().size(); ++i) {
-                 director->getManager()[i]->setIndividualCommand(director->getCommand());
-                 if (director->getManager()[i]->processingTasks()) {
-                     isFreeWorkers = true;
-                 }
-            }
+        for (int i = 0; i < director->getManager().size(); ++i) {
+             director->getManager()[i]->setIndividualCommand(director->getCommand());
+             if (director->getManager()[i]->processingTasks()) {
+                 isFreeWorkers = true;
+             }
+        }
 
-
-
-// test print
-    std::cout << "Quantity Team: " << director->getManager().size() << std::endl;
-    for (int i = 0; i < quantityTeams; ++i) {
-        std::cout << "===============================================" << std::endl;
-        std::cout << "===============================================" << std::endl;
-        std::cout << "director->managers[" << i << "]->idManager: " << director->getManager()[i]->getIdManager() << std::endl;
-        std::cout << "director->managers[" << i << "]->workers.size(): " << director->getManager()[i]->getWorkers().size() << std::endl;
-        std::cout << "===============================================" << std::endl;
-        for (int j = 0; j < director->getManager()[i]->getWorkers().size(); ++j) {
-            std::cout << "-------------------------------------------" << std::endl;
-            std::cout << "director->managers[" << i << "]->workers[" << j << "]->typeTask: " << director->getManager()[i]->getWorkers()[j]->getTypeTask() << std::endl;
-            std::cout << "director->managers[" << i << "]->workers[" << j << "]->free: " << director->getManager()[i]->getWorkers()[j]->getFree() << std::endl;
-         }
-    }
+        // test print
+        std::cout << "Quantity Team: " << director->getManager().size() << std::endl;
+        for (int i = 0; i < quantityTeams; ++i) {
+            std::cout << "===============================================" << std::endl;
+            std::cout << "===============================================" << std::endl;
+            std::cout << "id Manager: " << director->getManager()[i]->getIdManager() << std::endl;
+            std::cout << "  workers size: " << director->getManager()[i]->getWorkers().size() << std::endl;
+            std::cout << "===============================================" << std::endl;
+            for (int j = 0; j < director->getManager()[i]->getWorkers().size(); ++j) {
+                std::cout << "-------------------------------------------" << std::endl;
+                std::cout << "managers:" << i << " workers:" << j << " typeTask: " << director->getManager()[i]->getWorkers()[j]->getTypeTask() << std::endl;
+                std::cout << "managers:" << i << " workers:" << j << " free: " << director->getManager()[i]->getWorkers()[j]->getFree() << std::endl;
+             }
+        } // end test print
 
     } while(isFreeWorkers && director->getCommand() != 0);
 
