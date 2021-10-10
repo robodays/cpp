@@ -157,7 +157,7 @@ int main() {
         } // end test print
 
     } while(isFreeWorkers && director->getCommand() != 0);
-
+    std::cout << ">>>Free workers end!<<<" << std::endl;
     return 0;
 }
 
