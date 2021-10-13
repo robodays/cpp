@@ -8,8 +8,8 @@ std::mutex history_access;
 
 void wait_for_call(int time, std::string name) {
 
-    std::this_thread::sleep_for(std::chrono::seconds(time)); // Р·Р°СЃС‹РїР°РµРј РЅР° РѕРїСЂРµРґРµР»РµРЅРЅРѕРµ РІСЂРµРјСЏ.
-    std::cout << "Id in foo: " << std::this_thread::get_id() << std::endl; // РІРѕР·РІСЂР°С‰Р°РµРј id РїРѕС‚РѕРєР°
+    std::this_thread::sleep_for(std::chrono::seconds(time)); // засыпаем на определенное время.
+    std::cout << "Id in foo: " << std::this_thread::get_id() << std::endl; // возвращаем id потока
     std::cout << "RING (" << name << ")" << std::endl;
     history_access.lock();
     history.push_back(name);
@@ -27,12 +27,12 @@ int main() {
 
     std::cout << "Id in main: " << std::this_thread::get_id() << std::endl;
 
-    std::thread call(wait_for_call, time, name); // РІС‹Р·РѕРІ С„СѓРЅРєС†РёРё РІ РѕС‚РґРµР»СЊРЅРѕРј РїРѕС‚РѕРєРµ
+    std::thread call(wait_for_call, time, name); // вызов функции в отдельном потоке
     std::cout << "test1" << std::endl;
     std::thread call2(wait_for_call, 6, "New");
     std::cout << "test2" << std::endl;
 
-    call.detach(); //РѕС‚РїСЂР°РІР»СЏРµРј РІ СЃРІРѕР±РѕРґРЅРѕРµ РїР»Р°РІР°РЅСЊРµ .join(); РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ(РѕС€РёР±РєР°)
+    call.detach(); //отправляем в свободное плаванье .join(); не требуется(ошибка)
     call2.detach();
 
     std::this_thread::sleep_for(std::chrono::seconds(5));
@@ -40,8 +40,8 @@ int main() {
     std::this_thread::sleep_for(std::chrono::seconds(11));
     std::cout << "CALL (Friend2)" << std::endl;
 
-    if (call.joinable()) call.join(); // Р¶РґРµРј РєРѕРЅС†Р° РІС‹РїРѕР»РЅРµРЅРёСЏ Рё РѕР±СЉРµРґРёРЅСЏРµРј РїРѕС‚РѕРєРё
-    if (call2.joinable()) call2.join();// Р° РјРѕР¶РЅРѕ Р»Рё РґР¶РѕРёРЅРёС‚СЊ РёР»Рё РґРµС‚Р°С‡РёС‚СЊ РѕР±СЉРµРєС‚ РїРѕС‚РѕРєР°
+    if (call.joinable()) call.join(); // ждем конца выполнения и объединяем потоки
+    if (call2.joinable()) call2.join();// а можно ли джоинить или детачить объект потока
 
     history_access.lock();
     std::cout << "=====================================\n";
