@@ -31,24 +31,9 @@ public:
     }
 };
 
-bool allFinish(const std::vector<Swimmer*>& swimmers) {
-    for (int i = 0; i < swimmers.size(); ++i) {
-        if (swimmers[i]->getDistance() < 100) {
-            return false;
-        }
-    }
-    return true;
-};
+bool allFinish(const std::vector<Swimmer*>& swimmers);
 
-void swim(Swimmer* swimmer){
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    update.lock();
-    swimmer->distancePlus();
-    update.unlock();
-    //std::cout << swimmer->getName() << ": " << swimmer->getDistance() << std::endl;
-
-    //std::cout << "swimmer->getName()  swimmer->getDistance()" << std::endl;
-}
+void swim(Swimmer* swimmer);
 
 
 
@@ -56,7 +41,7 @@ int main() {
     std::cout << "100 - meter swim." << std::endl;
 
     std::vector<Swimmer*> swimmers;
-    for (int i = 1; i <= 1; ++i) {
+    for (int i = 0; i < 6; ++i) {
 /*        std::string nameSwimmer;
         std::cout << "Enter name " << i << " swimmer: " << std::endl;
         std::cin >> nameSwimmer;
@@ -66,7 +51,7 @@ int main() {
         std::cin >> speedSwimmer;
         swimmers.push_back(new Swimmer(nameSwimmer, speedSwimmer));*/
 
-        swimmers.push_back(new Swimmer("name" + std::to_string(i), i*2));
+        swimmers.push_back(new Swimmer("name" + std::to_string(i), (i + 1) * 2));
     }
 
     std::vector<std::thread> periods;
@@ -78,6 +63,7 @@ int main() {
             }
 
         }
+        ///не нужно
         //std::thread per(swim);
         //per.join();
         //for (int i = 0; i < 100000000; ++i) {
@@ -85,7 +71,9 @@ int main() {
         //}
 
         for (int i = 0; i < swimmers.size(); ++i) {
-           periods[i].join();
+           if (periods[i].joinable()) {
+               periods[i].join();
+           }
            //periods[i].detach();
         }
     }
@@ -97,6 +85,26 @@ int main() {
 
     return 0;
 }
+
+void swim(Swimmer* swimmer) {
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    update.lock();
+    swimmer->distancePlus();
+    update.unlock();
+
+    //std::cout << swimmer->getName() << ": " << swimmer->getDistance() << std::endl;
+
+    //std::cout << "swimmer->getName()  swimmer->getDistance()" << std::endl;
+}
+
+bool allFinish(const std::vector<Swimmer*>& swimmers) {
+    for (int i = 0; i < swimmers.size(); ++i) {
+        if (swimmers[i]->getDistance() < 100) {
+            return false;
+        }
+    }
+    return true;
+};
 
 ///Ошибка
 ///terminate called after throwing an instance of 'std::system_error'
