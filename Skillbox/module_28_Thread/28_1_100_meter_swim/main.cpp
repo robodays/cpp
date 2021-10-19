@@ -4,8 +4,7 @@
 #include <thread>
 #include <mutex>
 #include <string>
-#include <windows.h>
-#include <algorithm>
+//#include <algorithm>
 
 std::mutex update;
 
@@ -47,12 +46,7 @@ public:
     }
 };
 
-bool allFinish(const std::vector<Swimmer*>& swimmers);
-
-void swim(std::vector<Swimmer*> swimmers, int sec); // не получилось послать swimmer по ссылке. Ругается periods.emplace_back(std::thread(swim, swimmers, secFromBegin));
-
-int maxIterations(std::vector<Swimmer*>& swimmers);
-
+void swim(Swimmer* swimmer, int periodOutputSec, int& currentSec);
 void sortResult(std::vector<Swimmer*>& swimmers);
 
 int main() {
@@ -79,18 +73,18 @@ int main() {
 
     std::vector<std::thread> periods;
 
-    int secFromBegin = 1;
-    while (!allFinish(swimmers)) { // не выходит из цикла, пока стоит какая-нибудь задержка ниже по программе (Sleep(5000); или //std::this_thread::sleep_for(std::chrono::seconds(secFromBegin++));)
-    //for (int i = 0; i < maxIterations(swimmers); i++) {  // так работает корректнее, так как заранее определено количество итераций
-        periods.emplace_back(std::thread(swim, swimmers, secFromBegin));
-        periods[secFromBegin - 1].detach();
-        secFromBegin++;
+    int periodOutputSec = 1;
+    int currentSec = 0;
+    periods.reserve(swimmers.size());
+    for (int i = 0; i < swimmers.size(); ++i) {
+        periods.emplace_back(std::thread(swim, swimmers[i], periodOutputSec, std::ref(currentSec)));
     }
 
     //Sorting and output of results
 
-    //std::this_thread::sleep_for(std::chrono::seconds(secFromBegin++));
-    Sleep(5000);
+    for (int i = 0; i < swimmers.size(); ++i) {
+        periods[i].join();
+    }
 
     sortResult(swimmers);
     std::cout << "========= Result =========" << std::endl;
@@ -107,37 +101,20 @@ int main() {
 
 
 //functions
-void swim(std::vector<Swimmer*> swimmers, int sec) {
-    std::this_thread::sleep_for(std::chrono::seconds(sec));
+void swim(Swimmer* swimmer, int periodOutputSec, int& currentSec) {
+    while (swimmer->getDistance() < 100) {
+        std::this_thread::sleep_for(std::chrono::seconds(periodOutputSec));
 
-    std::cout << "<<<<<<<<< sec " << sec << " >>>>>>>>>" << std::endl;
-
-    for (int i = 0; i < 6; ++i) {
         update.lock();
-        swimmers[i]->distancePlus();
+        swimmer->distancePlus();
+        if (swimmer->getResultSec() > currentSec) {
+            currentSec = swimmer->getResultSec();
+            std::cout << "<<<<<<<<< " << currentSec << " >>>>>>>>>" << std::endl;
+        }
+        std::cout << swimmer->getName() << "\t sec: " << swimmer->getResultSec() << "\t Dist: "
+                    << swimmer->getDistance() << std::endl;
         update.unlock();
-
-        std::cout << swimmers[i]->getName() << ": " << swimmers[i]->getDistance() << std::endl;
     }
-}
-
-bool allFinish(const std::vector<Swimmer*>& swimmers) {
-    for (int i = 0; i < swimmers.size(); ++i) {
-        if (swimmers[i]->getDistance() < 100) {
-            return false;
-        }
-    }
-    return true;
-};
-
-int maxIterations(std::vector<Swimmer*>& swimmers) {
-    int minSpeed = swimmers[0]->getSpeed();
-    for (int i = 0; i < swimmers.size(); ++i) {
-        if (minSpeed > swimmers[i]->getSpeed()) {
-            minSpeed = swimmers[i]->getSpeed();
-        }
-    }
-    return 100 / minSpeed + 1;
 }
 
 void sortResult(std::vector<Swimmer*>& swimmers) {
