@@ -1,7 +1,202 @@
 #include <iostream>
+#include <thread>
+#include <mutex>
+#include <vector>
+#include <queue>
+
+
+enum StatusOrder {
+    ACCEPTED,
+    WAITING_COOKING,
+    COOKING,
+    WAITING_DELIVERY,
+    DELIVERY
+};
+
+class Order {
+    std::vector<std::string> menuNames = {"PIZZA","SOUP","STEAK","SALAD","SUSHI"};
+    int menuID;
+    StatusOrder status;
+    int timeCookingSec;
+public:
+    Order () {
+        status = ACCEPTED;
+        menuID = std::rand() % 5;
+        timeCookingSec = std::rand() % 11 + 5;
+    }
+    StatusOrder getStatus() const {
+        return status;
+    }
+
+    std::string getMenuName() const {
+        return menuNames[menuID];
+    }
+
+    int getMenuID() const {
+        return menuID;
+    }
+
+    int getTimeCookingSec() const {
+        return timeCookingSec;
+    }
+
+    void setMenuID(int inMenuID) {
+        menuID = inMenuID;
+    }
+
+    void setStatus(StatusOrder inStatus) {
+        status = inStatus;
+    }
+
+    void setTimeCookingSec(int inTimeCookingSec) {
+        timeCookingSec = inTimeCookingSec;
+    }
+
+    std::string getStatusStr() {
+        if (status == ACCEPTED) return "New. Order accepted";
+        else if (status == WAITING_COOKING) return "Order waiting in line cooking";
+        else if (status == COOKING) return "Order cooking";
+        else if (status == WAITING_DELIVERY) return "Order is awaiting delivery";
+        else if (status == DELIVERY) return "Order delivery";
+        return "Error";
+    }
+
+};
+
+std::mutex mtxKitchen;
+
+class Kitchen {
+    std::vector<Order*> orders;
+    //std::queue<int> queueInCooking;
+    bool kitchenFree = true;
+    int countDoneOrder = 0;
+public:
+
+    void orderAcceptance() {
+        while (countDoneOrder < 10) {
+            mtxKitchen.lock();
+
+            orders.emplace_back(new Order());
+            printAllOrders();
+            orders.back()->setStatus(WAITING_COOKING);
+
+            mtxKitchen.unlock();
+
+            std::this_thread::sleep_for(std::chrono::seconds(std::rand() % 6 + 5)); // 5-10 sec
+
+            //countDoneOrder++;/// temporary
+        }
+    }
+
+    int firstWaitingCooking() {
+        //std::lock_guard<std::mutex> mtx(mtxKitchen);
+        for (int i = 0; i < orders.size(); ++i) {
+            if (orders[i]->getStatus() == WAITING_COOKING) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    void installWaitingCooking() {
+
+    }
+
+    void cookingFood() {
+        while (countDoneOrder < 10) {
+            int idFirstWaitingCooking = firstWaitingCooking();
+
+            if (idFirstWaitingCooking != -1) {
+                mtxKitchen.lock();
+
+                orders[idFirstWaitingCooking]->setStatus(COOKING);
+
+                mtxKitchen.unlock();
+
+                std::this_thread::sleep_for(std::chrono::seconds(std::rand() % 11 + 5)); // 5-15 sec
+
+                mtxKitchen.lock();
+
+                orders[idFirstWaitingCooking]->setStatus(WAITING_DELIVERY);
+
+                mtxKitchen.unlock();
+            } else {
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            };
+
+            //countDoneOrder++;/// temporary
+        }
+    }
+
+    int firstWaitingDelivery() {
+        //std::lock_guard<std::mutex> mtx(mtxKitchen);
+        for (int i = 0; i < orders.size(); ++i) {
+            if (orders[i]->getStatus() == WAITING_DELIVERY) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    void installWaitingDelivery() {
+
+    }
+
+    void deliveryCourier() {
+        while (countDoneOrder < 10) {
+
+            int idFirstWaitingDelivery = firstWaitingDelivery();
+
+            if (idFirstWaitingDelivery != -1) {
+                mtxKitchen.lock();
+
+                orders[idFirstWaitingDelivery]->setStatus(DELIVERY);
+                countDoneOrder++;
+
+                mtxKitchen.unlock();
+
+                std::this_thread::sleep_for(std::chrono::seconds(10)); /// изменить на 30
+
+
+            } else {
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            };
+        }
+    }
+
+    void printAllOrders() {
+        mtxKitchen.lock();
+        std::cout << "\n<<<<<<<<<<<<<<<<<<<< Print All Order >>>>>>>>>>>>>>>>>>>>" << std::endl;;
+        for (auto order : orders) {
+            std::cout << order->getMenuName() << "\t STATUS: " << order->getStatusStr() << "(" << order->getStatus()
+                      << ")" << "\t TIME COOKING: " << order->getTimeCookingSec() << std::endl;
+        }
+        std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n" << std::endl;
+        mtxKitchen.unlock();
+    }
+
+};
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    std::srand(std::time(nullptr));
+
+    std::cout << "Online restaurant kitchen." << std::endl;
+
+    auto* kitchen = new Kitchen();
+
+    std::thread orderAcceptance(&Kitchen::orderAcceptance, kitchen);
+    orderAcceptance.detach();
+
+    std::thread orderCooking(&Kitchen::cookingFood, kitchen);
+    orderCooking.detach();
+
+    std::thread orderDelivery(&Kitchen::deliveryCourier, kitchen);
+    orderDelivery.join();
+
+
+    delete kitchen;
     return 0;
 }
 

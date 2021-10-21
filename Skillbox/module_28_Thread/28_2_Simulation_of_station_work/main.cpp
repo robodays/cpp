@@ -21,12 +21,6 @@ class Train {
     int distanceSec = 0;
     Status status = FOLLOW;
 public:
-    //Train() {
-    //}
-
-    NameTrain getName() {
-        return name;
-    }
 
     int getDistanceSec() const {
         return distanceSec;
@@ -42,10 +36,6 @@ public:
 
     void setName(int i) {
         name = static_cast<NameTrain>(i);
-    }
-
-    void setStatusFromInt(int i) {
-        status = static_cast<Status>(i);
     }
 
     void setStatus(Status inStatus) {
@@ -108,12 +98,10 @@ int main() {
         threads[i].join();
     }
 
-/// test: output trains
-/*    for (int i = 0; i < 3; ++i) {
-        std::cout << trains[i]->getNameStr() << "\tdistance in sec:" << trains[i]->getDistanceSec()
-                << "\tstatus:" << trains[i]->getStatusStr() << std::endl;
+    for (auto train: trains) {
+        delete train;
     }
-*/
+
     return 0;
 }
 
