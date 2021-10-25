@@ -25,3 +25,7 @@ CMakeCXXCompilerId.cpp
 
 
 Skillbox/module_24_Struct/24_3_Realization_mathematical_vector/.idea/24_3_Realization_mathematical_vector.iml
+
+test/module_30_test/cmake-build-debug/**/*.*
+test/module_30_test/cmake-build-debug/
+!test/module_30_test/CMakeLists.txt

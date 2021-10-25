@@ -1,10 +1,8 @@
 #include <iostream>
-#include <utility>
 #include <vector>
 #include <thread>
 #include <mutex>
 #include <string>
-//#include <algorithm>
 
 std::mutex update;
 
@@ -46,7 +44,7 @@ public:
     }
 };
 
-void swim(Swimmer* swimmer, int periodOutputSec, int& currentSec);
+void swim(Swimmer* swimmer, int periodOutputSec);
 void sortResult(std::vector<Swimmer*>& swimmers);
 
 int main() {
@@ -74,10 +72,9 @@ int main() {
     std::vector<std::thread> periods;
 
     int periodOutputSec = 1;
-    int currentSec = 0;
     periods.reserve(swimmers.size());
     for (int i = 0; i < swimmers.size(); ++i) {
-        periods.emplace_back(std::thread(swim, swimmers[i], periodOutputSec, std::ref(currentSec)));
+        periods.emplace_back(std::thread(swim, swimmers[i], periodOutputSec));
     }
 
     //Sorting and output of results
@@ -99,18 +96,14 @@ int main() {
     return 0;
 }
 
-
 //functions
-void swim(Swimmer* swimmer, int periodOutputSec, int& currentSec) {
+void swim(Swimmer* swimmer, int periodOutputSec) {
     while (swimmer->getDistance() < 100) {
         std::this_thread::sleep_for(std::chrono::seconds(periodOutputSec));
 
-        update.lock();
         swimmer->distancePlus();
-        if (swimmer->getResultSec() > currentSec) {
-            currentSec = swimmer->getResultSec();
-            std::cout << "<<<<<<<<< " << currentSec << " >>>>>>>>>" << std::endl;
-        }
+
+        update.lock();
         std::cout << swimmer->getName() << "\t sec: " << swimmer->getResultSec() << "\t Dist: "
                     << swimmer->getDistance() << std::endl;
         update.unlock();

@@ -68,7 +68,7 @@ public:
 
 };
 
-void trainThread(Train* train, bool &freeStation);
+void trainThread(Train* train);
 
 std::mutex updateTrains;
 std::mutex updateStation;
@@ -85,13 +85,12 @@ int main() {
         trains[i]->setDistanceSec(distanceSec);
     }
 
-    bool freeStation = true;
     std::cout << "Station: Free"  << std::endl;
 
     std::vector<std::thread> threads;
     threads.reserve(3);
     for (int i = 0; i < 3; i++) {
-        threads.emplace_back(std::thread (trainThread, trains[i], std::ref(freeStation)));
+        threads.emplace_back(std::thread (trainThread, trains[i]));
     }
 
     for (int i = 0; i < 3; i++) {
@@ -105,51 +104,54 @@ int main() {
     return 0;
 }
 
-void trainThread(Train* train, bool &freeStation) {
+void trainThread(Train* train) {
     updateTrains.lock();
     train->printNameAndStatus();
     updateTrains.unlock();
+
     Status changeStatus = FOLLOW;
     while (train->getDistanceSec() != 0) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
 
-        updateTrains.lock();
+
         if (train->getDistanceSec() == 1) {
-            if (freeStation) {
-                train->setDistanceSec(train->getDistanceSec() - 1);
-                train->setStatus(ARRIVAL);
+            train->setStatus(WAITING);
 
-                freeStation = false;
-                std::cout << "Station: Busy" << std::endl;
+            updateTrains.lock();
+            train->printNameAndStatus();
+            updateTrains.unlock();
 
-            } else {
-                train->setStatus(WAITING);
-            }
+            updateStation.lock();
+            train->setDistanceSec(train->getDistanceSec() - 1);
+            train->setStatus(ARRIVAL);
+            std::cout << "Station: Busy" << std::endl;
+
+            std::string command;
+            do {
+                train->printNameAndStatus(false);
+                std::cout << "Enter command to send train " << train->getNameStr() << ": " << std::endl;
+                std::cin >> command;
+            } while (command != "deport");
+
+            train->setStatus(DEPARTING);
+
+            train->printNameAndStatus(false);
+            std::cout << "Station: Free"  << std::endl;
+
+            updateStation.unlock();
+
         } else if (train->getDistanceSec() > 1) {
             train->setDistanceSec(train->getDistanceSec() - 1);
         }
 
-        if (changeStatus != train->getStatus()) {
+        if (changeStatus != train->getStatus() && train->getStatus() != DEPARTING) {
+            updateTrains.lock();
             train->printNameAndStatus();
+            updateTrains.unlock();
+
             changeStatus = train->getStatus();
         }
-        updateTrains.unlock();
     }
-    updateStation.lock();
-    if (train->getStatus() == ARRIVAL) {
-        std::string command;
-        do {
-            std::cout << "Enter command to send train " << train->getNameStr() << ": " << std::endl;
-            std::cin >> command;
-        } while (command != "deport");
-
-        train->setStatus(DEPARTING);
-        freeStation = true;
-
-        train->printNameAndStatus(false);
-        std::cout << "Station: Free"  << std::endl;
-    }
-    updateStation.unlock();
 }
 /*
 Задание 2. Симуляция работы вокзала
