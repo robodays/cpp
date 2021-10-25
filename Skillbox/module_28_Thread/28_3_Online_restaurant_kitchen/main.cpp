@@ -2,8 +2,8 @@
 #include <thread>
 #include <mutex>
 #include <vector>
-#include <queue>
 
+std::mutex mtxKitchen;
 
 enum StatusOrder {
     ACCEPTED,
@@ -32,24 +32,12 @@ public:
         return menuNames[menuID];
     }
 
-    int getMenuID() const {
-        return menuID;
-    }
-
     int getTimeCookingSec() const {
         return timeCookingSec;
     }
 
-    void setMenuID(int inMenuID) {
-        menuID = inMenuID;
-    }
-
     void setStatus(StatusOrder inStatus) {
         status = inStatus;
-    }
-
-    void setTimeCookingSec(int inTimeCookingSec) {
-        timeCookingSec = inTimeCookingSec;
     }
 
     std::string getStatusStr() {
@@ -63,28 +51,27 @@ public:
 
 };
 
-std::mutex mtxKitchen;
-
 class Kitchen {
     std::vector<Order*> orders;
-    //std::queue<int> queueInCooking;
-    bool kitchenFree = true;
     int countDoneOrder = 0;
 public:
 
     void orderAcceptance() {
         while (countDoneOrder < 10) {
             mtxKitchen.lock();
-
             orders.emplace_back(new Order());
-            printAllOrders();
-            orders.back()->setStatus(WAITING_COOKING);
-
             mtxKitchen.unlock();
+
+            printAllOrders();
+
+            mtxKitchen.lock();
+            orders.back()->setStatus(WAITING_COOKING);
+            mtxKitchen.unlock();
+
+            printAllOrders();
 
             std::this_thread::sleep_for(std::chrono::seconds(std::rand() % 6 + 5)); // 5-10 sec
 
-            //countDoneOrder++;/// temporary
         }
     }
 
@@ -99,33 +86,28 @@ public:
         return -1;
     }
 
-    void installWaitingCooking() {
-
-    }
-
     void cookingFood() {
         while (countDoneOrder < 10) {
             int idFirstWaitingCooking = firstWaitingCooking();
 
             if (idFirstWaitingCooking != -1) {
                 mtxKitchen.lock();
-
                 orders[idFirstWaitingCooking]->setStatus(COOKING);
-
                 mtxKitchen.unlock();
+
+                printAllOrders();
 
                 std::this_thread::sleep_for(std::chrono::seconds(std::rand() % 11 + 5)); // 5-15 sec
 
                 mtxKitchen.lock();
-
                 orders[idFirstWaitingCooking]->setStatus(WAITING_DELIVERY);
-
                 mtxKitchen.unlock();
+
+                printAllOrders();
             } else {
                 std::this_thread::sleep_for(std::chrono::seconds(1));
             };
 
-            //countDoneOrder++;/// temporary
         }
     }
 
@@ -139,22 +121,19 @@ public:
         return -1;
     }
 
-    void installWaitingDelivery() {
-
-    }
-
     void deliveryCourier() {
         while (countDoneOrder < 10) {
 
             int idFirstWaitingDelivery = firstWaitingDelivery();
 
             if (idFirstWaitingDelivery != -1) {
-                mtxKitchen.lock();
 
+                mtxKitchen.lock();
                 orders[idFirstWaitingDelivery]->setStatus(DELIVERY);
                 countDoneOrder++;
-
                 mtxKitchen.unlock();
+
+                printAllOrders();
 
                 std::this_thread::sleep_for(std::chrono::seconds(10)); /// изменить на 30
 
@@ -168,9 +147,9 @@ public:
     void printAllOrders() {
         mtxKitchen.lock();
         std::cout << "\n<<<<<<<<<<<<<<<<<<<< Print All Order >>>>>>>>>>>>>>>>>>>>" << std::endl;;
-        for (auto order : orders) {
-            std::cout << order->getMenuName() << "\t STATUS: " << order->getStatusStr() << "(" << order->getStatus()
-                      << ")" << "\t TIME COOKING: " << order->getTimeCookingSec() << std::endl;
+        for (int i = 0; i < orders.size(); ++i) {
+            std::cout << i << " "  << orders[i]->getMenuName() << "\t STATUS: " << orders[i]->getStatusStr() << "("
+            << orders[i]->getStatus() << ")" << "\t TIME COOKING: " << orders[i]->getTimeCookingSec() << std::endl;
         }
         std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n" << std::endl;
         mtxKitchen.unlock();
@@ -194,7 +173,6 @@ int main() {
 
     std::thread orderDelivery(&Kitchen::deliveryCourier, kitchen);
     orderDelivery.join();
-
 
     delete kitchen;
     return 0;
