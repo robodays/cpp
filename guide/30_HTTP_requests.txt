@@ -1,10 +1,38 @@
+/////////////Cmake
+
+
+cmake_minimum_required(VERSION 3.20)
+project(module_30_test)
+
+set(CMAKE_CXX_STANDARD 14)
+
+--->>>
+set(BUILD_CPR_TESTS OFF)
+set(CMAKE_USE_OPENSSL OFF)
+set(CPR_BUILD_TESTS_SSL OFF)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
+
+include(FetchContent)
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git GIT_TAG f4622efcb59d84071ae11404ae61bd821c1c344b) # the commit hash for 1.6.2
+FetchContent_MakeAvailable(cpr)
+<<<---
+
+add_executable(module_30_test main.cpp)
+
+--->>>
+target_link_libraries(module_30_test PRIVATE cpr::cpr)
+<<<---			^^^^^^^^^^
+	   
+
+////////////////////////////////////////
 #include <iostream>
 #include <cpr/cpr.h>
 
 
 int main() {
-    SetConsoleCP(1251);// СѓСЃС‚Р°РЅРѕРІРєР° РєРѕРґРѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹ win-cp 1251 РІ РїРѕС‚РѕРє РІРІРѕРґР°
-    SetConsoleOutputCP(1251); // СѓСЃС‚Р°РЅРѕРІРєР° РєРѕРґРѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹ win-cp 1251 РІ РїРѕС‚РѕРє РІС‹РІРѕРґР°
+    SetConsoleCP(1251);// установка кодовой страницы win-cp 1251 в поток ввода
+    SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
     cpr::Response get = cpr::Get(cpr::Url("http://httpbin.org/get"));
     cpr::Response headers = cpr::Get(cpr::Url("https://httpbin.org/headers"));
     cpr::Response headers2 = cpr::Get(cpr::Url("https://httpbin.org/headers"),

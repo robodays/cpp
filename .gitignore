@@ -29,3 +29,15 @@ Skillbox/module_24_Struct/24_3_Realization_mathematical_vector/.idea/24_3_Realiz
 test/module_30_test/cmake-build-debug/**/*.*
 test/module_30_test/cmake-build-debug/
 !test/module_30_test/CMakeLists.txt
+
+Skillbox/module_30_HTTP_requests/30_1_User_requests/cmake-build-debug/**/*.*
+Skillbox/module_30_HTTP_requests/30_1_User_requests/cmake-build-debug/
+!Skillbox/module_30_HTTP_requests/30_1_User_requests/CMakeLists.txt
+
+Skillbox/module_30_HTTP_requests/30_2_Capturing_title_of_web_page/cmake-build-debug/**/*.*
+Skillbox/module_30_HTTP_requests/30_2_Capturing_title_of_web_page/cmake-build-debug/
+!Skillbox/module_30_HTTP_requests/30_2_Capturing_title_of_web_page/CMakeLists.txt
+
+Skillbox/module_30_HTTP_requests/30_3_Queries_with_arguments/cmake-build-debug/**/*.*
+Skillbox/module_30_HTTP_requests/30_3_Queries_with_arguments/cmake-build-debug/
+!Skillbox/module_30_HTTP_requests/30_3_Queries_with_arguments/CMakeLists.txt
