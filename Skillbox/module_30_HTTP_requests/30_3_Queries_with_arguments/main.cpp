@@ -8,31 +8,68 @@ int main() {
     std::string argument;
     std::string value;
     std::vector<std::pair<std::string,std::string>> pairs;
+    //std::vector<std::pair<std::string,std::string>> test = {{"1","2"},{"3","4"}};
+    //std::initializer_list<cpr::Pair> test2 = {{"1","2"},{"3","4"}};
+    //cpr::Pair test2[2] = {{"1","2"},{"3","4"}};
+    //std::initializer_list<cpr::Pair> pairs;
 
-    std::cout << "Enter name argument: " << std::endl;
-    std::cin >> argument;
-
-    if (argument != "post" && argument != "get") {
+    do {
         std::cout << "Enter name argument: " << std::endl;
-        std::cin >> value;
+        std::cin >> argument;
 
-        pairs.emplace_back(argument,value);
-    } else if (argument == "get"){
-        cpr::Response request;
-        request = cpr::Get(cpr::Url("https://httpbin.org/headers"),
-                           cpr::Header({{"user-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"},
-                                        {"accept", "text/html"}}));
-    } else if(argument == "post") {
-        std::string str;
-        if (pairs.size() != 0) {
-            for (auto pair: pairs) {
-                str = std:: /// https://docs.libcpr.org/
+        if (argument != "post" && argument != "get") {
+            std::cout << "Enter name value: " << std::endl;
+            std::cin >> value;
+
+            pairs.emplace_back(argument, value);
+
+        } else if (argument == "get") {
+            std::string str;
+
+            if (!pairs.empty()) {
+                for (int i = 0; i < pairs.size(); i++) {
+                    if (i == 0) {
+                        str += "?" + pairs[i].first + "=" + pairs[i].second;
+                    } else {
+                        str += "&" + pairs[i].first + "=" + pairs[i].second;
+                    }
+                }
+
+                cpr::Response get;
+                get = cpr::Get(cpr::Url("https://httpbin.org/get" + str));
+                std::cout << get.text << std::endl;
+
+            }
+
+        } else if (argument == "post") {
+            std::string str;
+
+            if (!pairs.empty()) {
+                //std::initializer_list<cpr::Pair> cprPairs;
+                std::string str;
+
+                for (int i = 0; i < pairs.size(); i++) {
+                    //cpr::Payload({{pairs[i].first.c_str(),pairs[i].second.c_str()}});
+                    //cpr::Payload::Add({pairs[i].first.c_str(),pairs[i].second.c_str()});
+                    //cpr::Pair x = {pairs[i].first.c_str(),pairs[i].second.c_str()};
+                    //cpr::Payload::Add({{pairs[i].first.c_str(),pairs[i].second.c_str()}});
+                    //cpr::Pair p(pairs[i].first,pairs[i].second);
+                    //p.key = pairs[i].first;
+                    //p.value = pairs[i].second;
+                    //cpr::Payload(x);
+                    //cpr::Pair y = {pairs[i].first,pairs[i].second}
+                    str += "\"" + pairs[i].first + "\" = \"" + pairs[i].second + "\"\n";
+                }
+                cpr::Pair p(pairs[0].first,pairs[0].second);
+                //std::initializer_list<cpr::Pair> ps[3] = {{p},{p},{p}};
+                cpr::Response post;
+                post = cpr::Post(cpr::Url("http://httpbin.org/post"),
+                                 cpr::Payload({p}));
+                std::cout << post.text << std::endl;
+
             }
         }
-        cpr::Response post = cpr::Post(cpr::Url("http://httpbin.org/post"),
-                                       cpr::Payload({{"name", name.c_str()},
-                                                     {"city", city.c_str()}}));
-    }
+    } while(argument != "post" && argument != "get" );
     return 0;
 }
 

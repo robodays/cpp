@@ -17,4 +17,5 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(30_3_Queries_with_arguments main.cpp)
 
+
 target_link_libraries(30_3_Queries_with_arguments PRIVATE cpr::cpr)
