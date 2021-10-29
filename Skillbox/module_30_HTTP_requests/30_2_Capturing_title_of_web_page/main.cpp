@@ -4,14 +4,12 @@
 int main() {
     std::cout << "Capturing title of web page" << std::endl;
 
-    // без  cpr::Header({{"accept", "text/html"}} тоже работает, мне пока не понятно для чего accept нужен
     cpr::Response getRequest = cpr::Get(cpr::Url("https://httpbin.org"),
                                  cpr::Header({{"accept", "text/html"}}));
 
 
     std::cout << getRequest.text << std::endl;
 
-    //<h1> на https://httpbin.org не нашел, поэтому поиск по <h2> еще можно сделать по <title>
     auto begin = getRequest.text.find("<h2>") + 4;
     auto end = getRequest.text.find("</h2>",begin) - begin;
 

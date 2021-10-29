@@ -1,17 +1,14 @@
 #include <iostream>
 #include <cpr/cpr.h>
 #include <vector>
+#include <array>
 
 int main() {
-    std::cout << "Queries with arguments!" << std::endl;
+    std::cout << "Queries with arguments." << std::endl;
 
     std::string argument;
     std::string value;
-    std::vector<std::pair<std::string,std::string>> pairs;
-    //std::vector<std::pair<std::string,std::string>> test = {{"1","2"},{"3","4"}};
-    //std::initializer_list<cpr::Pair> test2 = {{"1","2"},{"3","4"}};
-    //cpr::Pair test2[2] = {{"1","2"},{"3","4"}};
-    //std::initializer_list<cpr::Pair> pairs;
+    std::vector<cpr::Pair> pairs;
 
     do {
         std::cout << "Enter name argument: " << std::endl;
@@ -29,44 +26,25 @@ int main() {
             if (!pairs.empty()) {
                 for (int i = 0; i < pairs.size(); i++) {
                     if (i == 0) {
-                        str += "?" + pairs[i].first + "=" + pairs[i].second;
+                        str += "?" + pairs[i].key + "=" + pairs[i].value;
                     } else {
-                        str += "&" + pairs[i].first + "=" + pairs[i].second;
+                        str += "&" + pairs[i].key + "=" + pairs[i].value;
                     }
                 }
 
-                cpr::Response get;
-                get = cpr::Get(cpr::Url("https://httpbin.org/get" + str));
-                std::cout << get.text << std::endl;
+                cpr::Response get = cpr::Get(cpr::Url("https://httpbin.org/get" + str));
 
+                std::cout << get.text << std::endl;
             }
 
         } else if (argument == "post") {
             std::string str;
 
             if (!pairs.empty()) {
-                //std::initializer_list<cpr::Pair> cprPairs;
-                std::string str;
+                cpr::Response post = cpr::Post(cpr::Url("https://httpbin.org/post"),
+                                     cpr::Payload(pairs.begin(),pairs.end()));
 
-                for (int i = 0; i < pairs.size(); i++) {
-                    //cpr::Payload({{pairs[i].first.c_str(),pairs[i].second.c_str()}});
-                    //cpr::Payload::Add({pairs[i].first.c_str(),pairs[i].second.c_str()});
-                    //cpr::Pair x = {pairs[i].first.c_str(),pairs[i].second.c_str()};
-                    //cpr::Payload::Add({{pairs[i].first.c_str(),pairs[i].second.c_str()}});
-                    //cpr::Pair p(pairs[i].first,pairs[i].second);
-                    //p.key = pairs[i].first;
-                    //p.value = pairs[i].second;
-                    //cpr::Payload(x);
-                    //cpr::Pair y = {pairs[i].first,pairs[i].second}
-                    str += "\"" + pairs[i].first + "\" = \"" + pairs[i].second + "\"\n";
-                }
-                cpr::Pair p(pairs[0].first,pairs[0].second);
-                //std::initializer_list<cpr::Pair> ps[3] = {{p},{p},{p}};
-                cpr::Response post;
-                post = cpr::Post(cpr::Url("http://httpbin.org/post"),
-                                 cpr::Payload({p}));
                 std::cout << post.text << std::endl;
-
             }
         }
     } while(argument != "post" && argument != "get" );
