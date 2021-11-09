@@ -24,14 +24,22 @@ public:
                                     // выводит в вектор “вершины” все вершины, из которых можно дойти по ребру в данную
 
 };
+class ListGraph;
+class MatrixGraph;
 
 class ListGraph : public IGraph {
     std::vector<std::vector<int>> lists;
 public:
     ListGraph(int vertices) {
-
         lists = std::vector<std::vector<int>>(vertices);
     }
+
+    ListGraph(const ListGraph* other) {
+        lists = other->lists;
+    }
+
+    ListGraph(const MatrixGraph* other);
+
     void AddEdge(int from, int to) override {
         lists[from].push_back(to);
     }
@@ -59,6 +67,8 @@ public:
             }
         }
     }
+
+    friend class MatrixGraph;
 };
 
 class MatrixGraph : public IGraph {
@@ -68,6 +78,11 @@ public:
 
         matrix = std::vector<std::vector<bool>>(vertices,std::vector<bool>(vertices, false));
     }
+    MatrixGraph(const MatrixGraph* other) {
+        matrix = other->matrix;
+    }
+    MatrixGraph(const ListGraph* other);
+
     void AddEdge(int from, int to) override {
         matrix[from][to] = true;
     }
@@ -100,8 +115,31 @@ public:
         }
     }
 
+    friend class ListGraph;
 
 };
+
+ListGraph::ListGraph(const MatrixGraph* other) {
+    lists.clear();
+    lists = std::vector<std::vector<int>>(other->VerticesCount());
+    for (int i = 0; i < other->matrix.size(); ++i) {
+        for (int j = 0; j < other->matrix[i].size(); ++j) {
+            if (other->matrix[i][j]) {
+                lists[i].push_back(j);
+            }
+        }
+    }
+}
+
+MatrixGraph::MatrixGraph(const ListGraph* other) {
+    matrix.clear();
+    matrix = std::vector<std::vector<bool>>(other->VerticesCount(),std::vector<bool>(other->VerticesCount(), false));
+    for (int i = 0; i < other->lists.size(); ++i) {
+        for (int val : other->lists[i]) {
+             matrix[i][val] = true;
+        }
+    }
+}
 
 std::string vectorToStr(std::vector<int> &vector) {
 
@@ -120,15 +158,15 @@ std::string vectorToStr(std::vector<int> &vector) {
 int main() {
     std::cout << "Graph class implementation." << std::endl;
 // ListGraph
-    ListGraph listGraph(6);
-    listGraph.AddEdge(0,1);
-    listGraph.AddEdge(0,3);
-    listGraph.AddEdge(1,2);
-    listGraph.AddEdge(2,4);
-    listGraph.AddEdge(2,5);
-    listGraph.AddEdge(3,1);
-    listGraph.AddEdge(3,4);
-    listGraph.AddEdge(4,5);
+    ListGraph* listGraph = new ListGraph(6);
+    listGraph->AddEdge(0,1);
+    listGraph->AddEdge(0,3);
+    listGraph->AddEdge(1,2);
+    listGraph->AddEdge(2,4);
+    listGraph->AddEdge(2,5);
+    listGraph->AddEdge(3,1);
+    listGraph->AddEdge(3,4);
+    listGraph->AddEdge(4,5);
 
     std::cout << "Enter vertex: " << std::endl;
     int vertex;
@@ -138,50 +176,47 @@ int main() {
     std::string printPrevVertices;
 
     std::vector<int> nextVertices;
-    listGraph.GetNextVertices(vertex,nextVertices);
-
+    listGraph->GetNextVertices(vertex,nextVertices);
     printNextVertices = vectorToStr(nextVertices);
 
     std::vector<int> prevVertices;
-    listGraph.GetPrevVertices(vertex,prevVertices);
-
+    listGraph->GetPrevVertices(vertex,prevVertices);
     printPrevVertices = vectorToStr(prevVertices);
 
-
-    std::cout << "ListGraph: " << "\tCount Vertices: " << listGraph.VerticesCount()
+    std::cout << "ListGraph: " << "\tCount Vertices: " << listGraph->VerticesCount()
               << "\tNextVertices for " << vertex << ": " << printNextVertices
               << "\tPrevVertices for " << vertex << ": " << printPrevVertices << std::endl;
 
 // MatrixGraph
 
 
-    MatrixGraph matrixGraph(6);
+    MatrixGraph* matrixGraph = new MatrixGraph(6);
 
-    matrixGraph.AddEdge(0,1);
-    matrixGraph.AddEdge(0,3);
-    matrixGraph.AddEdge(1,2);
-    matrixGraph.AddEdge(2,4);
-    matrixGraph.AddEdge(2,5);
-    matrixGraph.AddEdge(3,1);
-    matrixGraph.AddEdge(3,4);
-    matrixGraph.AddEdge(4,5);
+    matrixGraph->AddEdge(0,1);
+    matrixGraph->AddEdge(0,3);
+    matrixGraph->AddEdge(1,2);
+    matrixGraph->AddEdge(2,4);
+    matrixGraph->AddEdge(2,5);
+    matrixGraph->AddEdge(3,1);
+    matrixGraph->AddEdge(3,4);
+    matrixGraph->AddEdge(4,5);
 
     nextVertices.resize(0);
-    matrixGraph.GetNextVertices(vertex,nextVertices);
-
+    matrixGraph->GetNextVertices(vertex,nextVertices);
     printNextVertices = vectorToStr(nextVertices);
 
     prevVertices.resize(0);
-    matrixGraph.GetPrevVertices(vertex,prevVertices);
-
+    matrixGraph->GetPrevVertices(vertex,prevVertices);
     printPrevVertices = vectorToStr(prevVertices);
 
-
-    std::cout << "MatrixGraph: " << "\tCount Vertices: " << listGraph.VerticesCount()
+    std::cout << "MatrixGraph: " << "\tCount Vertices: " << matrixGraph->VerticesCount()
               << "\tNextVertices for " << vertex << ": " << printNextVertices
               << "\tPrevVertices for " << vertex << ": " << printPrevVertices << std::endl;
 
-
+    ListGraph* listGraph2 = new ListGraph(listGraph);
+    ListGraph* listGraph3 = new ListGraph(matrixGraph);
+    MatrixGraph* matrixGraph2 = new MatrixGraph(matrixGraph);
+    MatrixGraph* matrixGraph3 = new MatrixGraph(listGraph);
 
     return 0;
 }

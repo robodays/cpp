@@ -13,32 +13,6 @@ public:
     }
 };
 
-/*class smart_ptr_toy {
-    Toy *toy;
-public:
-    smart_ptr_toy() {
-        toy = new Toy();
-    }
-    smart_ptr_toy(std::string name) {
-        toy = new Toy(name);
-    }
-    smart_ptr_toy(const smart_ptr_toy& other) {
-        toy - new Toy(*other.toy);
-    }
-    smart_ptr_toy& operator=(const smart_ptr_toy& other) {
-        if (this == &other) {
-            return *this;
-        }
-        if (toy != nullptr) {
-            delete toy;
-        }
-        toy = new Toy(*other.toy);
-        return *this;
-    }
-    ~smart_ptr_toy() {
-        delete toy;
-    }
-}*/;
 
 class shared_ptr_toy {
     Toy *toy;
@@ -112,11 +86,7 @@ public:
     //Dog(std::string _name) : Dog(_name, shared_ptr_toy("SomeToy") , 0) {};
     //Dog(int _age) : Dog("Snow", shared_ptr_toy("SomeToy"), _age) {};
     ~Dog(){
-        //if (lovelyToy->isLast())
-        //lovelyToy;
         lovelyToy->del();
-        //delete(lovelyToy);
-        //lovelyToy->del2();
     }
 };
 
