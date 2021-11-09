@@ -42,25 +42,21 @@ public:
 
 class shared_ptr_toy {
     Toy *toy;
-    int count;
+    int *count = nullptr;
 public:
     shared_ptr_toy() {
         toy = new Toy("SomeToy");
-        count++;
+        count = nullptr;
     }
 
     shared_ptr_toy(std::string name) {
-        //if (toy->getName() != name) {
             toy = new Toy(name);
-            count = 0;
-       // } else {
-            //count++;
-       // }
+            count = new int(0);
     }
 
     shared_ptr_toy(const shared_ptr_toy& other) {
-        toy - new Toy(*other.toy);
-        count++;
+        //toy = new Toy(*other.toy);
+        ++*count;
     }
 
     shared_ptr_toy& operator=(const shared_ptr_toy& other) {
@@ -71,68 +67,43 @@ public:
             delete toy;
         }
         toy = new Toy(*other.toy);
+        ++*count;
         return *this;
     }
 
     ~shared_ptr_toy() {
-        if (count == 1) {
+      /*  if (*count == 1) {
             delete toy;
         } else {
-            count --;
+            --*count;
+        }
+        */
+    }
+    void del() {
+        if (*count == 1) {
+            *count = 0;
+            delete toy;
+        } else {
+            --*count;
         }
     }
- /*   void del2() {
-        if (count == 1) {
-            delete toy;
-        } else {
-            count --;
-        }
-    }*/
+
     void addCount() {
-        count++;
-    }
- /*   bool isLast() {
-        return (count == 1);
-
-    }
-    shared_ptr_toy get() {
-        return *this;
+        ++*count;
     }
 
-    void subCount() {
-          count--;
-    }
-    */
 };
 
 
-/*class Dog {
-    std::string name;
-    int age;
-    smart_ptr_toy lovelyToy;
-    //Toy lovelyToy;
-public:
-    Dog(std::string _name, std::string _toyName, int _age) : name(_name), lovelyToy(_toyName) {
-        if (_age >= 0 && _age < 30) {
-            age = _age;
-        }
-
-    }
-    Dog() : Dog("Snow", "SomeToy", 0) {};
-    Dog(std::string _name) : Dog(_name, "SomeToy", 0) {};
-    Dog(int _age) : Dog("Snow", "SomeToy", _age) {};
-}*/;
 class Dog {
     std::string name;
     int age;
     shared_ptr_toy *lovelyToy = nullptr;
-    //Toy lovelyToy;
 public:
     Dog(std::string _name, shared_ptr_toy *toy, int _age) : name(_name) {
         if (_age >= 0 && _age < 30) {
             age = _age;
         }
-        //if ()
         lovelyToy = toy;
         lovelyToy->addCount();
 
@@ -142,7 +113,9 @@ public:
     //Dog(int _age) : Dog("Snow", shared_ptr_toy("SomeToy"), _age) {};
     ~Dog(){
         //if (lovelyToy->isLast())
-        //delete(lovelyToy->get());
+        //lovelyToy;
+        lovelyToy->del();
+        //delete(lovelyToy);
         //lovelyToy->del2();
     }
 };
