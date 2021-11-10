@@ -1,0 +1,293 @@
+////////////////////// 31 - 1
+
+#include <iostream>
+
+///Перегрузка методов
+
+class Dog {
+    std::string name;
+    int age;
+public:
+    Dog(std::string _name, int _age) : name(_name) {
+        if (_age >= 0 && _age <= 30) {
+            age = _age;
+        }
+        printNameAge();
+    }
+    Dog() : Dog("Snow", 0) {}
+    Dog(std::string _name) : Dog(_name, 0) {}
+    Dog(int _age) : Dog("Snow" , _age) {}
+
+    void printNameAge() {
+        std::cout << name << " " << age << std::endl;
+    }
+
+
+};
+
+int main() {
+    Dog a("Bob", 10);
+    Dog b("Bobik");
+    Dog c(10);
+    Dog d;
+    return 0;
+}
+
+/////////////////////////////////////////// 31-2
+#include <iostream>
+
+///Деструкторы
+class Animal {
+public:
+    virtual ~Animal() {
+        std::cout << "Del Animal!" << std::endl;
+    }
+
+    virtual void voice() = 0;
+};
+
+class Toy {
+    std::string name;
+public:
+    Toy(std::string _name) : name(_name){}
+    Toy() : name("SomeToy") {}
+    std::string getName() {
+        return name;
+    }
+};
+
+class Dog : public Animal {
+    std::string name;
+    int age;
+    Toy* lovelyToy;
+public:
+    Dog(std::string _name, std::string _toyName, int _age) : name(_name) {
+        if (_age >= 0 && _age <= 30) {
+            age = _age;
+        }
+        lovelyToy = new Toy(_toyName);
+        printNameAge();
+    }
+    Dog() : Dog("Snow", "SomeToy", 0) {}
+    Dog(std::string _name) : Dog(_name, "SomeToy", 0) {}
+    Dog(int _age) : Dog("Snow" , "SomeToy", _age) {}
+
+    Dog(const Dog& other) { /// копирование объекта
+        name = other.name;
+        age = other.age;
+        lovelyToy = new Toy(* other.lovelyToy); // копирование объекта игрушки
+    }
+
+    Dog& operator=(const Dog& other) { /// присваивание  объекта
+        if (this == &other) { // если объект присваиваем самого к себе
+            return *this;
+        }
+        name = other.name;
+        age = other.age;
+        if (lovelyToy != 0) { // если уже существует, то надо его сначала удалить
+            delete lovelyToy;
+        }
+        lovelyToy = new Toy(* other.lovelyToy); // копирование объекта игрушки
+    }
+
+    void voice() override { /// переопределена выше
+        std::cout << "Bark" << std::endl;
+    }
+
+    void printNameAge() {
+        std::cout << name << " " << lovelyToy->getName() << " " << age << std::endl;
+    }
+
+    virtual ~Dog() {
+        delete lovelyToy;
+        std::cout << "Del Dog" << std::endl;
+    }
+};
+
+class OperaDog : public Dog {
+public:
+    void voice() override final { /// больше нельзя переопределить, финальная
+        std::cout << "Baaaaaaaaaark" << std::endl;
+    }
+};
+
+int main() {
+
+    Animal* dog = new Dog("Druzhok", "Ball", 10);
+    delete dog;
+    OperaDog d;
+    d.voice();
+    std::cout << "=======================" << std::endl;
+    Dog dog1("Druzhok", "Ball", 10);
+    Dog dog2(dog1); /// копирование объекта c копированием объекта игрушка
+    std::cout << "=======================" << std::endl;
+
+    return 0;
+}
+
+////////////////////////////////////////////// 31 - 3
+
+#include <iostream>
+#include <memory>
+
+///Умные указатели
+
+class Toy {
+    std::string name;
+public:
+    Toy(std::string _name) : name(_name){}
+    Toy() : name("SomeToy") {}
+    std::string getName() {
+        return name;
+    }
+};
+class SmartPtrToy {
+    Toy* obj;
+public:
+    SmartPtrToy() {
+        obj = new Toy("SomeToy");
+    }
+    SmartPtrToy(std::string _name) {
+        obj = new Toy(_name);
+    }
+    SmartPtrToy(const SmartPtrToy& other) {
+        obj = new Toy(*other.obj);
+    }
+    SmartPtrToy& operator=(const SmartPtrToy& other) { /// умный указатель
+        if (this == &other) {
+            return *this;
+        }
+        if (obj != nullptr) {
+            delete obj;
+        }
+        obj = new Toy("SomeToy");
+        return *this;
+    }
+    ~SmartPtrToy() {
+        delete obj;
+    }
+};
+class Dog {
+    std::string name;
+    int age;
+    SmartPtrToy lovelyToy;
+public:
+    Dog(std::string _name, std::string _toyName, int _age) : name(_name), lovelyToy(_toyName) {
+        if (_age >= 0 && _age <= 30) {
+            age = _age;
+        }
+        printNameAge();
+    }
+    Dog() : Dog("Snow", "SomeToy", 0) {}
+    Dog(std::string _name) : Dog(_name, "SomeToy", 0) {}
+    Dog(int _age) : Dog("Snow" , "SomeToy", _age) {}
+
+
+    void printNameAge() {
+        std::cout << name << " " << age << std::endl;
+    }
+
+};
+
+
+
+int main() {
+
+
+    std::cout << "=======================" << std::endl;
+    Dog dog1("Druzhok", "Ball", 10);
+   // Dog dog2(dog1); /// копирование объекта c копированием объекта игрушка
+    std::cout << "=======================" << std::endl;
+
+    std::unique_ptr<Dog> d = std::make_unique<Dog>("Sharik","toyName",10); // ограничен доступ,
+                                                                                // копирование и присваивание запрещены
+    return 0;
+}
+
+////////////////////////////////////////////////// 31 - 4
+
+#include <iostream>
+#include <memory>
+
+///Умные указатели
+
+class Toy {
+    std::string name;
+public:
+    Toy(std::string _name) : name(_name){}
+    Toy() : name("SomeToy") {}
+    std::string getName() {
+        return name;
+    }
+};
+
+class Dog {
+    std::string name;
+    int age;
+    std::shared_ptr<Toy> lovelyToy;
+    std::weak_ptr<Dog> bestie;
+public:
+    Dog(std::string _name, std::shared_ptr<Toy> toy, int _age) : name(_name), lovelyToy(toy) {
+        if (_age >= 0 && _age <= 30) {
+            age = _age;
+        }
+        printNameAge();
+    }
+    Dog() : Dog("Snow", std::make_shared<Toy>("SomeToy"), 0) {}
+    Dog(std::string _name) : Dog(_name, std::make_shared<Toy>("SomeToy"), 0) {}
+    Dog(int _age) : Dog("Snow" , std::make_shared<Toy>("SomeToy"), _age) {}
+
+    void copyLovelyToy(const Dog& oth) {
+        lovelyToy = oth.lovelyToy;
+    }
+
+    void setBestie(std::shared_ptr<Dog> _bestie) {
+        bestie = _bestie;
+    }
+
+    void printNameAge() {
+        std::cout << name << " " << age << std::endl;
+    }
+
+};
+
+
+
+int main() {
+    std::shared_ptr<Toy> ball = std::make_shared<Toy>("Ball");
+    std::shared_ptr<Toy> bone = std::make_shared<Toy>("Bone");
+
+    Dog a("Sharik", ball, 10);
+    Dog b("Druzhok", ball, 11);
+    Dog c("Pushok", ball, 12);
+    Dog d("Vanya", bone, 13);
+    Dog e("Iriska", bone, 14);
+
+
+    std::shared_ptr<Dog> f = std::make_shared<Dog>("Bob", ball, 7);
+    std::shared_ptr<Dog> g = std::make_shared<Dog>("Pes", ball, 8);
+    std::shared_ptr<Dog> h = std::make_shared<Dog>("Shrek", ball, 9);
+
+    f->setBestie(g);
+    g->setBestie(f);
+    Dog* pf = f.get();
+    Dog* pg = g.get();
+    f.reset();
+    g.reset();
+
+
+
+
+
+    e.copyLovelyToy(c);
+
+    //Toy* f = bone.get(); // сырой указатель, тоже удалиться
+    d.copyLovelyToy(c);
+
+    ball.reset();
+    bone.reset();
+
+    return 0;
+}
+
+

@@ -1,0 +1,14 @@
+
+syntax = "proto2";
+// версия
+
+message Record // сообщение
+{
+  required string name = 1; // поля обязательные
+  required string family = 2;
+  optional int32 age = 3; // поля опциональные
+  optional bool married = 4;
+}
+// bin\ptotoc.exe record.proto --cpp_out=.
+// bin\protoc.exe record.proto --cpp_out=.
+// bin\protoc.exe cmake-build-debug\record.proto
