@@ -3,6 +3,7 @@
 !*.cpp
 !*.hpp
 !*.h
+!*.cc
 !*git.bin
 !*git.txt
 !Qt/**/*.*
@@ -41,3 +42,9 @@ Skillbox/module_30_HTTP_requests/30_2_Capturing_title_of_web_page/cmake-build-de
 Skillbox/module_30_HTTP_requests/30_3_Queries_with_arguments/cmake-build-debug/**/*.*
 Skillbox/module_30_HTTP_requests/30_3_Queries_with_arguments/cmake-build-debug/
 !Skillbox/module_30_HTTP_requests/30_3_Queries_with_arguments/CMakeLists.txt
+
+test/module_32_test_1/nlohmann_json/**/*.*
+#test/module_32_test_1/cmake-build-debug/**/*.*
+!test/module_32_test_1/CMakeLists.txt
+!test/module_32_test_1/cmake-build-debug/record.json
+!test/module_32_test_1/cmake-build-debug/record.proto
