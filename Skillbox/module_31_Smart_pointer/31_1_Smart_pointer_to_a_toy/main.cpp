@@ -13,23 +13,23 @@ public:
     }
 };
 
-
 class shared_ptr_toy {
     Toy *toy;
     int *count = nullptr;
 public:
     shared_ptr_toy() {
         toy = new Toy("SomeToy");
-        count = nullptr;
+        count = new int(1);;
     }
 
     shared_ptr_toy(std::string name) {
             toy = new Toy(name);
-            count = new int(0);
+            count = new int(1);
     }
 
     shared_ptr_toy(const shared_ptr_toy& other) {
-        //toy = new Toy(*other.toy);
+        toy = other.toy;
+        count = other.count;
         ++*count;
     }
 
@@ -38,34 +38,25 @@ public:
             return *this;
         }
         if (toy != nullptr) {
-            delete toy;
+            del();
         }
-        toy = new Toy(*other.toy);
+        toy = other.toy;
+        count = other.count;
         ++*count;
         return *this;
     }
 
     ~shared_ptr_toy() {
-      /*  if (*count == 1) {
-            delete toy;
-        } else {
-            --*count;
-        }
-        */
+        del();
     }
+
     void del() {
-        if (*count == 1) {
-            *count = 0;
+        --*count;
+        if (*count == 0) {
+            delete count;
             delete toy;
-        } else {
-            --*count;
         }
     }
-
-    void addCount() {
-        ++*count;
-    }
-
 };
 
 
@@ -78,9 +69,7 @@ public:
         if (_age >= 0 && _age < 30) {
             age = _age;
         }
-        lovelyToy = toy;
-        lovelyToy->addCount();
-
+        lovelyToy = new shared_ptr_toy(*toy);
     }
     //Dog() : Dog("Snow", shared_ptr_toy("SomeToy"), 0) {};
     //Dog(std::string _name) : Dog(_name, shared_ptr_toy("SomeToy") , 0) {};
@@ -95,7 +84,7 @@ int main() {
 
     shared_ptr_toy ball("ball");
     shared_ptr_toy bonn("boon");
-    Dog* d = new Dog("Bob", &ball , 3);
+    Dog d("Bob", &ball , 3);
     Dog d2("Sharik", &ball , 4);
     Dog d3("Tuzik", &ball , 5);
     Dog d4("Snow", &bonn , 6);

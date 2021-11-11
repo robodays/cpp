@@ -40,6 +40,10 @@ public:
 
     ListGraph(const MatrixGraph* other);
 
+    ListGraph(IGraph* other);
+
+    void MatrixToList(const MatrixGraph* other);
+
     void AddEdge(int from, int to) override {
         lists[from].push_back(to);
     }
@@ -83,6 +87,10 @@ public:
     }
     MatrixGraph(const ListGraph* other);
 
+    MatrixGraph(IGraph* other);
+
+    void ListToMatrix(const ListGraph* other);
+
     void AddEdge(int from, int to) override {
         matrix[from][to] = true;
     }
@@ -91,7 +99,7 @@ public:
         int count = 0;
         for (auto row : matrix) {
             for (auto val : row) {
-                if (val == true) {
+                if (val) {
                     count++;
                 }
             }
@@ -120,8 +128,22 @@ public:
 };
 
 ListGraph::ListGraph(const MatrixGraph* other) {
+    MatrixToList(other);
+/*
     lists.clear();
     lists = std::vector<std::vector<int>>(other->VerticesCount());
+    for (int i = 0; i < other->matrix.size(); ++i) {
+        for (int j = 0; j < other->matrix[i].size(); ++j) {
+            if (other->matrix[i][j]) {
+                lists[i].push_back(j);
+            }
+        }
+    }
+*/
+}
+void ListGraph::MatrixToList(const MatrixGraph* other) {
+    lists.clear();
+    lists = std::vector<std::vector<int>>(other->matrix.size());
     for (int i = 0; i < other->matrix.size(); ++i) {
         for (int j = 0; j < other->matrix[i].size(); ++j) {
             if (other->matrix[i][j]) {
@@ -132,14 +154,42 @@ ListGraph::ListGraph(const MatrixGraph* other) {
 }
 
 MatrixGraph::MatrixGraph(const ListGraph* other) {
-    matrix.clear();
+    ListToMatrix(other);
+    /*matrix.clear();
     matrix = std::vector<std::vector<bool>>(other->VerticesCount(),std::vector<bool>(other->VerticesCount(), false));
     for (int i = 0; i < other->lists.size(); ++i) {
         for (int val : other->lists[i]) {
-             matrix[i][val] = true;
+            matrix[i][val] = true;
+        }
+    }*/
+}
+
+void MatrixGraph::ListToMatrix(const ListGraph* other) {
+    matrix.clear();
+    matrix = std::vector<std::vector<bool>>(other->lists.size(),std::vector<bool>(other->lists.size(), false));
+    for (int i = 0; i < other->lists.size(); ++i) {
+        for (int val : other->lists[i]) {
+            matrix[i][val] = true;
         }
     }
 }
+
+ListGraph::ListGraph(IGraph* other) {
+    if (ListGraph* listGraph = dynamic_cast<ListGraph*>(other)){
+        lists = listGraph->lists;
+    } else if (MatrixGraph* matrixGraph = dynamic_cast<MatrixGraph*>(other)){
+        MatrixToList(matrixGraph);
+    }
+}
+
+MatrixGraph::MatrixGraph(IGraph* other) {
+    if (MatrixGraph* matrixGraph = dynamic_cast<MatrixGraph*>(other)){
+        matrix = matrixGraph->matrix;
+    } else if (ListGraph* listGraph = dynamic_cast<ListGraph*>(other)){
+        ListToMatrix(listGraph);
+    }
+}
+
 
 std::string vectorToStr(std::vector<int> &vector) {
 
@@ -217,6 +267,15 @@ int main() {
     ListGraph* listGraph3 = new ListGraph(matrixGraph);
     MatrixGraph* matrixGraph2 = new MatrixGraph(matrixGraph);
     MatrixGraph* matrixGraph3 = new MatrixGraph(listGraph);
+
+    IGraph* IGraph1 = new ListGraph(listGraph);
+    IGraph* IGraph2 = new MatrixGraph(matrixGraph);
+
+    ListGraph* listGraph4 = new ListGraph(IGraph1);
+    ListGraph* listGraph5 = new ListGraph(IGraph2);
+    MatrixGraph* matrixGraph4 = new MatrixGraph(IGraph1);
+    MatrixGraph* matrixGraph5 = new MatrixGraph(IGraph2);
+
 
     return 0;
 }
