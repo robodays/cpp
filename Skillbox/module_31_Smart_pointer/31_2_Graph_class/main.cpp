@@ -129,18 +129,8 @@ public:
 
 ListGraph::ListGraph(const MatrixGraph* other) {
     MatrixToList(other);
-/*
-    lists.clear();
-    lists = std::vector<std::vector<int>>(other->VerticesCount());
-    for (int i = 0; i < other->matrix.size(); ++i) {
-        for (int j = 0; j < other->matrix[i].size(); ++j) {
-            if (other->matrix[i][j]) {
-                lists[i].push_back(j);
-            }
-        }
-    }
-*/
 }
+
 void ListGraph::MatrixToList(const MatrixGraph* other) {
     lists.clear();
     lists = std::vector<std::vector<int>>(other->matrix.size());
@@ -155,13 +145,6 @@ void ListGraph::MatrixToList(const MatrixGraph* other) {
 
 MatrixGraph::MatrixGraph(const ListGraph* other) {
     ListToMatrix(other);
-    /*matrix.clear();
-    matrix = std::vector<std::vector<bool>>(other->VerticesCount(),std::vector<bool>(other->VerticesCount(), false));
-    for (int i = 0; i < other->lists.size(); ++i) {
-        for (int val : other->lists[i]) {
-            matrix[i][val] = true;
-        }
-    }*/
 }
 
 void MatrixGraph::ListToMatrix(const ListGraph* other) {
@@ -263,10 +246,14 @@ int main() {
               << "\tNextVertices for " << vertex << ": " << printNextVertices
               << "\tPrevVertices for " << vertex << ": " << printPrevVertices << std::endl;
 
+///
+
     ListGraph* listGraph2 = new ListGraph(listGraph);
     ListGraph* listGraph3 = new ListGraph(matrixGraph);
     MatrixGraph* matrixGraph2 = new MatrixGraph(matrixGraph);
     MatrixGraph* matrixGraph3 = new MatrixGraph(listGraph);
+
+///
 
     IGraph* IGraph1 = new ListGraph(listGraph);
     IGraph* IGraph2 = new MatrixGraph(matrixGraph);
@@ -276,6 +263,18 @@ int main() {
     MatrixGraph* matrixGraph4 = new MatrixGraph(IGraph1);
     MatrixGraph* matrixGraph5 = new MatrixGraph(IGraph2);
 
+    delete listGraph;
+    delete listGraph2;
+    delete listGraph3;
+    delete listGraph4;
+    delete listGraph5;
+    delete matrixGraph;
+    delete matrixGraph2;
+    delete matrixGraph3;
+    delete matrixGraph4;
+    delete matrixGraph5;
+    delete IGraph1;
+    delete IGraph2;
 
     return 0;
 }
