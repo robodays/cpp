@@ -9,6 +9,6 @@ message Record // сообщение
   optional int32 age = 3; // поля опциональные
   optional bool married = 4;
 }
-// bin\ptotoc.exe record.proto --cpp_out=.
+
 // bin\protoc.exe record.proto --cpp_out=.
 // bin\protoc.exe cmake-build-debug\record.proto
