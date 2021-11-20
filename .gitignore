@@ -64,3 +64,9 @@ Skillbox/module_32_JSON/32_3_Company_data_model_on_Protobuf/nlohmann_json/**/*.*
 !Skillbox/module_32_JSON/32_3_Company_data_model_on_Protobuf/CMakeLists.txt
 !Skillbox/module_32_JSON/32_3_Company_data_model_on_Protobuf/cmake-build-debug/record.json
 !Skillbox/module_32_JSON/32_3_Company_data_model_on_Protobuf/cmake-build-debug/record.proto
+
+#module 34
+mocs_compilation.cpp
+moc_predefs.h
+!test/module_34_test_2/CMakeLists.txt
+

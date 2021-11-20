@@ -14,6 +14,18 @@ public:
     }
 };
 
+class Unit {
+public:
+    Unit(){};
+};
+class UnitTeam {
+    std::vector<Unit> mUnits;
+public:
+    UnitTeam(std::initializer_list<Unit> units) {
+        mUnits = units;
+    }
+};
+
 /// для 4
 class GeoPoint{
     float lon, lat;
@@ -52,13 +64,19 @@ int main() {
         std::cout << (*it) << " ";
     }
     std::cout << std::endl;
+    //auto result = sqrt(81);
+    auto n21 = 2;
+    auto n22 = 3.1;
+    auto n23 = n21 + n22;
+    std::cout << "n23 " << n23 << std::endl;
+    std::cout << std::endl;
 
     /// 3. однотипная инициализация
 
     int arr2[] = {1,2,3};
     std::vector<int> arr3 = {1,2,3};
     Tool tool = {Part(),Part()};
-
+    UnitTeam unitTeam = {Unit(),Unit()};
 
     /// 4.
 
