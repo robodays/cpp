@@ -2,7 +2,7 @@
 #include <filesystem>
 
 /// !!!!!!! C++ 17
-
+/// no work MinGW  -> module_35_test_3_qt
 
 
 int main() {
@@ -20,7 +20,7 @@ int main() {
     std::filesystem::space(p).capacity; // емкость диска
     std::filesystem::space(p).free; // свободное место на диске
 
-    std::filesystem::path ourLink("/home/file2.txt"); // создание ссылки
+    std::filesystem::path ourLink("/home/file2"); // создание ссылки
     std::filesystem::create_symlink(std::filesystem::absolute("/home/user/file.txt"),ourLink); // создание ярлыка(ссылки)
 */
     //    std::filesystem::create_directory(); // создание директории

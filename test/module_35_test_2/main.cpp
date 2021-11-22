@@ -42,16 +42,23 @@ int main() {
     std::vector<int> v1= {5,2,6,8,7,3};
     tuple = averageAndExtremums(v1);
 
-    std::cout << "avg " << std::get<0>(tuple) << "\tmin " << std::get<1>(tuple) << "\tmax "
+    std::cout << "average " << std::get<0>(tuple) << "\tmin " << std::get<1>(tuple) << "\tmax "
                 << std::get<2>(tuple) << std::endl;
+
+    auto min = std::min_element(v1.begin(),v1.end());
+    auto max = std::max_element(v1.begin(),v1.end());
+
+    std::cout << "average " << std::get<0>(tuple) << "\tmin " << *min << "\tmax "
+        << *max << std::endl;
+
 
     /// Ассоциативные контейнеры set multiset map multimap
     std::set<std::string> set;
     std::map<std::string,int> map;
     std::unordered_map<std::string,int> u_map;
 
-    std::unordered_set<std::string> strings_map = {"first", "second", "third"};
-    if(strings_map.count("second")) {
+    std::unordered_set<std::string> strings = {"first", "second", "third"};
+    if(strings.count("second")) {
         std::cout <<  "already exist" << std::endl;
     }
 
