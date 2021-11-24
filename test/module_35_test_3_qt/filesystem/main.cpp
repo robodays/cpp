@@ -1,22 +1,18 @@
 #include <iostream>
-#include <filesystem> // C++17
+#include <filesystem>
 
 int main()
 {
-    //std::filesystem::path p("E:\\GitHub\\cpp");
-    std::filesystem::path p("D:\\github\\cpp");
+
+    std::filesystem::path p("E:\\GitHub\\cpp");
     //auto dirName = p.extension();  // // расширение файла
     //std::cout << "dir name: " << dirName << std::endl;
-
-    for (auto i = p.begin(); i != p.end(); i++) { // < no work, != work
+    for(auto i = p.begin(); i != p.end(); i++){ // < no work, != work
         std::cout << *i << " ";
     }
-
-
-    for (const auto& c : p) {
+    for(auto c : p){
         std::cout << c << " ";
     }
-
     std::cout << std::endl;
     auto exists_p = std::filesystem::exists(p); // проверяет, существует ли путь bool
     auto is_regular_file_p = std::filesystem::is_regular_file(p); // является ли файлом bool
@@ -31,14 +27,13 @@ int main()
 
     std::cout << "===========================" << std::endl;
 
-    //std::filesystem::path f("E:\\GitHub\\cpp\\guide\\24_Time.txt");
-    std::filesystem::path f("D:\\github\\cpp\\guide\\24_Time.txt");
+    std::filesystem::path f("E:\\GitHub\\cpp\\guide\\24_Time.txt");
     auto fileName = f.extension();  // расширение файла
     std::cout << "file name: " << fileName << std::endl;
-    for (auto i = f.begin(); i != f.end(); i++) { // < no work, != work
+    for(auto i = f.begin(); i != f.end(); i++){ // < no work, != work
         std::cout << *i << " ";
     }
-    for (const auto& c : f) {
+    for(auto c : f){
         std::cout << c << " ";
     }
     std::cout << std::endl;
@@ -55,10 +50,10 @@ int main()
     std::cout << "free_f: " << free << std::endl;
 
 
-    //  std::filesystem::path ourLink("E:\\GitHub\\cpp\\guide\\24_Time1"); // создание ссылки
-    //  std::filesystem::create_symlink(std::filesystem::absolute("E:\\GitHub\\cpp\\guide\\24_Time.txt"),ourLink); // создание ярлыка(ссылки)
+//  std::filesystem::path ourLink("E:\\GitHub\\cpp\\guide\\24_Time1"); // создание ссылки
+//  std::filesystem::create_symlink(std::filesystem::absolute("E:\\GitHub\\cpp\\guide\\24_Time.txt"),ourLink); // создание ярлыка(ссылки)
 
-    //  std::filesystem::create_directory("E:\\G"); // создание директории
+//  std::filesystem::create_directory("E:\\G"); // создание директории
     //    std::filesystem::create_hard_link(); // жесткие ссылки
 
 }
