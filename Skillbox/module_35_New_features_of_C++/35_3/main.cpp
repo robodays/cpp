@@ -1,14 +1,32 @@
 #include <iostream>
-//#include <filesystem> //c++ 17
+#include <filesystem> //c++ 17 // msys64 or Visual Studio instead of Mingw
+#include <vector>
+
 
 int main() {
-    //std::filesystem::path p("E:\\GitHub");
-/*
-    for(auto& p: fs::recursive_directory_iterator("D:\\dir1"))
-        std::cout << p.path() << '\n';
-*/
 
-    std::cout << "Hello, World!" << std::endl;
+    auto recursiveGetFileNamesByExtension =
+            [](const std::filesystem::path& path, const std::string& extension) -> std::vector<std::filesystem::path> {
+        std::vector<std::filesystem::path> filesName;
+
+        for(const auto& pathToFile: std::filesystem::recursive_directory_iterator(path)) {
+            //if (std::filesystem::is_regular_file(pathToFile) && pathToFile.path().extension() == extension) {
+            if (std::filesystem::is_regular_file(pathToFile) && pathToFile.path().extension().compare(extension) == 0) {
+                filesName.emplace_back(pathToFile.path());
+            }
+        }
+
+        return filesName;
+    };
+
+    std::filesystem::path path("D:\\GitHub\\cpp\\Skillbox");
+
+    std::vector<std::filesystem::path> vec = recursiveGetFileNamesByExtension(path,".cpp");
+    for (const auto& v : vec) {
+        std::cout << v << std::endl;
+    }
+
+
     return 0;
 }
 
