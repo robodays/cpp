@@ -6,6 +6,7 @@
 !*.cc
 !*git.bin
 !*git.txt
+!*git.png
 !Qt/**/*.*
 #!test/**/*.*
 !SQL/**/*.*
