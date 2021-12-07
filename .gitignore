@@ -71,3 +71,4 @@ mocs_compilation.cpp
 moc_predefs.h
 !test/module_34_test_2/CMakeLists.txt
 
+!Skillbox/module_36_Qt_Widgets/36_1_Qt_Widgets/CMakeLists.txt
