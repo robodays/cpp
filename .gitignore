@@ -4,6 +4,7 @@
 !*.hpp
 !*.h
 !*.cc
+!*.ui
 !*git.bin
 !*git.txt
 !*git.png
