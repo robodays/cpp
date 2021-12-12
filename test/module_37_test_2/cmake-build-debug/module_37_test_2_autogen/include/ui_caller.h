@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'caller.ui'
 **
-** Created by: Qt User Interface Compiler version 6.2.0
+** Created by: Qt User Interface Compiler version 6.2.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -48,7 +48,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(636, 651);
+        MainWindow->resize(726, 619);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout_2 = new QGridLayout(centralwidget);
@@ -171,13 +171,24 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 636, 26));
+        menubar->setGeometry(QRect(0, 0, 726, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
+        QObject::connect(pushButton, SIGNAL(clicked()), MainWindow, SLOT(add1()));
+        QObject::connect(pushButton_2, SIGNAL(clicked()), MainWindow, SLOT(add2()));
+        QObject::connect(pushButton_3, SIGNAL(clicked()), MainWindow, SLOT(add3()));
+        QObject::connect(pushButton_4, SIGNAL(clicked()), MainWindow, SLOT(add4()));
+        QObject::connect(pushButton_5, SIGNAL(clicked()), MainWindow, SLOT(add5()));
+        QObject::connect(pushButton_6, SIGNAL(clicked()), MainWindow, SLOT(add6()));
+        QObject::connect(pushButton_7, SIGNAL(clicked()), MainWindow, SLOT(add7()));
+        QObject::connect(pushButton_8, SIGNAL(clicked()), MainWindow, SLOT(add8()));
+        QObject::connect(pushButton_9, SIGNAL(clicked()), MainWindow, SLOT(add9()));
+        QObject::connect(pushButton_10, SIGNAL(clicked()), MainWindow, SLOT(add0()));
+        QObject::connect(pushButton_11, SIGNAL(clicked()), MainWindow, SLOT(makeCall()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi

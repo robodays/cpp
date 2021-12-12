@@ -4,4 +4,6 @@ add_executable(module_36_test_3 WIN32 main.cpp)
 
 
 windeployqt чере CMD
-E:\Qt\6.2.1\mingw81_64\bin>windeployqt.exe E:\GitHub\cpp\test\module_36_test_3\cmake-build-debug\module_36_test_3.exe
+E:\Qt\6.2.1\mingw81_64\bin> windeployqt.exe E:\GitHub\cpp\test\module_36_test_3\cmake-build-debug\module_36_test_3.exe
+или полный путь
+E:\Qt\6.2.1\mingw81_64\bin\windeployqt.exe E:\GitHub\cpp\test\module_36_test_3\cmake-build-debug\module_36_test_3.exe

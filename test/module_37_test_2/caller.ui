@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>636</width>
-    <height>651</height>
+    <width>726</width>
+    <height>619</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -278,7 +278,7 @@ color: rgb(249, 249, 249); </string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>636</width>
+     <width>726</width>
      <height>22</height>
     </rect>
    </property>
@@ -310,7 +310,7 @@ color: rgb(249, 249, 249); </string>
    <slot>add2()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>227</x>
+     <x>263</x>
      <y>171</y>
     </hint>
     <hint type="destinationlabel">
@@ -326,7 +326,7 @@ color: rgb(249, 249, 249); </string>
    <slot>add3()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>440</x>
+     <x>516</x>
      <y>155</y>
     </hint>
     <hint type="destinationlabel">
@@ -358,7 +358,7 @@ color: rgb(249, 249, 249); </string>
    <slot>add5()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>246</x>
+     <x>263</x>
      <y>257</y>
     </hint>
     <hint type="destinationlabel">
@@ -374,7 +374,7 @@ color: rgb(249, 249, 249); </string>
    <slot>add6()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>454</x>
+     <x>516</x>
      <y>257</y>
     </hint>
     <hint type="destinationlabel">
@@ -390,8 +390,8 @@ color: rgb(249, 249, 249); </string>
    <slot>add7()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>196</x>
-     <y>360</y>
+     <x>186</x>
+     <y>344</y>
     </hint>
     <hint type="destinationlabel">
      <x>195</x>
@@ -406,8 +406,8 @@ color: rgb(249, 249, 249); </string>
    <slot>add8()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>380</x>
-     <y>363</y>
+     <x>368</x>
+     <y>344</y>
     </hint>
     <hint type="destinationlabel">
      <x>441</x>
@@ -422,8 +422,8 @@ color: rgb(249, 249, 249); </string>
    <slot>add9()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>602</x>
-     <y>381</y>
+     <x>549</x>
+     <y>344</y>
     </hint>
     <hint type="destinationlabel">
      <x>478</x>
@@ -435,15 +435,31 @@ color: rgb(249, 249, 249); </string>
    <sender>pushButton_10</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
+   <slot>add0()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>337</x>
+     <y>445</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>640</x>
+     <y>477</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_11</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
    <slot>makeCall()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>323</x>
-     <y>443</y>
+     <x>585</x>
+     <y>558</y>
     </hint>
     <hint type="destinationlabel">
-     <x>599</x>
-     <y>531</y>
+     <x>596</x>
+     <y>447</y>
     </hint>
    </hints>
   </connection>
