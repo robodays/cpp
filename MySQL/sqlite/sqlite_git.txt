@@ -1,0 +1,11 @@
+https://qna.habr.com/q/302982
+https://www.youtube.com/watch?v=L-hnA82JsEM
+https://www.tutorialspoint.com/sqlite/sqlite_c_cpp.htm
+https://quares.ru/?id=448167
+https://www.jetbrains.com/help/clion/sqlite.html
+install https://coderlessons.com/tutorials/bazy-dannykh/vyuchit-sqlite/sqlite-kratkoe-rukovodstvo
+https://github.com/SRombauts/SQLiteCpp
+http://espressocode.top/sql-using-c-c-and-sqlite/
+
+
+

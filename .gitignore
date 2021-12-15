@@ -6,6 +6,7 @@
 !*.cc
 !*.ui
 !*.qml
+!*.qrc
 !*git.bin
 !*git.txt
 !*git.png

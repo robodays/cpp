@@ -200,7 +200,7 @@
      <x>0</x>
      <y>0</y>
      <width>573</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -228,7 +228,7 @@
    <sender>buttonSub</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>div()</slot>
+   <slot>sub()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>185</x>
@@ -260,7 +260,7 @@
    <sender>buttonDiv</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>sub()</slot>
+   <slot>div()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>447</x>

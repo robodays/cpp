@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'calculator.ui'
 **
-** Created by: Qt User Interface Compiler version 6.2.1
+** Created by: Qt User Interface Compiler version 6.2.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -151,7 +151,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 573, 22));
+        menubar->setGeometry(QRect(0, 0, 573, 26));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -159,9 +159,9 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(buttonAdd, SIGNAL(clicked()), MainWindow, SLOT(add()));
-        QObject::connect(buttonSub, SIGNAL(clicked()), MainWindow, SLOT(div()));
+        QObject::connect(buttonSub, SIGNAL(clicked()), MainWindow, SLOT(sub()));
         QObject::connect(buttonMult, SIGNAL(clicked()), MainWindow, SLOT(mult()));
-        QObject::connect(buttonDiv, SIGNAL(clicked()), MainWindow, SLOT(sub()));
+        QObject::connect(buttonDiv, SIGNAL(clicked()), MainWindow, SLOT(div()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
