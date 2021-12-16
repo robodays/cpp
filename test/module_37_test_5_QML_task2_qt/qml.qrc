@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file alias="21stcenturyfox.png">21stcenturyfox.png</file>
+    </qresource>
+</RCC>
