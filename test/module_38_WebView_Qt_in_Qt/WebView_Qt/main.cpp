@@ -11,7 +11,7 @@
 
 class BrowserTabWidget : public QWidget
 {
-    //Q_OBJECT
+    Q_OBJECT
 signals:
     void tabLoadingFinished(QString tabTitle);
 };
@@ -35,14 +35,14 @@ BrowserTabWidget* createNewBrowserWindow()
         webView->load(urlToOpen);
     });
     // захватываем название сайта после полной загрузки
-/*    QObject::connect(webView, &QWebEngineView::loadFinished, [webView, browserWindow](bool ok)
+    QObject::connect(webView, &QWebEngineView::loadFinished, [webView, browserWindow](bool ok)
     {
         if (ok)
         {
             emit browserWindow->tabLoadingFinished(webView->title());
         }
     });
-*/
+
     return browserWindow;
 }
 
@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
         auto newTab = createNewBrowserWindow();
 
         // устанавливаем имя вкладки по названию сайта
-       /* QObject::connect(newTab, &BrowserTabWidget::tabLoadingFinished, [&tabs](QString newTitle)
+        QObject::connect(newTab, &BrowserTabWidget::tabLoadingFinished, [&tabs](QString newTitle)
         {
             tabs.setTabText(tabs.currentIndex(), newTitle);
             tabs.setWindowTitle(newTitle);
-        });*/
+        });
 
         tabs.addTab(newTab, "tab " + QString::number(tabs.count() + 1)); // устанавливаем имя вкладки
     });
@@ -95,3 +95,5 @@ int main(int argc, char *argv[])
     tabs.show();
     return a.exec();
 }
+
+#include <main.moc>
