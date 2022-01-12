@@ -1,27 +1,27 @@
 cmake_minimum_required(VERSION 3.20)
-project(module_37_test_4_QML)
+project(37_2_Video_player_in_QML)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "D:/Qt/6.2.2/mingw_64/lib/cmake")
+set(CMAKE_PREFIX_PATH "C:/Qt6/6.2.2/mingw_64/lib/cmake")
 
 find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
-        Quick
+        #Quick
         REQUIRED)
 
-add_executable(module_37_test_4_QML WIN32 main.cpp main.qml qml.qrc)
+add_executable(37_2_Video_player_in_QML WIN32 main.cpp main.qml)# qml.qrc)
 
-target_link_libraries(module_37_test_4_QML
+target_link_libraries(37_2_Video_player_in_QML
         Qt::Core
         Qt::Gui
         Qt::Widgets
-        Qt::Quick
+        #Qt::Quick
         )
 
 if (WIN32)
