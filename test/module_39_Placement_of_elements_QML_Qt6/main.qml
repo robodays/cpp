@@ -52,5 +52,5 @@ Window {
             border.color: "black"
         }
     }
-    title: qsTr("Hello World")
+    //title: qsTr("Hello World")
 }

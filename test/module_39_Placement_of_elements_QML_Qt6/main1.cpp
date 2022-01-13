@@ -39,6 +39,8 @@ int main(int argc, char *argv[]) {
     QObject::connect(engine, SIGNAL(quit()), &app, SLOT(quit()));
     QWindow *window = (QWindow*)component.create();
 
+
+
     window->show();
 
     return app.exec();

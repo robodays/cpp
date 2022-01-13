@@ -6,7 +6,7 @@
 !*.cc
 !*.ui
 !*main.qml
-!*main.qrc
+!*qml.qrc
 !*git.*
 !Qt/**/*.*
 #!test/**/*.*
