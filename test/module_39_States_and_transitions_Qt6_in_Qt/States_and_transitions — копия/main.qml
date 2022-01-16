@@ -1,6 +1,4 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
 
 
 Window {
@@ -27,8 +25,7 @@ Window {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: { scene.color = 'red'
-                    scene.state = "LeftState"}
+                onClicked: { scene.color = 'red' }
              }
  //           MouseArea {
  //               anchors.fill: parent
@@ -48,8 +45,7 @@ Window {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: { scene.color = 'blue'
-                    scene.state = "RightState"}
+                onClicked: { scene.color = 'blue' }
              }
 //            MouseArea {
 //                anchors.fill: parent
@@ -92,7 +88,7 @@ Window {
 
 
                 NumberAnimation {
-                    properties: "x,y"
+                    property: "x,y"
                     duration: 1000
                     easing.type: Easing.InOutExpo
                 }
@@ -102,7 +98,7 @@ Window {
                 to: "LeftState"
 
                 NumberAnimation {
-                    properties: "x,y"
+                    property: "x,y"
                     duration: 1000
                     easing.type: Easing.OutBounce
                 }

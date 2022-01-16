@@ -25,12 +25,13 @@ Window {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: { scene.color = 'red' }
+                onClicked: {
+                    scene.color = 'red'
+                    scene.state = "LeftState"
+                }
+                //onClicked: { scene.color = 'red'}
+                //onClicked:  scene.state = "LeftState"
              }
- //           MouseArea {
- //               anchors.fill: parent
- //               onClicked:  scene.state = "LeftState"
- //           }
         }
         Rectangle {
             id: rightRectangle
@@ -45,12 +46,13 @@ Window {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: { scene.color = 'blue' }
+                onClicked: {
+                    scene.color = 'blue'
+                    scene.state = "RightState"
+                }
+                //onClicked: { scene.color = 'blue' }
+                //onClicked:  scene.state = "RightState"
              }
-//            MouseArea {
-//                anchors.fill: parent
-//                onClicked:  scene.state = "RightState"
-//            }
         }
 
         Rectangle {
@@ -88,7 +90,7 @@ Window {
 
 
                 NumberAnimation {
-                    property: "x,y"
+                    properties: "x,y"
                     duration: 1000
                     easing.type: Easing.InOutExpo
                 }
@@ -98,13 +100,11 @@ Window {
                 to: "LeftState"
 
                 NumberAnimation {
-                    property: "x,y"
+                    properties: "x,y"
                     duration: 1000
                     easing.type: Easing.OutBounce
                 }
             }
         ]
     }
-
-
 }
