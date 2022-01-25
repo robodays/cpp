@@ -3,23 +3,27 @@
 #include <iostream>
 #include <pqxx/pqxx>
 
+#include <windows.h>
+
 /// Query employees from database.  Return result.
-pqxx::result query()
+pqxx::result query(std::string query)
 {
-    pqxx::connection c("dbname = postgres user = postgres password = root hostaddr = 127.0.0.1 port = 5432");
-//    pqxx::connection c{"postgresql://accounting@localhost/company"};
+    pqxx::connection c("dbname = test_db user = postgres password = root hostaddr = 127.0.0.1 port = 5432");
+//  pqxx::connection c{"postgresql://accounting@localhost/company"};
     pqxx::work txn{c};
 
-    pqxx::result r{txn.exec("SELECT name, salary FROM Employee")};
+    pqxx::result r{txn.exec(query)};
+/*
     for (auto row: r)
         std::cout
         // Address column by name.  Use c_str() to get C-style string.
-        << row["name"].c_str()
+        << row["product_name"].c_str()
         << " makes "
         // Address column by zero-based index.  Use as<int>() to parse as int.
-        << row[1].as<int>()
-        << "."
+        << row["price"].as<double>()
+//        << row[1].as<int>()
         << std::endl;
+*/
 
     // Not really needed, since we made no changes, but good habit to be
     // explicit about when the transaction is done.
@@ -30,12 +34,22 @@ pqxx::result query()
 }
 
 
-/// Query employees from database, print results.
+/// Query from database, print results.
 int main(int, char *argv[])
 {
+    //system("chcp 65001");
+    SetConsoleOutputCP(CP_UTF8);
     try
     {
-        pqxx::result r{query()};
+        std::string SQLQuery = "SELECT product_id, product_name, price, categories_name, price as p "
+                               "FROM goods "
+                               "JOIN categories ON category = categories_id "
+                               "WHERE category IN (3, 4) "
+                               "ORDER BY product_id;";
+
+//        std::string SQLQuery = "INSERT INTO goods (product_name, price, category) VALUES ('Мёд', 233.55, 3);";
+
+        pqxx::result r{query(SQLQuery)};
 
         // Results can be accessed and iterated again.  Even after the connection
         // has been closed.
@@ -60,36 +74,5 @@ int main(int, char *argv[])
     }
 }
 
-/*
-
-#include <iostream>
-#include <pqxx/pqxx>
-
-using namespace std;
-using namespace pqxx;
-
-
-int main(int argc, char *argv[])
-{
-    try
-    {
-        connection C("dbname = postgres user = postgres password = root hostaddr = 127.0.0.1 port = 5432");
-        if (C.is_open())
-        {
-            cout << "Opened database successfully: " << C.dbname() << endl;
-        }
-        else
-        {
-            cout << "Can't open database" << endl;
-            return 1;
-        }
-    }
-    catch (const std::exception &e)
-    {
-        cerr << e.what() << std::endl;
-        return 1;
-    }
-}
-*/
 
 
