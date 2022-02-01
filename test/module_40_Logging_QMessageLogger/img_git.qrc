@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/green_git.png</file>
+        <file>img/red_git.png</file>
+        <file>img/yellow_git.png</file>
+    </qresource>
+</RCC>
+
