@@ -1,0 +1,36 @@
+project (GUIQMLScreenTest CXX)
+
+add_definitions(-DQUICK_TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+
+enable_testing(true)
+
+
+add_executable (GUIQMLScreenTest
+    "tst_main.cpp"
+     tst_GUI.qml
+     tst_fibrect.qml
+     MockBusinessLogic.qml
+    )
+
+add_test(NAME GUIQMLScreenTest
+         COMMAND GUIQMLScreenTest)
+
+find_package(Qt5 REQUIRED COMPONENTS
+    Core
+    Quick
+    Qml
+    QuickTest            
+    )
+
+target_link_libraries(GUIQMLScreenTest
+    PUBLIC
+    Qt5::Core
+    Qt5::Qml
+    Qt5::Test
+    Qt5::Quick    
+    Qt5::QuickTest  )

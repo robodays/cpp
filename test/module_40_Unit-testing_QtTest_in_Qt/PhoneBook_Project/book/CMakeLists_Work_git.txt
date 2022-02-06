@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.14)
+
+project(book LANGUAGES CXX)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
+
+##++++
+#include_directories(${CMAKE_SOURCE_DIR}/libPhoneBook/include)
+#find_library(PhoneBook PhoneBook "${CMAKE_SOURCE_DIR}/libPhoneBook/release")
+
+
+#++++
+#include_directories(E:/GitHub/cpp/test/module_40_Unit-testing_QtTest_in_Qt/PhoneBook)
+#find_library(PhoneBook PhoneBook "E:/GitHub/cpp/test/module_40_Unit-testing_QtTest_in_Qt/PhoneBook")
+
+#++++
+include_directories(../PhoneBook)
+find_library(PhoneBook PhoneBook "../PhoneBook")
+
+add_executable(book main.cpp)
+
+target_link_libraries(book Qt${QT_VERSION_MAJOR}::Core
+                           ${PhoneBook})
+
+#+++
+#target_link_libraries(book ${PhoneBook})

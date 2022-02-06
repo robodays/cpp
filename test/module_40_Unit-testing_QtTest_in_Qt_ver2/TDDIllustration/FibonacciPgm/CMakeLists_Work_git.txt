@@ -1,0 +1,41 @@
+cmake_minimum_required(VERSION 3.15)
+
+project(FibonacciPgm LANGUAGES CXX)
+
+include_directories(../BusinessLogic)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(PROJECT_SOURCES
+        main.cpp
+        qml.qrc
+)
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(FibonacciPgm
+        ${PROJECT_SOURCES}
+    )
+else()
+    if(ANDROID)
+        add_library(FibonacciPgm SHARED
+            ${PROJECT_SOURCES}
+        )
+    else()
+        add_executable(FibonacciPgm
+          ${PROJECT_SOURCES}
+        )
+    endif()
+endif()
+
+
+target_compile_definitions(FibonacciPgm
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+target_link_libraries(FibonacciPgm PUBLIC BusinessLogic
+  PRIVATE  Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)

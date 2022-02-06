@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Fibrect.qml</file>
+        <file>FibonacciScreen.qml</file>
+    </qresource>
+</RCC>

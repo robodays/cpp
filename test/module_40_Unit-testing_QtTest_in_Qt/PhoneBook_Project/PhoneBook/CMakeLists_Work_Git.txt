@@ -20,5 +20,6 @@ add_library(PhoneBook SHARED
 
 target_link_libraries(PhoneBook PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
-#add_subdirectory(test)
+#target_include_directories(PhoneBook PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
 target_compile_definitions(PhoneBook PRIVATE PHONEBOOK_LIBRARY)
