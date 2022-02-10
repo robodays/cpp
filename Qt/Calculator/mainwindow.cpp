@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-double numFirst;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButtonSubtraction,SIGNAL(clicked()), this, SLOT(math_operations()));
     connect(ui->pushButtonMultiplying,SIGNAL(clicked()), this, SLOT(math_operations()));
     connect(ui->pushButtonDivision,SIGNAL(clicked()), this, SLOT(math_operations()));
+
+    ui->pushButtonAddition->setCheckable(true);
+    ui->pushButtonSubtraction->setCheckable(true);
+    ui->pushButtonMultiplying->setCheckable(true);
+    ui->pushButtonDivision->setCheckable(true);
 }
 
 MainWindow::~MainWindow()
@@ -37,9 +41,12 @@ void MainWindow::digits_numbers()
     double all_numbers;
     QString new_string;
 
-    all_numbers = (ui->result->text() + button->text()).toDouble();
-    new_string = QString::number(all_numbers,'g',11);
-
+    if (ui->result->text().contains(".") && button->text() == "0") {
+        new_string = ui->result->text() + button->text();
+    } else {
+        all_numbers = (ui->result->text() + button->text()).toDouble();
+        new_string = QString::number(all_numbers,'g',11);
+    }
     ui->result->setText(new_string);
 }
 
@@ -71,34 +78,56 @@ void MainWindow::operations()
 
 void MainWindow::on_pushButtonReset_clicked()
 {
+    ui->pushButtonAddition->setChecked(false);
+    ui->pushButtonSubtraction->setChecked(false);
+    ui->pushButtonMultiplying->setChecked(false);
+    ui->pushButtonDivision->setChecked(false);
     ui->result->setText("0");
 }
 
 void MainWindow::on_pushButtonEqual_clicked()
 {
+    double equal, numSecond;
+
+    numSecond = ui->result->text().toDouble();
+
+    if(ui->pushButtonAddition->isChecked()) {
+        equal = numFirst + numSecond;
+
+        ui->pushButtonAddition->setChecked(false);
+        ui->result->setText(QString::number(equal,'g',11));
+    } else if(ui->pushButtonSubtraction->isChecked()) {
+        equal = numFirst - numSecond;
+
+        ui->pushButtonSubtraction->setChecked(false);
+        ui->result->setText(QString::number(equal,'g',11));
+    } else if(ui->pushButtonDivision->isChecked()) {
+        if (numSecond == 0) {
+            ui->result->setText("Err: division by zero");
+        } else {
+            equal = numFirst / numSecond;
+
+            ui->pushButtonDivision->setChecked(false);
+            ui->result->setText(QString::number(equal,'g',11));
+        }
+    } else {
+        equal = numFirst * numSecond;
+
+        ui->pushButtonMultiplying->setChecked(false);
+        ui->result->setText(QString::number(equal,'g',11));
+    }
 
 }
 
 void MainWindow::math_operations()
 {
     QPushButton *button = (QPushButton *)sender();
-    if (numFirst == 0) {
-        numFirst = ui->result->text().toDouble();
-    } else {
-        double numSecond = ui->result->text().toDouble();
 
-        //QString new_string;
+    numFirst = ui->result->text().toDouble();
 
-        if (button->text() == "+"){
+    ui->result->setText("0");
 
-        } else if (button->text() == "-"){
-
-        }
-
-        //all_numbers = ui->result->text().toDouble() * 0.01;
-        //new_string = QString::number(all_numbers,'g',11);
-        //ui->result->setText(new_string);
+    button->setCheckable(true);
 
 
-    }
 }

@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    double numFirst;
 
 private slots:
     void digits_numbers();
