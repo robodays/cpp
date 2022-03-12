@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <set>
 
 #include "buff.h"
 
@@ -39,9 +40,13 @@ Modify::~Modify() = default;
 
 // подбор предметов подходящего для модификации по фильтру и модификация его
 void Modify::checkingModify() {
-    std::map<int,int> filterTrueMap;
     for (auto &buff : buffs) {
+        std::map<int,int> filterTrueMap;
+        std::set<std::string> uniqueTypeFilterSet;
         for (auto &oneFilter: buff->getFilters()) {
+
+            uniqueTypeFilterSet.insert(oneFilter[0]);
+
             if (oneFilter[0] == "level") {
                 for (int i = 0; i < inventory.size(); ++i) {
                     if (compareLevel(oneFilter, i)) {
@@ -65,7 +70,7 @@ void Modify::checkingModify() {
 
         // модификация отобранных предметов инвентаря
         for(auto &oneFilterTrueMap : filterTrueMap) {
-            if (oneFilterTrueMap.second == buff->getFilters().size()) {
+            if (oneFilterTrueMap.second == uniqueTypeFilterSet.size()) {
                 inventory[oneFilterTrueMap.first]->update(buff->getValue());
             }
         }
