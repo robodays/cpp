@@ -16,6 +16,7 @@
 !Skillbox/old_numeration/**/*.*
 !guide/**/*.*
 !Skillbox/module_25_Project_structure/**/*.txt
+!CrazyPanda/CMakeLists.txt
 
 *.xml
 *.iml
