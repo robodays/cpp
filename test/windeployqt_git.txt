@@ -16,3 +16,9 @@ old //C:\Qt6\6.2.0\mingw81_64\bin\windeployqt.exe D:\github\cpp\test\module_38_Q
 D:\Qt\6.2.2\mingw_64\bin\windeployqt.exe D:\github\cpp\test\module_38_WebView_Qt_MSVC_2\cmake-build-debug\module_38_WebView_Qt_MSVC_2.exe
 D:\Qt\6.2.2\msvc2019_64\bin\windeployqt.exe D:\github\cpp\test\module_38_WebView_Qt_MSVC_2\cmake-build-debug\module_38_WebView_Qt_MSVC_2.exe
 D:\Qt\5.15.2\mingw81_64\bin\windeployqt.exe D:\github\cpp\test\module_38_MultimediaWidgets_Qt\cmake-build-debug\module_38_MultimediaWidgets_Qt.exe
+
+E:\Qt\6.2.1\msvc2019_64\bin\windeployqt.exe E:\GitHub\DiplomaProject\project\cmake-build-debug\project.exe
+
+
+
+
