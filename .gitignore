@@ -17,6 +17,7 @@
 !guide/**/*.*
 !Skillbox/module_25_Project_structure/**/*.txt
 !CrazyPanda/CMakeLists.txt
+!PostgreSQL/Test_DB_Qt_SQL/*.*
 
 *.xml
 *.iml
