@@ -1,4 +1,4 @@
-
+//toolchain:minGW Generator: VS
 #include <iostream>
 #include <pqxx/pqxx>
 
